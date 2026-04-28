@@ -51,22 +51,9 @@
     <div class="hero-content">
       <p class="hero-eyebrow">You are cordially invited</p>
 
-      <!-- POPEYE風ロゴ（SVGファイル: img/wedding-logo.svg） -->
+      <!-- 1文字ずつバウンスイン -->
       <h1 class="hero-title" aria-label="WEDDING">
-        <svg class="hero-logo-svg" viewBox="0 0 960 220" aria-hidden="true" focusable="false">
-          <rect x="0" y="8" width="960" height="5" fill="#34D399" rx="2"/>
-          <text x="484" y="176"
-            font-family="Bangers, Impact, 'Arial Black', sans-serif"
-            font-size="170" fill="rgba(190,24,93,0.42)"
-            text-anchor="middle" letter-spacing="14">WEDDING</text>
-          <text x="480" y="171"
-            font-family="Bangers, Impact, 'Arial Black', sans-serif"
-            font-size="170" fill="#FFFFFF"
-            text-anchor="middle" letter-spacing="14">WEDDING</text>
-          <rect x="0" y="207" width="960" height="5" fill="#34D399" rx="2"/>
-          <circle cx="22" cy="112" r="8" fill="#34D399"/>
-          <circle cx="938" cy="112" r="8" fill="#34D399"/>
-        </svg>
+        <span class="hero-letter" style="--i:0">W</span><span class="hero-letter" style="--i:1">E</span><span class="hero-letter" style="--i:2">D</span><span class="hero-letter" style="--i:3">D</span><span class="hero-letter" style="--i:4">I</span><span class="hero-letter" style="--i:5">N</span><span class="hero-letter" style="--i:6">G</span>
       </h1>
 
       <div class="hero-line"></div>
@@ -183,14 +170,29 @@
 
   <!-- ======== GALLERY ======== -->
   <section class="gallery-sec" id="gallery">
-    <p class="gallery-label sec-en">Gallery</p>
-    <div class="gallery-grid">
-      <div class="gallery-item js-fade-item"><div class="g-photo gp-1"></div></div>
-      <div class="gallery-item js-fade-item"><div class="g-photo gp-2"></div></div>
-      <div class="gallery-item js-fade-item"><div class="g-photo gp-3"></div></div>
-      <div class="gallery-item js-fade-item"><div class="g-photo gp-4"></div></div>
-      <div class="gallery-item js-fade-item"><div class="g-photo gp-5"></div></div>
-      <div class="gallery-item js-fade-item"><div class="g-photo gp-6"></div></div>
+    <p class="gallery-label sec-en js-stamp-item">Gallery</p>
+
+    <div class="slider-wrap">
+      <div class="slider-track" id="slider-track">
+        <div class="slide"><div class="g-photo gp-1"></div></div>
+        <div class="slide"><div class="g-photo gp-2"></div></div>
+        <div class="slide"><div class="g-photo gp-3"></div></div>
+        <div class="slide"><div class="g-photo gp-4"></div></div>
+        <div class="slide"><div class="g-photo gp-5"></div></div>
+        <div class="slide"><div class="g-photo gp-6"></div></div>
+      </div>
+
+      <button class="slider-btn slider-prev" id="slider-prev" aria-label="前の写真">&#8592;</button>
+      <button class="slider-btn slider-next" id="slider-next" aria-label="次の写真">&#8594;</button>
+
+      <div class="slider-footer">
+        <div class="slider-dots" id="slider-dots"></div>
+        <p class="slider-counter">
+          <span id="slider-current">01</span>
+          <span class="slider-sep">/</span>
+          <span id="slider-total">06</span>
+        </p>
+      </div>
     </div>
   </section>
 
