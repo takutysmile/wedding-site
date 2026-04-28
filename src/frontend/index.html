@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ご結婚式 ご招待</title>
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+  <!-- ヒーローセクション（静的コンテンツ：要提供） -->
+  <header class="hero">
+    <h1>Wedding</h1>
+    <div class="ornament"></div>
+    <p class="event-date"><!-- 例: 2026年〇月〇日（〇）〇〇:〇〇 --></p>
+    <p class="event-venue"><!-- 例: 〇〇ホテル 〒000-0000 東京都... --></p>
+  </header>
+
+  <div class="invitation-msg">
+    <!-- 招待メッセージをここに記入 -->
+  </div>
+
+  <!-- RSVPフォーム -->
+  <main class="form-wrap" id="form-wrap">
+    <h2 class="form-title">出 欠 の ご 回 答</h2>
+
+    <div class="form-alert" id="form-alert"></div>
+
+    <form id="rsvp-form" novalidate>
+
+      <div class="field">
+        <label for="name">
+          お名前<span class="required-badge">必須</span>
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="山田 太郎"
+          maxlength="50"
+          autocomplete="name"
+        >
+        <div class="field-error" id="name-error"></div>
+      </div>
+
+      <div class="field">
+        <label>ご出席<span class="required-badge">必須</span></label>
+        <div class="radio-row">
+          <div class="radio-card">
+            <input type="radio" id="att-yes" name="attendance" value="attending">
+            <label for="att-yes">出席</label>
+          </div>
+          <div class="radio-card">
+            <input type="radio" id="att-no" name="attendance" value="not_attending">
+            <label for="att-no">欠席</label>
+          </div>
+        </div>
+        <div class="field-error" id="attendance-error"></div>
+      </div>
+
+      <div class="field">
+        <label for="dietary">
+          食事制限・アレルギー<span class="optional-note">任意</span>
+        </label>
+        <input
+          type="text"
+          id="dietary"
+          name="dietary_restrictions"
+          placeholder="例：甲殻類アレルギー"
+          maxlength="200"
+        >
+      </div>
+
+      <div class="field">
+        <label for="message">
+          メッセージ<span class="optional-note">任意</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          placeholder="ひとことどうぞ"
+          maxlength="500"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">送 信 す る</button>
+
+    </form>
+  </main>
+
+  <!-- 送信完了 -->
+  <div class="complete" id="complete">
+    <div class="complete-icon">✉</div>
+    <h2>ご回答ありがとうございます</h2>
+    <p>出欠のご連絡をいただきました。<br>当日お会いできることを楽しみにしております。</p>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/index.js"></script>
+
+</body>
+</html>

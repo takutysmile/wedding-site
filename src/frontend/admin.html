@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理画面 | Wedding RSVP</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- ログイン画面 -->
+  <div class="login-wrap" id="login-wrap">
+    <div class="login-card">
+      <h1>管理者ログイン</h1>
+      <label for="password">パスワード</label>
+      <input type="password" id="password" autocomplete="current-password" placeholder="パスワードを入力">
+      <div class="login-error" id="login-error"></div>
+      <button class="btn btn-primary" id="login-btn">ログイン</button>
+    </div>
+  </div>
+
+  <!-- ダッシュボード -->
+  <div class="dashboard" id="dashboard">
+
+    <div class="dash-header">
+      <div>
+        <h1>RSVP 回答一覧</h1>
+        <p class="dash-meta" id="last-updated"></p>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-reload" id="reload-btn">更新</button>
+        <button class="btn btn-logout" id="logout-btn">ログアウト</button>
+      </div>
+    </div>
+
+    <!-- サマリ -->
+    <div class="summary-row">
+      <div class="summary-card">
+        <div class="label">回答総数</div>
+        <div class="value" id="count-total">—</div>
+      </div>
+      <div class="summary-card attending">
+        <div class="label">出席</div>
+        <div class="value" id="count-attending">—</div>
+      </div>
+      <div class="summary-card not-attending">
+        <div class="label">欠席</div>
+        <div class="value" id="count-not-attending">—</div>
+      </div>
+    </div>
+
+    <div class="alert" id="dash-alert"></div>
+
+    <!-- 一覧テーブル -->
+    <div class="table-wrap" id="table-wrap">
+      <div class="loading">読み込み中...</div>
+    </div>
+
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+
+</body>
+</html>
