@@ -1,4 +1,4 @@
-const form = document.getElementById('rsvp-form');
+const form      = document.getElementById('rsvp-form');
 const submitBtn = document.getElementById('submit-btn');
 const formAlert = document.getElementById('form-alert');
 
@@ -6,10 +6,10 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearErrors();
 
-  const name = document.getElementById('name').value.trim();
+  const name         = document.getElementById('name').value.trim();
   const attendanceEl = document.querySelector('input[name="attendance"]:checked');
-  const dietary = document.getElementById('dietary').value.trim();
-  const message = document.getElementById('message').value.trim();
+  const dietary      = document.getElementById('dietary').value.trim();
+  const message      = document.getElementById('message').value.trim();
 
   let hasError = false;
 
@@ -23,12 +23,12 @@ form.addEventListener('submit', async (e) => {
   }
   if (hasError) return;
 
-  submitBtn.disabled = true;
+  submitBtn.disabled    = true;
   submitBtn.textContent = '送信中...';
 
   const payload = { name, attendance: attendanceEl.value };
-  if (dietary)  payload.dietary_restrictions = dietary;
-  if (message)  payload.message = message;
+  if (dietary) payload.dietary_restrictions = dietary;
+  if (message) payload.message = message;
 
   try {
     const res = await fetch(`${API_BASE}/rsvp`, {
@@ -43,13 +43,13 @@ form.addEventListener('submit', async (e) => {
     } else {
       const data = await res.json().catch(() => ({}));
       showAlert(data.error || '送信に失敗しました。もう一度お試しください。');
-      submitBtn.disabled = false;
-      submitBtn.textContent = '送 信 す る';
+      submitBtn.disabled    = false;
+      submitBtn.textContent = '送信する';
     }
   } catch {
     showAlert('通信エラーが発生しました。インターネット接続をご確認ください。');
-    submitBtn.disabled = false;
-    submitBtn.textContent = '送 信 す る';
+    submitBtn.disabled    = false;
+    submitBtn.textContent = '送信する';
   }
 });
 
@@ -63,7 +63,7 @@ function showAlert(msg) {
 }
 
 function clearErrors() {
-  document.getElementById('name-error').textContent = '';
+  document.getElementById('name-error').textContent      = '';
   document.getElementById('attendance-error').textContent = '';
   formAlert.textContent = '';
   formAlert.classList.remove('show');

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" role="img" aria-label="WEDDING">
+  <!-- top accent line -->
+  <rect x="0" y="8" width="960" height="5" fill="#34D399" rx="2"/>
+
+  <!-- depth shadow layer -->
+  <text x="484" y="176"
+    font-family="Bangers, Impact, 'Arial Black', sans-serif"
+    font-size="170" font-weight="400"
+    fill="rgba(190,24,93,0.42)"
+    text-anchor="middle"
+    letter-spacing="14">WEDDING</text>
+
+  <!-- main white text -->
+  <text x="480" y="171"
+    font-family="Bangers, Impact, 'Arial Black', sans-serif"
+    font-size="170" font-weight="400"
+    fill="#FFFFFF"
+    text-anchor="middle"
+    letter-spacing="14">WEDDING</text>
+
+  <!-- bottom accent line -->
+  <rect x="0" y="207" width="960" height="5" fill="#34D399" rx="2"/>
+
+  <!-- green accent dots -->
+  <circle cx="22" cy="112" r="8" fill="#34D399"/>
+  <circle cx="938" cy="112" r="8" fill="#34D399"/>
+</svg>

@@ -3,100 +3,267 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ご結婚式 ご招待</title>
+  <title>TAKUTO &amp; MAYU | Wedding 2027.01.23</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-  <!-- ヒーローセクション（静的コンテンツ：要提供） -->
-  <header class="hero">
-    <h1>Wedding</h1>
-    <div class="ornament"></div>
-    <p class="event-date"><!-- 例: 2026年〇月〇日（〇）〇〇:〇〇 --></p>
-    <p class="event-venue"><!-- 例: 〇〇ホテル 〒000-0000 東京都... --></p>
-  </header>
+  <!-- ======== GLOBAL NAV ======== -->
+  <nav class="gnav" id="gnav">
+    <a class="gnav-logo" href="#hero" aria-label="トップへ">
+      <svg class="nav-badge-svg" viewBox="0 0 52 52" aria-hidden="true" focusable="false">
+        <rect width="52" height="52" rx="4" fill="#EC4899"/>
+        <rect x="0" y="0"  width="52" height="5" rx="2" fill="#34D399"/>
+        <rect x="0" y="47" width="52" height="5" rx="2" fill="#34D399"/>
+        <text x="26" y="41" font-family="Bangers, Impact, sans-serif" font-size="42" fill="white" text-anchor="middle" letter-spacing="1">W</text>
+      </svg>
+    </a>
+    <button class="gnav-toggle" id="gnav-toggle" aria-label="メニュー開閉">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="gnav-list" id="gnav-list">
+      <li><a href="#greeting">Greeting</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#venue">Venue</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#rsvp" class="gnav-rsvp">RSVP</a></li>
+    </ul>
+  </nav>
 
-  <div class="invitation-msg">
-    <!-- 招待メッセージをここに記入 -->
-  </div>
+  <!-- ======== HERO ======== -->
+  <section class="hero" id="hero">
+    <div class="hero-parallax" id="hero-parallax"></div>
 
-  <!-- RSVPフォーム -->
-  <main class="form-wrap" id="form-wrap">
-    <h2 class="form-title">出 欠 の ご 回 答</h2>
+    <!-- タイポ散らし -->
+    <div class="typo-bg" aria-hidden="true">
+      <span class="tb tb-1">W</span>
+      <span class="tb tb-2">E</span>
+      <span class="tb tb-3">D</span>
+      <span class="tb tb-4">2027</span>
+      <span class="tb tb-5">I</span>
+      <span class="tb tb-6">N</span>
+      <span class="tb tb-7">G</span>
+    </div>
 
-    <div class="form-alert" id="form-alert"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">You are cordially invited</p>
 
-    <form id="rsvp-form" novalidate>
+      <!-- POPEYE風ロゴ（SVGファイル: img/wedding-logo.svg） -->
+      <h1 class="hero-title" aria-label="WEDDING">
+        <svg class="hero-logo-svg" viewBox="0 0 960 220" aria-hidden="true" focusable="false">
+          <rect x="0" y="8" width="960" height="5" fill="#34D399" rx="2"/>
+          <text x="484" y="176"
+            font-family="Bangers, Impact, 'Arial Black', sans-serif"
+            font-size="170" fill="rgba(190,24,93,0.42)"
+            text-anchor="middle" letter-spacing="14">WEDDING</text>
+          <text x="480" y="171"
+            font-family="Bangers, Impact, 'Arial Black', sans-serif"
+            font-size="170" fill="#FFFFFF"
+            text-anchor="middle" letter-spacing="14">WEDDING</text>
+          <rect x="0" y="207" width="960" height="5" fill="#34D399" rx="2"/>
+          <circle cx="22" cy="112" r="8" fill="#34D399"/>
+          <circle cx="938" cy="112" r="8" fill="#34D399"/>
+        </svg>
+      </h1>
 
-      <div class="field">
-        <label for="name">
-          お名前<span class="required-badge">必須</span>
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="山田 太郎"
-          maxlength="50"
-          autocomplete="name"
-        >
-        <div class="field-error" id="name-error"></div>
+      <div class="hero-line"></div>
+      <p class="hero-names">TAKUTO &amp; MAYU</p>
+      <p class="hero-date">2027年1月23日（土）10:00</p>
+      <p class="hero-venue-name">TRUNK(HOTEL) CAT STREET — 東京都渋谷区神宮前</p>
+    </div>
+
+    <a class="hero-scroll-cue" href="#countdown" aria-label="下にスクロール">
+      <span class="scroll-line"></span>
+      <span class="scroll-text">SCROLL</span>
+    </a>
+  </section>
+
+  <!-- ======== COUNTDOWN ======== -->
+  <section class="countdown-wrap" id="countdown">
+    <p class="countdown-title">Days Until Our Wedding</p>
+    <div class="countdown-board">
+      <div class="cd-unit">
+        <span class="cd-num" id="cd-days">--</span>
+        <span class="cd-label">Days</span>
       </div>
+      <span class="cd-colon">:</span>
+      <div class="cd-unit">
+        <span class="cd-num" id="cd-hours">--</span>
+        <span class="cd-label">Hours</span>
+      </div>
+      <span class="cd-colon">:</span>
+      <div class="cd-unit">
+        <span class="cd-num" id="cd-mins">--</span>
+        <span class="cd-label">Mins</span>
+      </div>
+      <span class="cd-colon">:</span>
+      <div class="cd-unit">
+        <span class="cd-num" id="cd-secs">--</span>
+        <span class="cd-label">Secs</span>
+      </div>
+    </div>
+  </section>
 
-      <div class="field">
-        <label>ご出席<span class="required-badge">必須</span></label>
-        <div class="radio-row">
-          <div class="radio-card">
-            <input type="radio" id="att-yes" name="attendance" value="attending">
-            <label for="att-yes">出席</label>
+  <!-- ======== GREETING ======== -->
+  <section class="sec greeting-sec" id="greeting">
+    <div class="sec-inner">
+      <p class="sec-en">Greeting</p>
+      <h2 class="sec-ja">ご挨拶</h2>
+      <div class="greeting-body js-fade-item">
+        <p>
+          このたび 私どもは 結婚式を挙げることとなりました<br>
+          日頃よりお世話になっている皆様に<br>
+          感謝の気持ちをお伝えしたく<br>
+          ささやかながら宴を催したいと思います<br><br>
+          ご多用中 誠に恐縮ではございますが<br>
+          ぜひご臨席賜りますよう お願い申し上げます
+        </p>
+        <p class="greeting-sign">飯沼 拓人 &amp; 真由</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== SCHEDULE ======== -->
+  <section class="sec schedule-sec" id="schedule">
+    <div class="sec-inner">
+      <p class="sec-en">Schedule</p>
+      <h2 class="sec-ja">当日の流れ</h2>
+      <ol class="timeline">
+        <li class="tl-item js-fade-item">
+          <span class="tl-time">10:00</span>
+          <div class="tl-content">
+            <strong>挙式</strong>
+            <p><!-- 挙式詳細 --></p>
           </div>
-          <div class="radio-card">
-            <input type="radio" id="att-no" name="attendance" value="not_attending">
-            <label for="att-no">欠席</label>
+        </li>
+        <li class="tl-item js-fade-item">
+          <span class="tl-time">11:30</span>
+          <div class="tl-content">
+            <strong>披露宴 受付開始</strong>
+            <p><!-- 受付詳細 --></p>
           </div>
+        </li>
+        <li class="tl-item js-fade-item">
+          <span class="tl-time">12:00</span>
+          <div class="tl-content">
+            <strong>披露宴 開宴</strong>
+            <p><!-- 披露宴詳細 --></p>
+          </div>
+        </li>
+        <li class="tl-item js-fade-item">
+          <span class="tl-time">15:30</span>
+          <div class="tl-content">
+            <strong>お開き</strong>
+            <p>終了後、送迎バスをご用意しております。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ======== VENUE ======== -->
+  <section class="sec venue-sec" id="venue">
+    <div class="sec-inner">
+      <p class="sec-en">Venue</p>
+      <h2 class="sec-ja">会場</h2>
+      <div class="venue-card js-fade-item">
+        <div class="venue-photo"></div>
+        <div class="venue-detail">
+          <p class="venue-name">TRUNK(HOTEL) CAT STREET</p>
+          <p class="venue-addr">〒150-0001<br>東京都渋谷区神宮前5-31</p>
+          <p class="venue-tel">TEL: 03-5766-3210</p>
+          <a class="venue-map" href="https://goo.gl/CmNQT2" target="_blank" rel="noopener">Google マップで開く →</a>
         </div>
-        <div class="field-error" id="attendance-error"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== GALLERY ======== -->
+  <section class="gallery-sec" id="gallery">
+    <p class="gallery-label sec-en">Gallery</p>
+    <div class="gallery-grid">
+      <div class="gallery-item js-fade-item"><div class="g-photo gp-1"></div></div>
+      <div class="gallery-item js-fade-item"><div class="g-photo gp-2"></div></div>
+      <div class="gallery-item js-fade-item"><div class="g-photo gp-3"></div></div>
+      <div class="gallery-item js-fade-item"><div class="g-photo gp-4"></div></div>
+      <div class="gallery-item js-fade-item"><div class="g-photo gp-5"></div></div>
+      <div class="gallery-item js-fade-item"><div class="g-photo gp-6"></div></div>
+    </div>
+  </section>
+
+  <!-- ======== RSVP ======== -->
+  <section class="rsvp-sec" id="rsvp">
+    <div class="sec-inner">
+      <p class="sec-en">RSVP</p>
+      <h2 class="sec-ja">出欠のご回答</h2>
+
+      <div class="form-wrap js-fade-item" id="form-wrap">
+        <div class="form-alert" id="form-alert"></div>
+
+        <form id="rsvp-form" novalidate>
+          <div class="field">
+            <label for="name">お名前<span class="required-badge">必須</span></label>
+            <input type="text" id="name" name="name" placeholder="山田 太郎" maxlength="50" autocomplete="name">
+            <div class="field-error" id="name-error"></div>
+          </div>
+
+          <div class="field">
+            <label>ご出席<span class="required-badge">必須</span></label>
+            <div class="radio-row">
+              <div class="radio-card">
+                <input type="radio" id="att-yes" name="attendance" value="attending">
+                <label for="att-yes">出席</label>
+              </div>
+              <div class="radio-card">
+                <input type="radio" id="att-no" name="attendance" value="not_attending">
+                <label for="att-no">欠席</label>
+              </div>
+            </div>
+            <div class="field-error" id="attendance-error"></div>
+          </div>
+
+          <div class="field">
+            <label for="dietary">食事制限・アレルギー<span class="optional-note">任意</span></label>
+            <input type="text" id="dietary" name="dietary_restrictions" placeholder="例：甲殻類アレルギー" maxlength="200">
+          </div>
+
+          <div class="field">
+            <label for="message">メッセージ<span class="optional-note">任意</span></label>
+            <textarea id="message" name="message" placeholder="ひとことどうぞ" maxlength="500"></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">送信する</button>
+        </form>
       </div>
 
-      <div class="field">
-        <label for="dietary">
-          食事制限・アレルギー<span class="optional-note">任意</span>
-        </label>
-        <input
-          type="text"
-          id="dietary"
-          name="dietary_restrictions"
-          placeholder="例：甲殻類アレルギー"
-          maxlength="200"
-        >
+      <div class="complete" id="complete">
+        <div class="complete-icon">✉</div>
+        <h2>ご回答ありがとうございます</h2>
+        <p>出欠のご連絡をいただきました。<br>当日お会いできることを楽しみにしております。</p>
       </div>
+    </div>
+  </section>
 
-      <div class="field">
-        <label for="message">
-          メッセージ<span class="optional-note">任意</span>
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          placeholder="ひとことどうぞ"
-          maxlength="500"
-        ></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submit-btn">送 信 す る</button>
-
-    </form>
-  </main>
-
-  <!-- 送信完了 -->
-  <div class="complete" id="complete">
-    <div class="complete-icon">✉</div>
-    <h2>ご回答ありがとうございます</h2>
-    <p>出欠のご連絡をいただきました。<br>当日お会いできることを楽しみにしております。</p>
-  </div>
+  <!-- ======== FOOTER ======== -->
+  <footer class="site-footer">
+    <p class="footer-logo">W</p>
+    <p class="footer-names">TAKUTO &amp; MAYU</p>
+    <p class="footer-date">2027.01.23</p>
+    <nav class="footer-nav" aria-label="フッターナビゲーション">
+      <a href="#greeting">Greeting</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#venue">Venue</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#rsvp">RSVP</a>
+    </nav>
+    <p class="footer-copy">&copy; 2027 TAKUTO &amp; MAYU Wedding.</p>
+  </footer>
 
   <script src="js/config.js"></script>
+  <script src="js/site.js"></script>
   <script src="js/index.js"></script>
-
 </body>
 </html>

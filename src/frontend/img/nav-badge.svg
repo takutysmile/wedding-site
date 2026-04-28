@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+  <!-- badge body -->
+  <rect width="52" height="52" rx="4" fill="#EC4899"/>
+  <!-- green top & bottom stripe -->
+  <rect x="0" y="0"  width="52" height="5" rx="2" fill="#34D399"/>
+  <rect x="0" y="47" width="52" height="5" rx="2" fill="#34D399"/>
+  <!-- W mark -->
+  <text x="26" y="41"
+    font-family="Bangers, Impact, sans-serif"
+    font-size="42" font-weight="400"
+    fill="white"
+    text-anchor="middle"
+    letter-spacing="1">W</text>
+</svg>
