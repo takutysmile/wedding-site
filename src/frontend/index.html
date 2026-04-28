@@ -11,6 +11,11 @@
 </head>
 <body>
 
+  <!-- ページ入場フラッシュ -->
+  <div class="page-flash" id="page-flash"></div>
+  <!-- カスタムカーソル -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+
   <!-- ======== GLOBAL NAV ======== -->
   <nav class="gnav" id="gnav">
     <a class="gnav-logo" href="#hero" aria-label="トップへ">
@@ -35,7 +40,14 @@
 
   <!-- ======== HERO ======== -->
   <section class="hero" id="hero">
-    <div class="hero-parallax" id="hero-parallax"></div>
+    <!-- 背景写真レイヤー（パララックス） ダミー: picsum.photos -->
+    <div class="hero-parallax" id="hero-parallax"
+      style="background-image:url('https://picsum.photos/seed/wedding2027/1920/1080')">
+    </div>
+    <!-- ピンクグラデーション オーバーレイ -->
+    <div class="hero-overlay"></div>
+    <!-- ハーフトーン ドット テクスチャ -->
+    <div class="hero-halftone" aria-hidden="true"></div>
 
     <!-- タイポ散らし -->
     <div class="typo-bg" aria-hidden="true">
@@ -68,6 +80,14 @@
     </a>
   </section>
 
+  <!-- ======== MARQUEE TICKER ======== -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-inner">
+      <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+      <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
   <!-- ======== COUNTDOWN ======== -->
   <section class="countdown-wrap" id="countdown">
     <p class="countdown-title">Days Until Our Wedding</p>
@@ -98,7 +118,7 @@
   <section class="sec greeting-sec" id="greeting">
     <div class="sec-inner">
       <p class="sec-en">Greeting</p>
-      <h2 class="sec-ja">ご挨拶</h2>
+      <h2 class="sec-ja js-fade-item">ご挨拶</h2>
       <div class="greeting-body js-fade-item">
         <p>
           このたび 私どもは 結婚式を挙げることとなりました<br>
@@ -117,7 +137,7 @@
   <section class="sec schedule-sec" id="schedule">
     <div class="sec-inner">
       <p class="sec-en">Schedule</p>
-      <h2 class="sec-ja">当日の流れ</h2>
+      <h2 class="sec-ja js-fade-item">当日の流れ</h2>
       <ol class="timeline">
         <li class="tl-item js-fade-item">
           <span class="tl-time">10:00</span>
@@ -155,7 +175,7 @@
   <section class="sec venue-sec" id="venue">
     <div class="sec-inner">
       <p class="sec-en">Venue</p>
-      <h2 class="sec-ja">会場</h2>
+      <h2 class="sec-ja js-fade-item">会場</h2>
       <div class="venue-card js-fade-item">
         <div class="venue-photo"></div>
         <div class="venue-detail">
@@ -200,7 +220,7 @@
   <section class="rsvp-sec" id="rsvp">
     <div class="sec-inner">
       <p class="sec-en">RSVP</p>
-      <h2 class="sec-ja">出欠のご回答</h2>
+      <h2 class="sec-ja js-fade-item">出欠のご回答</h2>
 
       <div class="form-wrap js-fade-item" id="form-wrap">
         <div class="form-alert" id="form-alert"></div>
