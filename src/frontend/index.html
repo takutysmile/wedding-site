@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>TAKUTO &amp; MAYU | Wedding 2027.01.23</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,9 @@
 
   <!-- ページ入場フラッシュ -->
   <div class="page-flash" id="page-flash"></div>
-  <!-- カスタムカーソル -->
+  <!-- スクロール進捗バー -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+  <!-- カスタムカーソル（PC のみ表示） -->
   <div class="cursor-dot" id="cursor-dot"></div>
 
   <!-- ======== GLOBAL NAV ======== -->
@@ -33,6 +35,7 @@
       <li><a href="#greeting">Greeting</a></li>
       <li><a href="#schedule">Schedule</a></li>
       <li><a href="#venue">Venue</a></li>
+      <li><a href="#profile">Profile</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><a href="#rsvp" class="gnav-rsvp">RSVP</a></li>
     </ul>
@@ -63,6 +66,22 @@
     <div class="hero-content">
       <p class="hero-eyebrow">You are cordially invited</p>
 
+      <!-- スピニングバッジ（SAVE THE DATE） -->
+      <div class="hero-spin-badge" aria-hidden="true">
+        <svg class="spin-badge-svg" viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="64" fill="#EC4899" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+          <circle cx="70" cy="70" r="50" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="3 3"/>
+          <defs>
+            <path id="bpath" d="M70,70 m-56,0 a56,56 0 1,1 112,0 a56,56 0 1,1 -112,0"/>
+          </defs>
+          <text font-family="Bebas Neue,Impact,sans-serif" font-size="11.5" fill="white" letter-spacing="3.5">
+            <textPath href="#bpath">SAVE THE DATE ★ 2027.01.23 ★ WEDDING ★ </textPath>
+          </text>
+          <text x="70" y="64" font-family="Bebas Neue,Impact,sans-serif" font-size="13" fill="rgba(255,255,255,0.65)" text-anchor="middle" letter-spacing="4">JAN</text>
+          <text x="70" y="90" font-family="Bangers,Impact,sans-serif" font-size="38" fill="white" text-anchor="middle" letter-spacing="2">23</text>
+        </svg>
+      </div>
+
       <!-- 1文字ずつバウンスイン -->
       <h1 class="hero-title" aria-label="WEDDING">
         <span class="hero-letter" style="--i:0">W</span><span class="hero-letter" style="--i:1">E</span><span class="hero-letter" style="--i:2">D</span><span class="hero-letter" style="--i:3">D</span><span class="hero-letter" style="--i:4">I</span><span class="hero-letter" style="--i:5">N</span><span class="hero-letter" style="--i:6">G</span>
@@ -83,8 +102,16 @@
   <!-- ======== MARQUEE TICKER ======== -->
   <div class="marquee-band" aria-hidden="true">
     <div class="marquee-inner">
-      <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
-      <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+      <div class="marquee-group">
+        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+      </div>
+      <div class="marquee-group" aria-hidden="true">
+        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
+      </div>
     </div>
   </div>
 
@@ -115,7 +142,7 @@
   </section>
 
   <!-- ======== GREETING ======== -->
-  <section class="sec greeting-sec" id="greeting">
+  <section class="sec greeting-sec" id="greeting" data-sec-num="01">
     <div class="sec-inner">
       <p class="sec-en">Greeting</p>
       <h2 class="sec-ja js-fade-item">ご挨拶</h2>
@@ -134,7 +161,7 @@
   </section>
 
   <!-- ======== SCHEDULE ======== -->
-  <section class="sec schedule-sec" id="schedule">
+  <section class="sec schedule-sec" id="schedule" data-sec-num="02">
     <div class="sec-inner">
       <p class="sec-en">Schedule</p>
       <h2 class="sec-ja js-fade-item">当日の流れ</h2>
@@ -172,7 +199,7 @@
   </section>
 
   <!-- ======== VENUE ======== -->
-  <section class="sec venue-sec" id="venue">
+  <section class="sec venue-sec" id="venue" data-sec-num="03">
     <div class="sec-inner">
       <p class="sec-en">Venue</p>
       <h2 class="sec-ja js-fade-item">会場</h2>
@@ -188,30 +215,90 @@
     </div>
   </section>
 
+  <!-- ======== PROFILE ======== -->
+  <section class="sec profile-sec" id="profile" data-sec-num="04">
+    <div class="sec-inner sec-inner--wide">
+      <p class="sec-en js-stamp-item">Profile</p>
+      <h2 class="sec-ja js-fade-item">プロフィール</h2>
+
+      <div class="profile-grid">
+
+        <div class="profile-card js-fade-item">
+          <div class="profile-photo pp-groom">
+            <span class="profile-photo-label">PHOTO</span>
+          </div>
+          <div class="profile-info">
+            <p class="profile-role">Groom</p>
+            <h3 class="profile-name">TAKUTO</h3>
+            <p class="profile-name-ja">飯沼 拓人</p>
+            <ul class="profile-qa">
+              <li class="qa-item"><span class="qa-q">出身地</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">血液型</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">仕事</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">趣味</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">好きな食べ物</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">彼女の好きなところ</span><span class="qa-a"><!-- 記入 --></span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="profile-card js-fade-item">
+          <div class="profile-photo pp-bride">
+            <span class="profile-photo-label">PHOTO</span>
+          </div>
+          <div class="profile-info">
+            <p class="profile-role">Bride</p>
+            <h3 class="profile-name">MAYU</h3>
+            <p class="profile-name-ja">飯沼 真由</p>
+            <ul class="profile-qa">
+              <li class="qa-item"><span class="qa-q">出身地</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">血液型</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">仕事</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">趣味</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">好きな食べ物</span><span class="qa-a"><!-- 記入 --></span></li>
+              <li class="qa-item"><span class="qa-q">彼の好きなところ</span><span class="qa-a"><!-- 記入 --></span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ======== GALLERY ======== -->
   <section class="gallery-sec" id="gallery">
     <p class="gallery-label sec-en js-stamp-item">Gallery</p>
 
     <div class="slider-wrap">
-      <div class="slider-track" id="slider-track">
-        <div class="slide"><div class="g-photo gp-1"></div></div>
-        <div class="slide"><div class="g-photo gp-2"></div></div>
-        <div class="slide"><div class="g-photo gp-3"></div></div>
-        <div class="slide"><div class="g-photo gp-4"></div></div>
-        <div class="slide"><div class="g-photo gp-5"></div></div>
-        <div class="slide"><div class="g-photo gp-6"></div></div>
+      <!-- 写真エリア -->
+      <div class="slider-body">
+        <div class="slider-track" id="slider-track">
+          <div class="slide"><div class="g-photo gp-1"></div></div>
+          <div class="slide"><div class="g-photo gp-2"></div></div>
+          <div class="slide"><div class="g-photo gp-3"></div></div>
+          <div class="slide"><div class="g-photo gp-4"></div></div>
+          <div class="slide"><div class="g-photo gp-5"></div></div>
+          <div class="slide"><div class="g-photo gp-6"></div></div>
+        </div>
+        <!-- SP スワイプヒント -->
+        <div class="swipe-hint" id="swipe-hint" aria-hidden="true">
+          <div class="swipe-arrows"><span class="sa-l"></span><span class="sa-r"></span></div>
+          <p class="swipe-text">SWIPE</p>
+        </div>
       </div>
 
-      <button class="slider-btn slider-prev" id="slider-prev" aria-label="前の写真">&#8592;</button>
-      <button class="slider-btn slider-next" id="slider-next" aria-label="次の写真">&#8594;</button>
-
-      <div class="slider-footer">
-        <div class="slider-dots" id="slider-dots"></div>
-        <p class="slider-counter">
-          <span id="slider-current">01</span>
-          <span class="slider-sep">/</span>
-          <span id="slider-total">06</span>
-        </p>
+      <!-- コントロールバー（← ドット/カウンター →） -->
+      <div class="slider-controls">
+        <button class="slider-btn slider-prev" id="slider-prev" aria-label="前の写真">&#8592;</button>
+        <div class="slider-footer">
+          <div class="slider-dots" id="slider-dots"></div>
+          <p class="slider-counter">
+            <span id="slider-current">01</span>
+            <span class="slider-sep">/</span>
+            <span id="slider-total">06</span>
+          </p>
+        </div>
+        <button class="slider-btn slider-next" id="slider-next" aria-label="次の写真">&#8594;</button>
       </div>
     </div>
   </section>
@@ -261,10 +348,19 @@
         </form>
       </div>
 
+      <!-- 送信成功アニメーション -->
       <div class="complete" id="complete">
-        <div class="complete-icon">✉</div>
-        <h2>ご回答ありがとうございます</h2>
-        <p>出欠のご連絡をいただきました。<br>当日お会いできることを楽しみにしております。</p>
+        <div class="complete-launch" aria-hidden="true">
+          <div class="launch-env" id="launch-env">✉</div>
+          <div class="launch-spark ls-1"></div>
+          <div class="launch-spark ls-2"></div>
+          <div class="launch-spark ls-3"></div>
+          <div class="launch-spark ls-4"></div>
+        </div>
+        <div class="complete-msg" id="complete-msg">
+          <h2>ご回答ありがとうございます</h2>
+          <p>出欠のご連絡をいただきました。<br>当日お会いできることを楽しみにしております。</p>
+        </div>
       </div>
     </div>
   </section>
@@ -278,11 +374,26 @@
       <a href="#greeting">Greeting</a>
       <a href="#schedule">Schedule</a>
       <a href="#venue">Venue</a>
+      <a href="#profile">Profile</a>
       <a href="#gallery">Gallery</a>
       <a href="#rsvp">RSVP</a>
     </nav>
     <p class="footer-copy">&copy; 2027 TAKUTO &amp; MAYU Wedding.</p>
+    <p class="footer-credit">Built by takuto.iinuma with Claude</p>
   </footer>
+
+  <!-- エラートースト -->
+  <div class="error-toast" id="error-toast" role="alert" aria-live="assertive">
+    <span class="et-icon">!</span>
+    <p class="et-msg" id="et-msg"></p>
+    <button class="et-close" id="et-close" aria-label="閉じる">&#215;</button>
+  </div>
+
+  <!-- SP フローティングRSVPボタン -->
+  <a class="fab-rsvp" id="fab-rsvp" href="#rsvp" aria-label="出欠を回答する">
+    <span class="fab-icon">✉</span>
+    <span class="fab-label">RSVP</span>
+  </a>
 
   <script src="js/config.js"></script>
   <script src="js/site.js"></script>

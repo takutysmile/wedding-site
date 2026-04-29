@@ -64,10 +64,12 @@ updateCountdown();
 setInterval(updateCountdown, 1000);
 
 // ============================================================
-// パララックス背景（写真レイヤー）
+// パララックス背景（PC のみ。SP は CSS float アニメで代替）
 // ============================================================
 const parallaxEl = document.getElementById('hero-parallax');
-if (parallaxEl) {
+const isTouch    = window.matchMedia('(max-width: 768px)').matches;
+
+if (parallaxEl && !isTouch) {
   window.addEventListener('scroll', () => {
     parallaxEl.style.transform = `translateY(${window.scrollY * 0.35}px)`;
   }, { passive: true });
@@ -88,6 +90,31 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.js-fade-item, .js-stamp-item').forEach(el => observer.observe(el));
 
 // ============================================================
+// スクロール進捗バー + FAB 表示制御
+// ============================================================
+const progressBar = document.getElementById('scroll-progress');
+const fabRsvp     = document.getElementById('fab-rsvp');
+const heroSection = document.getElementById('hero');
+const rsvpSection = document.getElementById('rsvp');
+
+function updateScrollUI() {
+  const scrollTop  = window.scrollY;
+  const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+
+  // 進捗バー
+  if (progressBar) {
+    progressBar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+  }
+
+  // FAB: ヒーロー通過後 かつ RSVP セクション手前まで表示
+  if (fabRsvp) {
+    const heroPast  = heroSection ? heroSection.getBoundingClientRect().bottom < 0 : scrollTop > window.innerHeight;
+    const rsvpNear  = rsvpSection ? rsvpSection.getBoundingClientRect().top < window.innerHeight * 0.8 : false;
+    fabRsvp.classList.toggle('is-visible', heroPast && !rsvpNear);
+  }
+}
+
+// ============================================================
 // ナビ: スクロール方向で hide / show
 // ============================================================
 const gnav = document.getElementById('gnav');
@@ -96,7 +123,9 @@ window.addEventListener('scroll', () => {
   const y = window.scrollY;
   gnav.classList.toggle('is-hidden', y > lastScrollY && y > 100);
   lastScrollY = y;
+  updateScrollUI();
 }, { passive: true });
+updateScrollUI();
 
 // ============================================================
 // モバイルメニュー
@@ -115,20 +144,21 @@ navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
 }));
 
 // ============================================================
-// Hero 文字エフェクト（ウォブル + グリッチ）
+// Hero 文字エフェクト（ウォブル + グリッチ）PC: hover / SP: tap
 // ============================================================
 const heroLetters = Array.from(document.querySelectorAll('.hero-letter'));
 
-// 全文字が着地してから有効化（最後の文字: --i:6 → 0.3 + 6*0.08 + 0.55 ≈ 1.33s）
 setTimeout(() => {
 
-  // ---- ホバーウォブル ----
+  function wobble(letter) {
+    if (letter.classList.contains('is-glitching')) return;
+    letter.classList.add('is-wobbling');
+    letter.addEventListener('animationend', () => letter.classList.remove('is-wobbling'), { once: true });
+  }
+
   heroLetters.forEach(letter => {
-    letter.addEventListener('mouseenter', () => {
-      if (letter.classList.contains('is-glitching')) return;
-      letter.classList.add('is-wobbling');
-      letter.addEventListener('animationend', () => letter.classList.remove('is-wobbling'), { once: true });
-    });
+    letter.addEventListener('mouseenter',  () => wobble(letter));          // PC
+    letter.addEventListener('touchstart',  () => wobble(letter), { passive: true }); // SP
   });
 
   // ---- 定期グリッチ（ランダム1文字） ----
@@ -213,6 +243,24 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn =>
 
   nextBtn.addEventListener('click', () => { stopAuto(); next(); startAuto(); });
   prevBtn.addEventListener('click', () => { stopAuto(); prev(); startAuto(); });
+
+  // ---- SP スワイプヒント ----
+  const hint = document.getElementById('swipe-hint');
+  if (hint) {
+    // ギャラリーが見えたら表示 → 2.5秒後 or 最初のスワイプで消す
+    const hintObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        setTimeout(() => hint.classList.add('is-hidden'), 2500);
+        hintObserver.disconnect();
+      }
+    }, { threshold: 0.5 });
+    hintObserver.observe(track);
+
+    const hideHint = () => hint.classList.add('is-hidden');
+    track.addEventListener('touchstart', hideHint, { once: true, passive: true });
+    nextBtn.addEventListener('click',     hideHint, { once: true });
+    prevBtn.addEventListener('click',     hideHint, { once: true });
+  }
 
   function startAuto() { autoTimer = setInterval(next, 4500); }
   function stopAuto()  { clearInterval(autoTimer); }
