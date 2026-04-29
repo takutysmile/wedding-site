@@ -1,4 +1,5 @@
 let authToken = '';
+let allItems  = [];
 
 // ---- ログイン ----
 
@@ -29,8 +30,9 @@ async function doLogin() {
       document.getElementById('login-wrap').style.display = 'none';
       document.getElementById('dashboard').classList.add('show');
       const data = await res.json();
-      renderTable(data.items);
-      updateSummary(data.items);
+      allItems = data.items;
+      updateSummary(allItems);
+      applyFilters();
       updateLastUpdated();
     } else if (res.status === 401) {
       document.getElementById('login-error').textContent = 'パスワードが正しくありません。';
@@ -70,8 +72,9 @@ async function loadRsvp() {
 
     if (res.ok) {
       const data = await res.json();
-      renderTable(data.items);
-      updateSummary(data.items);
+      allItems = data.items;
+      updateSummary(allItems);
+      applyFilters();
       updateLastUpdated();
     } else {
       showDashAlert('error', 'データの取得に失敗しました。');
@@ -221,3 +224,36 @@ function escHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
+
+// ============================================================
+// フィルター・検索
+// ============================================================
+function applyFilters() {
+  const nameQuery   = document.getElementById('search-name').value.trim().toLowerCase();
+  const attendance  = document.getElementById('filter-attendance').value;
+  const allergyOnly = document.getElementById('filter-allergy').checked;
+
+  const filtered = allItems.filter(item => {
+    if (nameQuery  && !item.name.toLowerCase().includes(nameQuery)) return false;
+    if (attendance && item.attendance !== attendance)               return false;
+    if (allergyOnly && !item.dietary_restrictions)                  return false;
+    return true;
+  });
+
+  renderTable(filtered);
+
+  const countEl = document.getElementById('filter-count');
+  countEl.textContent = filtered.length < allItems.length
+    ? `${filtered.length} / ${allItems.length} 件`
+    : '';
+}
+
+document.getElementById('search-name').addEventListener('input', applyFilters);
+document.getElementById('filter-attendance').addEventListener('change', applyFilters);
+document.getElementById('filter-allergy').addEventListener('change', applyFilters);
+document.getElementById('filter-reset').addEventListener('click', () => {
+  document.getElementById('search-name').value      = '';
+  document.getElementById('filter-attendance').value = '';
+  document.getElementById('filter-allergy').checked  = false;
+  applyFilters();
+});

@@ -49,6 +49,22 @@
       </div>
     </div>
 
+    <!-- フィルターバー -->
+    <div class="filter-bar">
+      <input type="text" id="search-name" class="filter-input" placeholder="お名前で検索…">
+      <select id="filter-attendance" class="filter-select">
+        <option value="">出欠：すべて</option>
+        <option value="attending">出席のみ</option>
+        <option value="not_attending">欠席のみ</option>
+      </select>
+      <label class="filter-check-label">
+        <input type="checkbox" id="filter-allergy">
+        アレルギーありのみ
+      </label>
+      <button class="btn btn-reset" id="filter-reset">リセット</button>
+      <span class="filter-count" id="filter-count"></span>
+    </div>
+
     <div class="alert" id="dash-alert"></div>
 
     <!-- 一覧テーブル -->

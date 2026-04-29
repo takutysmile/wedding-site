@@ -260,6 +260,103 @@ tbody td {
   font-size: 0.9rem;
 }
 
+/* ---- フィルターバー ---- */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 16px 18px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+
+.filter-input,
+.filter-select {
+  height: 40px;
+  padding: 0 13px;
+  border: 1.5px solid #b8a898;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  color: #333;
+  background: #faf8f5;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.filter-input {
+  min-width: 180px;
+  flex: 1;
+}
+
+.filter-input::placeholder {
+  color: #aaa;
+  font-size: 0.88rem;
+}
+
+.filter-select {
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: #9a7a60;
+  background: #fff;
+}
+
+.filter-check-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.9rem;
+  font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  color: #444;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.filter-check-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #4a3a2a;
+  cursor: pointer;
+}
+
+.btn-reset {
+  height: 40px;
+  background: transparent;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  color: #777;
+  font-size: 0.88rem;
+  font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  padding: 0 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-reset:hover { background: #f0ece8; color: #4a3a2a; border-color: #b8a898; }
+
+.filter-count {
+  font-size: 0.85rem;
+  font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  color: #9a7a60;
+  white-space: nowrap;
+  margin-left: auto;
+  font-weight: 600;
+}
+
 /* ---- ローディング ---- */
 .loading {
   text-align: center;

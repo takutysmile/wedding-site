@@ -1,7 +1,30 @@
 // ============================================================
 // 挙式日時 — デプロイ前に変更してください
 // ============================================================
-const WEDDING_DATE = new Date('2027-01-23T10:00:00');
+const WEDDING_DATE    = new Date('2027-01-23T10:00:00');
+const RSVP_CLOSE_DATE = new Date('2026-12-24T00:00:00');
+
+// ============================================================
+// RSVP 回答期限チェック（12/24 以降はフォームを閉鎖）
+// ============================================================
+(function checkRsvpDeadline() {
+  if (new Date() < RSVP_CLOSE_DATE) {
+    // 期限内 — 閉鎖メッセージを非表示
+    const el = document.getElementById('rsvp-closed');
+    if (el) el.style.display = 'none';
+    return;
+  }
+  // 期限切れ
+  const noteEl     = document.getElementById('rsvp-deadline-note');
+  const closedEl   = document.getElementById('rsvp-closed');
+  const formWrapEl = document.getElementById('form-wrap');
+  const fabEl      = document.getElementById('fab-rsvp');
+
+  if (noteEl)     noteEl.style.display     = 'none';
+  if (closedEl)   closedEl.classList.add('is-shown');
+  if (formWrapEl) formWrapEl.style.display = 'none';
+  if (fabEl)      fabEl.style.display      = 'none';
+})();
 
 // ============================================================
 // ページ入場フラッシュ 除去
