@@ -508,6 +508,8 @@ body {
 .sec-inner {
   max-width: 640px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .sec-inner--wide {
@@ -531,7 +533,23 @@ body {
 }
 .sec-en:hover { background: var(--green); }
 
-/* ---- セクション透かし数字 ---- */
+/* ---- セクション背景タイポグラフィ（左上 / 回転あり） ---- */
+.sec[data-bg-text]::before {
+  content: attr(data-bg-text);
+  position: absolute;
+  top: -4%;
+  left: -3%;
+  font-family: 'Bangers', Impact, sans-serif;
+  font-size: clamp(9rem, 26vw, 20rem);
+  line-height: 0.82;
+  color: rgba(244,114,182,0.05);
+  pointer-events: none;
+  z-index: 0;
+  letter-spacing: -0.02em;
+  transform: rotate(-5deg);
+}
+
+/* ---- セクション透かし数字（右） ---- */
 .sec[data-sec-num] { overflow: hidden; }
 .sec[data-sec-num]::after {
   content: attr(data-sec-num);
@@ -669,6 +687,7 @@ body {
 .qa-a {
   color: var(--ink);
 }
+
 
 
 /* ============================================================
