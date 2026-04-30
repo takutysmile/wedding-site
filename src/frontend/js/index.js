@@ -32,7 +32,8 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearErrors();
 
-  const name         = document.getElementById('name').value.trim();
+  const familyName   = document.getElementById('family-name').value.trim();
+  const givenName    = document.getElementById('given-name').value.trim();
   const attendanceEl = document.querySelector('input[name="attendance"]:checked');
   const dietary      = document.getElementById('dietary').value.trim();
   const message      = document.getElementById('message').value.trim();
@@ -40,8 +41,8 @@ form.addEventListener('submit', async (e) => {
   let hasError = false;
   const missingLabels = [];
 
-  if (!name) {
-    setError('name-error', 'お名前を入力してください');
+  if (!familyName || !givenName) {
+    setError('name-error', '姓・名を両方入力してください');
     missingLabels.push('お名前');
     hasError = true;
   }
@@ -58,6 +59,7 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled    = true;
   submitBtn.textContent = '送信中...';
 
+  const name    = `${familyName} ${givenName}`; // 姓と名をスペースで結合して送信
   const payload = { name, attendance: attendanceEl.value };
   if (dietary) payload.dietary_restrictions = dietary;
   if (message) payload.message = message;

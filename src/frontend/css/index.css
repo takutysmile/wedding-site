@@ -1076,6 +1076,27 @@ body {
 
 .field { margin-bottom: 30px; }
 
+/* 姓・名 横並びレイアウト */
+.name-row {
+  display: flex;
+  gap: 16px;
+}
+.name-col {
+  flex: 1;
+  position: relative;
+}
+.name-col input {
+  width: 100%;
+}
+.name-sub {
+  position: absolute;
+  right: 0;
+  bottom: -18px;
+  font-size: 0.68rem;
+  color: var(--gray);
+  letter-spacing: 0.05em;
+}
+
 .field > label:first-child {
   display: block;
   font-size: 0.7rem;

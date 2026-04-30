@@ -331,8 +331,17 @@
 
         <form id="rsvp-form" novalidate>
           <div class="field">
-            <label for="name">お名前<span class="required-badge">必須</span></label>
-            <input type="text" id="name" name="name" placeholder="山田 太郎" maxlength="50" autocomplete="name">
+            <label>お名前<span class="required-badge">必須</span></label>
+            <div class="name-row">
+              <div class="name-col">
+                <input type="text" id="family-name" name="family_name" placeholder="山田" maxlength="24" autocomplete="family-name" aria-label="姓">
+                <span class="name-sub">姓</span>
+              </div>
+              <div class="name-col">
+                <input type="text" id="given-name" name="given_name" placeholder="太郎" maxlength="24" autocomplete="given-name" aria-label="名">
+                <span class="name-sub">名</span>
+              </div>
+            </div>
             <div class="field-error" id="name-error"></div>
           </div>
 
