@@ -89,6 +89,8 @@ body {
 .gnav-list a:hover { color: var(--pink-deep); }
 
 .gnav-rsvp {
+  position: relative;
+  overflow: hidden;
   padding: 5px 14px !important;
   border: 2px solid var(--green) !important;
   color: var(--green-deep) !important;
@@ -1218,6 +1220,8 @@ textarea {
 }
 
 .submit-btn {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   padding: 17px;
   background: var(--pink-deep);

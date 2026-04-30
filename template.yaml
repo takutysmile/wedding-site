@@ -129,7 +129,7 @@ Resources:
       DistributionConfig:
         Enabled: true
         DefaultRootObject: index.html
-        PriceClass: PriceClass_100
+        PriceClass: PriceClass_200  # 日本（アジア）エッジを含む
         Origins:
           - Id: S3Origin
             DomainName: !GetAtt FrontendBucket.RegionalDomainName

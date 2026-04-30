@@ -1,5 +1,14 @@
 # AWS インフラ構築手順
 
+> **デプロイ方法は2種類あります。どちらか一方を選んでください。**
+>
+> | 方法 | 説明 | 難易度 |
+> |---|---|---|
+> | **この手順書（コンソール手動）** | AWSコンソールで手順通りに設定 | 初心者向け |
+> | **SAM 自動デプロイ（`template.yaml`）** | `sam deploy` 1コマンドで全リソース作成 | AWS CLI 要 |
+>
+> **両方同時に実行しないこと。リソースが重複して料金が発生する。**
+
 ## 前提条件
 
 - AWSアカウントが作成済みであること
@@ -108,7 +117,7 @@ zip -r ../../lambda-deploy.zip handler.js lib/ routes/ node_modules/
 
    | 項目 | 値 |
    |---|---|
-   | 関数名 | `wedding-rsvp-handler` |
+   | 関数名 | `wedding-rsvp-handler`（SAMを使う場合は `wedding-rsvp` になるが、コンソール手順ではこの名前を使う）|
    | ランタイム | `Node.js 18.x` |
    | アーキテクチャ | `x86_64` |
    | 実行ロール | 「既存のロールを使用する」→ `wedding-lambda-role` |
@@ -270,8 +279,12 @@ zip -r ../../lambda-deploy.zip handler.js lib/ routes/ node_modules/
    | パスパターン | `/api/*` |
    | オリジン | API Gatewayのオリジン |
    | ビューワープロトコルポリシー | Redirect HTTP to HTTPS |
+   | **許可する HTTP メソッド** | **`GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE`** |
    | キャッシュポリシー | `CachingDisabled`（APIはキャッシュしない） |
    | オリジンリクエストポリシー | `AllViewerExceptHostHeader` |
+
+   > ⚠️ **「許可する HTTP メソッド」は必ず `GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE` を選択すること。**  
+   > デフォルトの `GET, HEAD` のままだと、RSVPの送信（POST）と管理画面の削除（DELETE）が CloudFront に **403 でブロックされ動作しません。**
 
 3. 「変更を保存」
 
@@ -280,7 +293,12 @@ zip -r ../../lambda-deploy.zip handler.js lib/ routes/ node_modules/
 | 項目 | 値 |
 |---|---|
 | デフォルトルートオブジェクト | `index.html` |
-| 価格クラス | 「北米・欧州・アジア・中東・アフリカ」（最安クラスで十分） |
+| 価格クラス | **「北米・欧州・アジア・中東・アフリカを使用する（Price Class 200）」** |
+
+> **価格クラスについて：**  
+> 「Price Class 100（最安）」は北米・欧州のみで、**日本（アジア）のエッジは含まれません。**  
+> 日本のゲスト向けには **Price Class 200** を選択すること（東京エッジが使われ表示が速くなる）。  
+> コスト差はアクセス数が少ない個人サイトでは数円〜数十円/月程度。
 
 4. 「ディストリビューションを作成」をクリック
 5. 作成後に表示される **ドメイン名**（例：`xxxxxxxxxxxx.cloudfront.net`）をメモしておく
@@ -289,9 +307,9 @@ zip -r ../../lambda-deploy.zip handler.js lib/ routes/ node_modules/
 
 ## 7. フロントエンドのデプロイ
 
-### 7-1. index.html の修正
+### 7-1. config.js の修正
 
-`src/frontend/index.html` 内の以下の行を編集：
+`src/frontend/js/config.js` を開き、CloudFront ドメインに書き換える：
 
 ```js
 // 変更前
@@ -301,12 +319,40 @@ const API_BASE = 'https://<cloudfront-domain>/api';
 const API_BASE = 'https://xxxxxxxxxxxx.cloudfront.net/api';
 ```
 
-また、ヒーローセクションのコメント箇所に式の情報を記入：
+> **注意：** `index.html` ではなく `js/config.js` を編集すること。
 
-```html
-<p class="event-date">2026年〇月〇日（〇）〇〇時〇〇分</p>
-<p class="event-venue">〇〇ホテル 〒000-0000 東京都〇〇区〇〇</p>
+### 7-1-b. CORS の設定を本番用に絞る（任意・推奨）
+
+デフォルトでは CORS が `*`（全オリジン許可）になっている。  
+セキュリティを高めたい場合は、以下の **2 箇所**を CloudFront ドメインに変更する。
+
+**① `src/backend/lib/response.js`**
+
+```js
+// 変更前
+'Access-Control-Allow-Origin': '*',
+
+// 変更後
+'Access-Control-Allow-Origin': 'https://xxxxxxxxxxxx.cloudfront.net',
 ```
+
+**② `template.yaml`（再デプロイが必要）**
+
+```yaml
+# 変更前
+CorsConfiguration:
+  AllowOrigins:
+    - "*"
+
+# 変更後
+CorsConfiguration:
+  AllowOrigins:
+    - "https://xxxxxxxxxxxx.cloudfront.net"
+```
+
+変更後は Lambda を再デプロイ（zip 再アップロードまたは `sam deploy`）すること。
+
+> **補足：** この設定を変更しなくても動作はする。個人利用の結婚式サイトであれば `*` のままでも問題ない。
 
 ### 7-2. S3 へアップロード
 
@@ -316,6 +362,9 @@ const API_BASE = 'https://xxxxxxxxxxxx.cloudfront.net/api';
    - `src/frontend/admin.html`（管理者向けページ）
    - `src/frontend/css/` フォルダ（スタイルシート）
    - `src/frontend/js/` フォルダ（JavaScript）
+   - `src/frontend/img/` フォルダ（SVG画像）
+
+   > S3上のフォルダ構造が `css/`・`js/`・`img/` になるよう、フォルダごとアップロードすること。HTMLが相対パスで参照しているため、構造を崩すと表示が壊れる。
 3. アップロード後、「アクション」→「パブリックアクセス」は**付与しない**（CloudFront経由でのみ配信）
 
 > **フォルダのアップロード方法:** S3コンソールの「フォルダのアップロード」ボタンを使うか、ファイルを個別にアップロードして `css/index.css` のようにパスを合わせること。

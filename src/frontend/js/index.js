@@ -108,7 +108,7 @@ function setError(id, msg) {
 
   errorEl.textContent = msg;
   errorEl.classList.remove('is-shown');
-  void errorEl.offsetWidth; // reflow to restart animation
+  void errorEl.offsetWidth; // クラスを一旦外した後に再付与してアニメを確実にリセットする
   errorEl.classList.add('is-shown');
 
   // 親 .field にシェイクを付与

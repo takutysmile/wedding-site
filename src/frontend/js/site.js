@@ -7,7 +7,7 @@ const RSVP_CLOSE_DATE = new Date('2026-12-24T00:00:00');
 // ============================================================
 // RSVP 回答期限チェック（12/24 以降はフォームを閉鎖）
 // ============================================================
-(function checkRsvpDeadline() {
+function checkRsvpDeadline() {
   if (new Date() < RSVP_CLOSE_DATE) {
     // 期限内 — 閉鎖メッセージを非表示
     const el = document.getElementById('rsvp-closed');
@@ -24,7 +24,8 @@ const RSVP_CLOSE_DATE = new Date('2026-12-24T00:00:00');
   if (closedEl)   closedEl.classList.add('is-shown');
   if (formWrapEl) formWrapEl.style.display = 'none';
   if (fabEl)      fabEl.style.display      = 'none';
-})();
+}
+checkRsvpDeadline();
 
 // ============================================================
 // ページ入場フラッシュ 除去
@@ -72,10 +73,13 @@ const cdHours = document.getElementById('cd-hours');
 const cdMins  = document.getElementById('cd-mins');
 const cdSecs  = document.getElementById('cd-secs');
 
+let countdownTimer;
+
 function updateCountdown() {
   const diff = WEDDING_DATE - new Date();
   if (diff <= 0) {
     [cdDays, cdHours, cdMins, cdSecs].forEach(el => { el.textContent = '00'; });
+    clearInterval(countdownTimer); // 式当日以降は不要なので停止
     return;
   }
   rollEl(cdDays,  Math.floor(diff / 86400000));
@@ -84,19 +88,7 @@ function updateCountdown() {
   rollEl(cdSecs,  Math.floor(diff % 60000    / 1000));
 }
 updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// ============================================================
-// パララックス背景（PC のみ。SP は CSS float アニメで代替）
-// ============================================================
-const parallaxEl = document.getElementById('hero-parallax');
-const isTouch    = window.matchMedia('(max-width: 768px)').matches;
-
-if (parallaxEl && !isTouch) {
-  window.addEventListener('scroll', () => {
-    parallaxEl.style.transform = `translateY(${window.scrollY * 0.35}px)`;
-  }, { passive: true });
-}
+countdownTimer = setInterval(updateCountdown, 1000);
 
 // ============================================================
 // スクロールアニメーション（IntersectionObserver）
@@ -113,42 +105,45 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.js-fade-item, .js-stamp-item').forEach(el => observer.observe(el));
 
 // ============================================================
-// スクロール進捗バー + FAB 表示制御
+// スクロール処理（パララックス / ナビ / 進捗バー / FAB を1つにまとめる）
 // ============================================================
+const parallaxEl  = document.getElementById('hero-parallax');
+const isTouch     = window.matchMedia('(max-width: 768px)').matches;
 const progressBar = document.getElementById('scroll-progress');
 const fabRsvp     = document.getElementById('fab-rsvp');
 const heroSection = document.getElementById('hero');
 const rsvpSection = document.getElementById('rsvp');
+const gnav        = document.getElementById('gnav');
+let lastScrollY   = 0;
 
-function updateScrollUI() {
-  const scrollTop  = window.scrollY;
-  const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+function onScroll() {
+  const y         = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+  // パララックス（PC のみ。SP は CSS アニメで代替）
+  if (parallaxEl && !isTouch) {
+    parallaxEl.style.transform = `translateY(${y * 0.35}px)`;
+  }
+
+  // ナビ: 下スクロール中は隠す
+  gnav.classList.toggle('is-hidden', y > lastScrollY && y > 100);
+  lastScrollY = y;
 
   // 進捗バー
   if (progressBar) {
-    progressBar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+    progressBar.style.width = (docHeight > 0 ? (y / docHeight) * 100 : 0) + '%';
   }
 
-  // FAB: ヒーロー通過後 かつ RSVP セクション手前まで表示
+  // FAB: ヒーローを過ぎて RSVP セクションの手前まで表示
   if (fabRsvp) {
-    const heroPast  = heroSection ? heroSection.getBoundingClientRect().bottom < 0 : scrollTop > window.innerHeight;
-    const rsvpNear  = rsvpSection ? rsvpSection.getBoundingClientRect().top < window.innerHeight * 0.8 : false;
+    const heroPast = heroSection ? heroSection.getBoundingClientRect().bottom < 0 : y > window.innerHeight;
+    const rsvpNear = rsvpSection ? rsvpSection.getBoundingClientRect().top < window.innerHeight * 0.8 : false;
     fabRsvp.classList.toggle('is-visible', heroPast && !rsvpNear);
   }
 }
 
-// ============================================================
-// ナビ: スクロール方向で hide / show
-// ============================================================
-const gnav = document.getElementById('gnav');
-let lastScrollY = 0;
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  gnav.classList.toggle('is-hidden', y > lastScrollY && y > 100);
-  lastScrollY = y;
-  updateScrollUI();
-}, { passive: true });
-updateScrollUI();
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll(); // 初期状態を適用
 
 // ============================================================
 // モバイルメニュー
@@ -203,9 +198,8 @@ setTimeout(() => {
 // ============================================================
 // ボタン Ripple エフェクト
 // ============================================================
+// position:relative / overflow:hidden は CSS 側で定義済み
 document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn => {
-  btn.style.position = 'relative';
-  btn.style.overflow = 'hidden';
   btn.addEventListener('click', function (e) {
     const rect   = this.getBoundingClientRect();
     const size   = Math.max(rect.width, rect.height);
@@ -254,6 +248,7 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn =>
   });
 
   function goTo(n) {
+    // ((n % total) + total) % total → n が負になっても循環するインデックス計算
     current = ((n % total) + total) % total;
     track.style.transform = `translateX(-${current * 100}%)`;
     curEl.textContent = pad(current + 1);
