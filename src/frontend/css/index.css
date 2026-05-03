@@ -1083,18 +1083,18 @@ body {
 }
 .name-col {
   flex: 1;
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .name-col input {
   width: 100%;
 }
 .name-sub {
-  position: absolute;
-  right: 0;
-  bottom: -18px;
   font-size: 0.68rem;
   color: var(--gray);
   letter-spacing: 0.05em;
+  margin-top: 4px;
+  text-align: right;
 }
 
 .field > label:first-child {
@@ -1309,71 +1309,38 @@ textarea {
 }
 .et-close:hover { color: var(--white); }
 
-/* ---- 送信成功 封筒アニメーション ---- */
+/* ---- 送信成功アニメーション ---- */
 .complete {
   display: none;
   text-align: center;
-  padding: 64px 24px;
+  padding: 56px 24px 48px;
 }
 .complete.show { display: block; }
 
-.complete-launch {
-  position: relative;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-}
-
-.launch-env {
+/* 封筒アイコン：ポップインして、メッセージが出始めたら静止 */
+.complete-icon {
   font-size: 3.2rem;
-  display: inline-block;
+  display: block;
+  margin-bottom: 20px;
   opacity: 0;
 }
-.complete.show .launch-env {
-  animation: envLaunch 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.complete.show .complete-icon {
+  animation: iconPopIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards;
 }
-@keyframes envLaunch {
-  0%   { opacity: 0; transform: translateY(20px) scale(0.6) rotate(0deg); }
-  15%  { opacity: 1; transform: translateY(0)    scale(1.2) rotate(0deg); }
-  40%  { opacity: 1; transform: translateY(-10px) scale(1.1) rotate(5deg); }
-  100% { opacity: 0; transform: translateY(-90px) scale(0.4) rotate(25deg) translateX(60px); }
+@keyframes iconPopIn {
+  0%   { opacity: 0; transform: scale(0.3) rotate(-10deg); }
+  60%  { opacity: 1; transform: scale(1.15) rotate(5deg); }
+  80%  { transform: scale(0.95) rotate(-2deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
 }
 
-/* スパーク */
-.launch-spark {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  opacity: 0;
-}
-.ls-1 { background: var(--pink-deep); top: 30%; left: 40%; }
-.ls-2 { background: var(--green);     top: 20%; left: 55%; }
-.ls-3 { background: var(--white);     top: 50%; left: 60%; }
-.ls-4 { background: var(--pink);      top: 40%; left: 35%; }
-
-.complete.show .ls-1 { animation: spark 0.5s ease-out 0.3s forwards; }
-.complete.show .ls-2 { animation: spark 0.5s ease-out 0.4s forwards; }
-.complete.show .ls-3 { animation: spark 0.5s ease-out 0.5s forwards; }
-.complete.show .ls-4 { animation: spark 0.5s ease-out 0.35s forwards; }
-
-@keyframes spark {
-  0%   { opacity: 1; transform: scale(0) translate(0,0); }
-  100% { opacity: 0; transform: scale(1.5) translate(var(--dx, 20px), var(--dy, -20px)); }
-}
-.ls-1 { --dx: -24px; --dy: -18px; }
-.ls-2 { --dx:  22px; --dy: -24px; }
-.ls-3 { --dx:  28px; --dy:  12px; }
-.ls-4 { --dx: -20px; --dy:  16px; }
-
+/* メッセージ：封筒が表示された後にフェードアップ */
 .complete-msg {
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(14px);
 }
 .complete.show .complete-msg {
-  animation: msgAppear 0.6s ease forwards 1.0s;
+  animation: msgAppear 0.55s ease forwards 0.65s;
 }
 @keyframes msgAppear {
   to { opacity: 1; transform: translateY(0); }
