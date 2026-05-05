@@ -285,19 +285,28 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn =>
   startAuto();
 
   // タッチ & マウスドラッグ
-  let startX = 0, isDragging = false;
-  const onStart = x => { startX = x; isDragging = true; track.classList.add('is-dragging'); stopAuto(); };
+  let startX = 0, startY = 0, isDragging = false;
+  const onStart = (x, y) => { startX = x; startY = y; isDragging = true; track.classList.add('is-dragging'); stopAuto(); };
   const onEnd   = x => {
     if (!isDragging) return;
     isDragging = false;
     track.classList.remove('is-dragging');
-    if (Math.abs(x - startX) > 48) { x < startX ? next() : prev(); }
+    if (Math.abs(x - startX) > 40) { x < startX ? next() : prev(); }
     startAuto();
   };
-  track.addEventListener('touchstart', e => onStart(e.touches[0].clientX),     { passive: true });
-  track.addEventListener('touchend',   e => onEnd(e.changedTouches[0].clientX), { passive: true });
-  track.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
-  window.addEventListener('mouseup',   e => onEnd(e.clientX));
+  const onCancel = () => { isDragging = false; track.classList.remove('is-dragging'); startAuto(); };
+
+  track.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  track.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const dx = Math.abs(e.touches[0].clientX - startX);
+    const dy = Math.abs(e.touches[0].clientY - startY);
+    if (dx > dy && dx > 8) e.preventDefault(); // 横スワイプ中は縦スクロールを抑制
+  }, { passive: false });
+  track.addEventListener('touchend',    e => onEnd(e.changedTouches[0].clientX), { passive: true });
+  track.addEventListener('touchcancel', onCancel);
+  track.addEventListener('mousedown',   e => { e.preventDefault(); onStart(e.clientX, 0); });
+  window.addEventListener('mouseup',    e => onEnd(e.clientX));
 
   // キーボード
   document.addEventListener('keydown', e => {

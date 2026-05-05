@@ -413,7 +413,7 @@ body {
 .marquee-inner {
   display: flex;
   will-change: transform;
-  animation: marqueeScroll 30s linear infinite;
+  animation: marqueeScroll 18s linear infinite;
 }
 .marquee-inner:hover { animation-play-state: paused; }
 .marquee-group {
@@ -1711,7 +1711,7 @@ textarea {
 }
 
 @media (max-width: 480px) {
-  .countdown-board { gap: 2px; }
-  .cd-unit { min-width: 60px; }
-  .cd-colon { display: none; }
+  .countdown-board { gap: 2px; flex-wrap: nowrap; }
+  .cd-unit { min-width: 0; flex: 1; }
+  .cd-colon { font-size: 1.5rem; padding-top: 2px; }
 }
