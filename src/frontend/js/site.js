@@ -317,3 +317,66 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn =>
     }
   });
 })();
+
+// ============================================================
+// Hero インタラクション: マウス傾き / デバイス傾き / スクロールパララックス
+// ============================================================
+(function () {
+  const hero  = document.getElementById('hero');
+  const title = document.querySelector('.hero-title');
+  const badge = document.querySelector('.hero-float-badge');
+  const sub   = document.querySelector('.hero-subtitle');
+  const meta  = document.querySelector('.hero-meta-row');
+  if (!hero || !title) return;
+
+  let tgtX = 0, tgtY = 0, curX = 0, curY = 0;
+
+  // PC: マウス移動でタイトルが追従
+  hero.addEventListener('mousemove', e => {
+    const r = hero.getBoundingClientRect();
+    tgtX = (e.clientX - r.left - r.width  / 2) / (r.width  / 2);
+    tgtY = (e.clientY - r.top  - r.height / 2) / (r.height / 2);
+  }, { passive: true });
+
+  hero.addEventListener('mouseleave', () => { tgtX = 0; tgtY = 0; });
+
+  // SP: デバイス傾き（ジャイロスコープ）
+  const isSP = window.matchMedia('(max-width: 768px)').matches;
+  if (isSP && window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', e => {
+      if (e.gamma == null) return;
+      tgtX = Math.max(-1, Math.min(1,  e.gamma / 18));
+      tgtY = Math.max(-1, Math.min(1, ((e.beta || 45) - 45) / 15));
+    }, { passive: true });
+  }
+
+  // rAFループ: マウス/傾き + スクロールパララックスを合成
+  function tick() {
+    // なめらかな追従 (lerp)
+    curX += (tgtX - curX) * 0.07;
+    curY += (tgtY - curY) * 0.07;
+
+    const scrollY = window.scrollY;
+    const heroH   = hero.offsetHeight;
+    const pct     = Math.min(scrollY / heroH, 1); // 0〜1
+
+    const tx = curX * 16; // ±16px 水平
+    const ty = curY * 9;  // ±9px  垂直
+
+    // タイトル: マウス追従 + スクロールで上へ引き上げ
+    title.style.transform = `translate(${tx}px, ${ty - pct * 55}px)`;
+
+    // サブタイトル: タイトルより遅い追従
+    if (sub)  sub.style.transform  = `translate(${tx * 0.5}px, ${ty * 0.5 - pct * 35}px)`;
+
+    // メタ行: スクロールのみ (ゆっくり)
+    if (meta) meta.style.transform = `translateY(${-pct * 18}px)`;
+
+    // バッジ: タイトルと逆方向 + スクロールで早めに退場
+    if (badge) badge.style.transform =
+      `rotate(-3deg) translate(${-tx * 0.5}px, ${-ty * 0.3 - pct * 70}px)`;
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
