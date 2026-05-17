@@ -6,10 +6,23 @@
   <title>TAKUTO &amp; MAYU | Wedding 2027.01.23</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Barlow+Condensed:wght@400;700&family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
+
+  <!-- ======== OPENING SPLASH ======== -->
+  <div class="opening-splash" id="opening-splash" aria-hidden="true">
+    <div class="os-bg-left"></div>
+    <div class="os-bg-right"></div>
+    <div class="os-content">
+      <p class="os-eyebrow">You are cordially invited</p>
+      <div class="os-welcome">WELCOME</div>
+      <div class="os-line"></div>
+      <p class="os-couple">TAKUTO <span class="os-amp">&amp;</span> MAYU</p>
+      <p class="os-date">January 23rd, 2027 · Tokyo</p>
+    </div>
+  </div>
 
   <!-- ページ入場フラッシュ -->
   <div class="page-flash" id="page-flash"></div>
@@ -21,12 +34,7 @@
   <!-- ======== GLOBAL NAV ======== -->
   <nav class="gnav" id="gnav">
     <a class="gnav-logo" href="#hero" aria-label="トップへ">
-      <svg class="nav-badge-svg" viewBox="0 0 52 52" aria-hidden="true" focusable="false">
-        <rect width="52" height="52" rx="4" fill="#EC4899"/>
-        <rect x="0" y="0"  width="52" height="5" rx="2" fill="#34D399"/>
-        <rect x="0" y="47" width="52" height="5" rx="2" fill="#34D399"/>
-        <text x="26" y="41" font-family="Bangers, Impact, sans-serif" font-size="42" fill="white" text-anchor="middle" letter-spacing="1">W</text>
-      </svg>
+      <span class="nav-logo-text">T<span class="nav-logo-amp">&amp;</span>M</span>
     </a>
     <button class="gnav-toggle" id="gnav-toggle" aria-label="メニュー開閉">
       <span></span><span></span><span></span>
@@ -43,54 +51,43 @@
 
   <!-- ======== HERO ======== -->
   <section class="hero" id="hero">
-    <!-- 背景写真レイヤー（パララックス） ダミー: picsum.photos -->
+    <!-- 背景写真: url('...') を実際の写真パスに変更してください -->
     <div class="hero-parallax" id="hero-parallax"
       style="background-image:url('https://picsum.photos/seed/wedding2027/1920/1080')">
     </div>
-    <!-- ピンクグラデーション オーバーレイ -->
-    <div class="hero-overlay"></div>
-    <!-- ハーフトーン ドット テクスチャ -->
-    <div class="hero-halftone" aria-hidden="true"></div>
+    <!-- ピンクオーバーレイ + ストライプ -->
+    <div class="hero-overlay" aria-hidden="true"></div>
 
-    <!-- タイポ散らし -->
-    <div class="typo-bg" aria-hidden="true">
-      <span class="tb tb-1">W</span>
-      <span class="tb tb-2">E</span>
-      <span class="tb tb-3">D</span>
-      <span class="tb tb-4">2027</span>
-      <span class="tb tb-5">I</span>
-      <span class="tb tb-6">N</span>
-      <span class="tb tb-7">G</span>
+    <!-- フローティング Save the Date バッジ -->
+    <div class="hero-float-badge" aria-hidden="true">
+      <span class="hfb-tag">… Save the Date</span>
+      <p class="hfb-date">2027.01.23</p>
     </div>
 
     <div class="hero-content">
-      <p class="hero-eyebrow">You are cordially invited</p>
-
-      <!-- スピニングバッジ（SAVE THE DATE） -->
-      <div class="hero-spin-badge" aria-hidden="true">
-        <svg class="spin-badge-svg" viewBox="0 0 140 140">
-          <circle cx="70" cy="70" r="64" fill="#EC4899" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
-          <circle cx="70" cy="70" r="50" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="3 3"/>
-          <defs>
-            <path id="bpath" d="M70,70 m-56,0 a56,56 0 1,1 112,0 a56,56 0 1,1 -112,0"/>
-          </defs>
-          <text font-family="Bebas Neue,Impact,sans-serif" font-size="11.5" fill="white" letter-spacing="3.5">
-            <textPath href="#bpath">SAVE THE DATE ★ 2027.01.23 ★ WEDDING ★ </textPath>
-          </text>
-          <text x="70" y="64" font-family="Bebas Neue,Impact,sans-serif" font-size="13" fill="rgba(255,255,255,0.65)" text-anchor="middle" letter-spacing="4">JAN</text>
-          <text x="70" y="90" font-family="Bangers,Impact,sans-serif" font-size="38" fill="white" text-anchor="middle" letter-spacing="2">23</text>
-        </svg>
-      </div>
-
-      <!-- 1文字ずつバウンスイン -->
-      <h1 class="hero-title" aria-label="WEDDING">
-        <span class="hero-letter" style="--i:0">W</span><span class="hero-letter" style="--i:1">E</span><span class="hero-letter" style="--i:2">D</span><span class="hero-letter" style="--i:3">D</span><span class="hero-letter" style="--i:4">I</span><span class="hero-letter" style="--i:5">N</span><span class="hero-letter" style="--i:6">G</span>
+      <!-- BLOOM 3行タイトル -->
+      <h1 class="hero-title" aria-label="TAKUTO AND MAYU WEDDING">
+        <span class="hero-title-line">TAKUTO</span>
+        <span class="hero-title-line"><span class="hero-amp">&amp;</span> MAYU</span>
+        <span class="hero-title-line">WED.</span>
       </h1>
+      <p class="hero-subtitle">2027 &middot; January &middot; 23rd</p>
 
-      <div class="hero-line"></div>
-      <p class="hero-names">TAKUTO &amp; MAYU</p>
-      <p class="hero-date">2027年1月23日（土）10:00</p>
-      <p class="hero-venue-name">TRUNK(HOTEL) CAT STREET — 東京都渋谷区神宮前</p>
+      <!-- メタ行 -->
+      <div class="hero-meta-row">
+        <div class="hero-meta-cell">
+          <span class="hmc-label">Time</span>
+          <span class="hmc-value">10:00</span>
+        </div>
+        <div class="hero-meta-cell">
+          <span class="hmc-label">Venue</span>
+          <span class="hmc-value">Trunk Hotel</span>
+        </div>
+        <div class="hero-meta-cell">
+          <span class="hmc-label">RSVP</span>
+          <span class="hmc-value hmc-pink">12/23 〆</span>
+        </div>
+      </div>
     </div>
 
     <a class="hero-scroll-cue" href="#countdown" aria-label="下にスクロール">
@@ -161,37 +158,41 @@
   </section>
 
   <!-- ======== SCHEDULE ======== -->
-  <section class="sec schedule-sec" id="schedule" data-sec-num="02">
+  <section class="sec schedule-sec" id="schedule" data-sec-num="02" data-bg-text="TIME">
     <div class="sec-inner">
       <p class="sec-en">Schedule</p>
       <h2 class="sec-ja js-fade-item">当日の流れ</h2>
       <ol class="timeline">
-        <li class="tl-item js-fade-item">
-          <span class="tl-time">10:00</span>
+        <li class="tl-item js-fade-item from-left">
+          <span class="tl-item-num">01</span>
           <div class="tl-content">
+            <span class="tl-time">10:00</span>
             <strong>挙式</strong>
-            <p><!-- 挙式詳細 --></p>
+            <p>チャペルセレモニー</p>
           </div>
         </li>
-        <li class="tl-item js-fade-item">
-          <span class="tl-time">11:30</span>
+        <li class="tl-item js-fade-item from-left d1">
+          <span class="tl-item-num">02</span>
           <div class="tl-content">
+            <span class="tl-time">11:30</span>
             <strong>披露宴 受付開始</strong>
-            <p><!-- 受付詳細 --></p>
+            <p>ウェルカムドリンクをご用意しております</p>
           </div>
         </li>
-        <li class="tl-item js-fade-item">
-          <span class="tl-time">12:00</span>
+        <li class="tl-item js-fade-item from-left d2">
+          <span class="tl-item-num">03</span>
           <div class="tl-content">
+            <span class="tl-time">12:00</span>
             <strong>披露宴 開宴</strong>
-            <p><!-- 披露宴詳細 --></p>
+            <p>披露宴 / ご会食</p>
           </div>
         </li>
-        <li class="tl-item js-fade-item">
-          <span class="tl-time">15:30</span>
+        <li class="tl-item js-fade-item from-left d3">
+          <span class="tl-item-num">04</span>
           <div class="tl-content">
+            <span class="tl-time">15:30</span>
             <strong>お開き</strong>
-            <p>終了後、送迎バスをご用意しております。</p>
+            <p>送迎バスをご用意しております。</p>
           </div>
         </li>
       </ol>
@@ -203,8 +204,12 @@
     <div class="sec-inner">
       <p class="sec-en">Venue</p>
       <h2 class="sec-ja js-fade-item">会場</h2>
-      <div class="venue-card js-fade-item">
-        <div class="venue-photo"></div>
+      <div class="venue-card js-fade-item scale-in">
+        <!-- 会場写真: src を実際の写真パスに変更してください -->
+        <!-- 例: <img class="venue-img" src="images/venue.jpg" alt="TRUNK HOTEL CAT STREET"> -->
+        <div class="venue-photo">
+          <img class="venue-img" src="https://picsum.photos/seed/trunk-hotel/800/600" alt="TRUNK HOTEL CAT STREET" loading="lazy">
+        </div>
         <div class="venue-detail">
           <p class="venue-name">TRUNK(HOTEL) CAT STREET</p>
           <p class="venue-addr">〒150-0001<br>東京都渋谷区神宮前5-31</p>
@@ -223,12 +228,13 @@
 
       <div class="profile-grid">
 
-        <div class="profile-card js-fade-item">
-          <div class="profile-photo pp-groom">
-            <span class="profile-photo-label">PHOTO</span>
+        <div class="profile-card pp-groom js-fade-item from-left">
+          <div class="profile-photo">
+            <span class="profile-photo-label">🤵</span>
           </div>
           <div class="profile-info">
             <p class="profile-role">Groom</p>
+            <p class="profile-number">No. 01</p>
             <h3 class="profile-name">TAKUTO</h3>
             <p class="profile-name-ja">飯沼 拓人</p>
             <ul class="profile-qa">
@@ -242,12 +248,13 @@
           </div>
         </div>
 
-        <div class="profile-card js-fade-item">
-          <div class="profile-photo pp-bride">
-            <span class="profile-photo-label">PHOTO</span>
+        <div class="profile-card pp-bride js-fade-item from-right">
+          <div class="profile-photo">
+            <span class="profile-photo-label">👰</span>
           </div>
           <div class="profile-info">
             <p class="profile-role">Bride</p>
+            <p class="profile-number">No. 02</p>
             <h3 class="profile-name">MAYU</h3>
             <p class="profile-name-ja">飯沼 真由</p>
             <ul class="profile-qa">
@@ -387,7 +394,7 @@
 
   <!-- ======== FOOTER ======== -->
   <footer class="site-footer">
-    <p class="footer-logo">W</p>
+    <p class="footer-logo">T<span class="footer-logo-amp">&amp;</span>M</p>
     <p class="footer-names">TAKUTO &amp; MAYU</p>
     <p class="footer-date">2027.01.23</p>
     <nav class="footer-nav" aria-label="フッターナビゲーション">
@@ -411,8 +418,8 @@
 
   <!-- SP フローティングRSVPボタン -->
   <a class="fab-rsvp" id="fab-rsvp" href="#rsvp" aria-label="出欠を回答する">
-    <span class="fab-icon">✉</span>
-    <span class="fab-label">RSVP</span>
+    <span class="fab-heart">♡</span>
+    <span class="fab-label">出欠のご回答</span>
   </a>
 
   <script src="js/config.js"></script>
