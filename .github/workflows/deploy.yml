@@ -13,6 +13,19 @@ jobs:
       - name: コードを取得
         uses: actions/checkout@v4
 
+      - name: Node.jsをセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: バックエンドの依存関係をインストール
+        run: npm install --omit=dev
+        working-directory: src/backend
+
+      - name: バックエンドのテストを実行
+        run: npm test
+        working-directory: src/backend
+
       - name: AWS認証
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -33,7 +46,7 @@ jobs:
       - name: Lambdaをデプロイ
         run: |
           cd src/backend
-          zip -r ../../function.zip . --exclude "node_modules/*"
+          zip -r ../../function.zip handler.js lib/ routes/ node_modules/ package.json
           cd ../..
           aws lambda update-function-code \
             --function-name wedding-rsvp-handler \

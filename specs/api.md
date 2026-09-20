@@ -44,7 +44,7 @@ Content-Type: application/json
 |---|---|---|---|---|
 | name | string | ◯ | 任意の文字列 | 1〜50文字 |
 | attendance | string | ◯ | `"attending"` or `"not_attending"` | 出席/欠席 |
-| dietary_restrictions | string | ✕ | 任意の文字列 | 最大200文字 |
+| dietary_restrictions | string | ✕ | 任意の文字列 | 最大200文字。**フロントエンドのRSVPフォームからは送信されない**（食事制限は外部フォームcaneat.jpで別途回収）。既存データ・将来利用との互換性のためAPI/DBの受け口としては維持 |
 | message | string | ✕ | 任意の文字列 | 最大500文字 |
 
 ### レスポンス

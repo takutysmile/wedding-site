@@ -357,6 +357,17 @@ tbody td {
   font-weight: 600;
 }
 
+.dietary-note {
+  font-size: 0.78rem;
+  color: #9a7a60;
+  background: #faf3ea;
+  border: 1px solid #e5d5c0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
 /* ---- ローディング ---- */
 .loading {
   text-align: center;

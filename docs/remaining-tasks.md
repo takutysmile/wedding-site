@@ -61,7 +61,7 @@
 - [ ] ロール `wedding-lambda-role` を作成し、上記ポリシーをアタッチ
 
 #### 2-3. Lambda
-- [ ] 関数 `wedding-rsvp-handler` を作成（Node.js 18.x）
+- [ ] 関数 `wedding-rsvp-handler` を作成（Node.js 20.x）
 - [ ] `src/backend/` で `npm install` を実行
 - [ ] `handler.js`・`lib/`・`routes/`・`node_modules/` をZIPに圧縮
   ```bash

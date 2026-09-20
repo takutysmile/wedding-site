@@ -3,6 +3,24 @@ const submitBtn = document.getElementById('submit-btn');
 const formAlert = document.getElementById('form-alert');
 
 // ============================================================
+// ご出席 — トグルボタン（ラジオボタンの代わり）
+// ============================================================
+const attendanceInput = document.getElementById('attendance');
+const attYesBtn = document.getElementById('att-yes');
+const attNoBtn  = document.getElementById('att-no');
+
+function pickAttendance(value) {
+  attendanceInput.value = value;
+  attYesBtn.classList.toggle('sel', value === 'attending');
+  attNoBtn.classList.toggle('sel', value === 'not_attending');
+  attYesBtn.setAttribute('aria-checked', String(value === 'attending'));
+  attNoBtn.setAttribute('aria-checked', String(value === 'not_attending'));
+}
+
+attYesBtn.addEventListener('click', () => pickAttendance('attending'));
+attNoBtn.addEventListener('click', () => pickAttendance('not_attending'));
+
+// ============================================================
 // エラートースト
 // ============================================================
 const errorToast = document.getElementById('error-toast');
@@ -32,11 +50,10 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearErrors();
 
-  const familyName   = document.getElementById('family-name').value.trim();
-  const givenName    = document.getElementById('given-name').value.trim();
-  const attendanceEl = document.querySelector('input[name="attendance"]:checked');
-  const dietary      = document.getElementById('dietary').value.trim();
-  const message      = document.getElementById('message').value.trim();
+  const familyName = document.getElementById('family-name').value.trim();
+  const givenName   = document.getElementById('given-name').value.trim();
+  const attendance  = attendanceInput.value;
+  const message     = document.getElementById('message').value.trim();
 
   let hasError = false;
   const missingLabels = [];
@@ -46,7 +63,7 @@ form.addEventListener('submit', async (e) => {
     missingLabels.push('お名前');
     hasError = true;
   }
-  if (!attendanceEl) {
+  if (!attendance) {
     setError('attendance-error', '出欠を選択してください');
     missingLabels.push('ご出席');
     hasError = true;
@@ -60,8 +77,7 @@ form.addEventListener('submit', async (e) => {
   submitBtn.textContent = '送信中...';
 
   const name    = `${familyName} ${givenName}`; // 姓と名をスペースで結合して送信
-  const payload = { name, attendance: attendanceEl.value };
-  if (dietary) payload.dietary_restrictions = dietary;
+  const payload = { name, attendance };
   if (message) payload.message = message;
 
   try {

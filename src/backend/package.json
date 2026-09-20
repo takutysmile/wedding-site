@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Wedding RSVP Lambda handler",
   "main": "handler.js",
+  "scripts": {
+    "test": "node --test test/"
+  },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.0.0",
     "@aws-sdk/lib-dynamodb": "^3.0.0"

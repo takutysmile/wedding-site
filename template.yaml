@@ -4,9 +4,14 @@ Description: Wedding RSVP - Serverless Stack
 
 Globals:
   Function:
-    Runtime: nodejs18.x
+    Runtime: nodejs24.x
     MemorySize: 128
     Timeout: 10
+    # 同時実行数を明示的には予約しない。
+    # このAWSアカウントはリージョンの同時実行数上限自体が小さいため
+    # （AWSの仕様上、予約すると最低100は未予約のまま残す必要があり、
+    #  アカウント上限が100未満だと予約自体ができない）、
+    # アカウント全体の上限がすでに暴走防止の役割を果たしている。
     Environment:
       Variables:
         DYNAMODB_TABLE: !Ref RsvpTable
@@ -16,6 +21,14 @@ Parameters:
     Type: String
     NoEcho: true
     Description: 管理画面パスワード（デプロイ時に指定）
+  BudgetNotificationEmail:
+    Type: String
+    Default: i.takuto.volleyball.2@gmail.com
+    Description: AWS Budgets（予算アラート）の通知先メールアドレス
+  MonthlyBudgetLimitUsd:
+    Type: Number
+    Default: 10
+    Description: 月間予算の上限額（USD）。超過見込み・実際の超過でメール通知する
 
 Resources:
 
@@ -86,6 +99,11 @@ Resources:
           - POST
           - DELETE
           - OPTIONS
+      # 全ルート共通のスロットリング。スパム送信・誤ったループ等の
+      # リクエスト急増を機械的に抑える（超過分は自動的に429を返す）
+      DefaultRouteSettings:
+        ThrottlingRateLimit: 5
+        ThrottlingBurstLimit: 10
 
   # ---- S3（フロント配信）----
   FrontendBucket:
@@ -156,6 +174,46 @@ Resources:
           - ErrorCode: 403
             ResponseCode: 200
             ResponsePagePath: /index.html
+
+  # ---- AWS Budgets（予算アラート）----
+  # 「予期せぬ課金」に早く気づくための通知。実費用が80%/100%を
+  # 超えたとき、および月内の予測費用が100%を超えそうなときにメール通知する。
+  # 費用を自動で止めるものではないため、通知を受けたら手動で対応すること。
+  MonthlyCostBudget:
+    Type: AWS::Budgets::Budget
+    Properties:
+      Budget:
+        BudgetName: !Sub wedding-site-monthly-budget-${AWS::StackName}
+        BudgetType: COST
+        TimeUnit: MONTHLY
+        BudgetLimit:
+          Amount: !Ref MonthlyBudgetLimitUsd
+          Unit: USD
+      NotificationsWithSubscribers:
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 80
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref BudgetNotificationEmail
+        - Notification:
+            NotificationType: ACTUAL
+            ComparisonOperator: GREATER_THAN
+            Threshold: 100
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref BudgetNotificationEmail
+        - Notification:
+            NotificationType: FORECASTED
+            ComparisonOperator: GREATER_THAN
+            Threshold: 100
+            ThresholdType: PERCENTAGE
+          Subscribers:
+            - SubscriptionType: EMAIL
+              Address: !Ref BudgetNotificationEmail
 
 Outputs:
   CloudFrontDomain:

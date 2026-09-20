@@ -25,7 +25,7 @@ DynamoDB を使用する。テーブルは1つのみ（MVP構成）。
 | id | String | ◯ | UUID（主キー） |
 | name | String | ◯ | 回答者の氏名 |
 | attendance | String | ◯ | `"attending"` or `"not_attending"` |
-| dietary_restrictions | String | ✕ | 食事制限・アレルギー情報 |
+| dietary_restrictions | String | ✕ | 食事制限・アレルギー情報。RSVPフォーム改訂後の新規回答には含まれない（外部フォームcaneat.jpに移行）。既存レコードとの互換性のため属性定義は維持 |
 | message | String | ✕ | メッセージ |
 | submitted_at | String | ◯ | ISO 8601形式のタイムスタンプ（UTC） |
 

@@ -2,7 +2,7 @@
 // 挙式日時 — デプロイ前に変更してください
 // ============================================================
 const WEDDING_DATE    = new Date('2027-01-23T10:00:00');
-const RSVP_CLOSE_DATE = new Date('2026-12-24T00:00:00');
+const RSVP_CLOSE_DATE = new Date('2026-12-16T00:00:00');
 
 // ============================================================
 // RSVP 回答期限チェック（12/24 以降はフォームを閉鎖）
@@ -34,6 +34,27 @@ setTimeout(() => {
   const flash = document.getElementById('page-flash');
   if (flash) flash.remove();
 }, 900);
+
+// ============================================================
+// ティッカー / ナビの実高さを測って --ticker-h・--header-h に反映
+// ティッカーとナビは別要素の固定配置なので、フォント読み込み等で
+// 高さが変わってもナビがティッカーの実高さぶんだけ正確に下にくるように
+// 実測値で上書きする（重なって見える問題への対応）
+// ============================================================
+const cbTicker = document.getElementById('cb-ticker');
+const gnavEl   = document.getElementById('gnav');
+
+function syncHeaderHeight() {
+  if (!cbTicker || !gnavEl) return;
+  const tickerH = cbTicker.offsetHeight;
+  document.documentElement.style.setProperty('--ticker-h', `${tickerH}px`);
+  document.documentElement.style.setProperty('--header-h', `${tickerH + gnavEl.offsetHeight}px`);
+}
+syncHeaderHeight();
+window.addEventListener('resize', syncHeaderHeight);
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(syncHeaderHeight);
+}
 
 // ============================================================
 // カスタムカーソル
@@ -113,7 +134,6 @@ const progressBar = document.getElementById('scroll-progress');
 const fabRsvp     = document.getElementById('fab-rsvp');
 const heroSection = document.getElementById('hero');
 const rsvpSection = document.getElementById('rsvp');
-const gnav        = document.getElementById('gnav');
 let lastScrollY   = 0;
 
 function onScroll() {
@@ -125,8 +145,10 @@ function onScroll() {
     parallaxEl.style.transform = `translateY(${y * 0.35}px)`;
   }
 
-  // ナビ: 下スクロール中は隠す
-  gnav.classList.toggle('is-hidden', y > lastScrollY && y > 100);
+  // ティッカー + ナビ: 下スクロール中は2つまとめて隠す
+  const hideNav = y > lastScrollY && y > 100;
+  if (cbTicker) cbTicker.classList.toggle('is-hidden', hideNav);
+  if (gnavEl)   gnavEl.classList.toggle('is-hidden', hideNav);
   lastScrollY = y;
 
   // 進捗バー
@@ -146,60 +168,37 @@ window.addEventListener('scroll', onScroll, { passive: true });
 onScroll(); // 初期状態を適用
 
 // ============================================================
-// モバイルメニュー
+// ドロワーメニュー
 // ============================================================
-const toggle  = document.getElementById('gnav-toggle');
-const navList = document.getElementById('gnav-list');
-toggle.addEventListener('click', () => {
-  const open = navList.classList.toggle('is-open');
-  toggle.classList.toggle('is-open', open);
-  toggle.setAttribute('aria-expanded', open);
-});
-navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  navList.classList.remove('is-open');
-  toggle.classList.remove('is-open');
+const toggle    = document.getElementById('gnav-toggle');
+const drawer    = document.getElementById('drawer');
+const drawerOvl = document.getElementById('drawer-ovl');
+const drawerNav = document.getElementById('drawer-nav');
+
+function openDrawer() {
+  drawer.classList.add('is-open');
+  drawerOvl.classList.add('is-open');
+  toggle.setAttribute('aria-expanded', 'true');
+}
+
+function closeDrawer() {
+  drawer.classList.remove('is-open');
+  drawerOvl.classList.remove('is-open');
   toggle.setAttribute('aria-expanded', 'false');
-}));
+}
 
-// ============================================================
-// Hero 文字エフェクト（ウォブル + グリッチ）PC: hover / SP: tap
-// ============================================================
-const heroLetters = Array.from(document.querySelectorAll('.hero-letter'));
-
-setTimeout(() => {
-
-  function wobble(letter) {
-    if (letter.classList.contains('is-glitching')) return;
-    letter.classList.add('is-wobbling');
-    letter.addEventListener('animationend', () => letter.classList.remove('is-wobbling'), { once: true });
-  }
-
-  heroLetters.forEach(letter => {
-    letter.addEventListener('mouseenter',  () => wobble(letter));          // PC
-    letter.addEventListener('touchstart',  () => wobble(letter), { passive: true }); // SP
-  });
-
-  // ---- 定期グリッチ（ランダム1文字） ----
-  function triggerGlitch() {
-    const target = heroLetters[Math.floor(Math.random() * heroLetters.length)];
-    if (target.classList.contains('is-wobbling')) return;
-    target.classList.add('is-glitching');
-    target.addEventListener('animationend', () => target.classList.remove('is-glitching'), { once: true });
-  }
-  // 最初のグリッチは2秒後、以降4〜7秒ランダム間隔
-  function scheduleGlitch() {
-    const delay = 4000 + Math.random() * 3000;
-    setTimeout(() => { triggerGlitch(); scheduleGlitch(); }, delay);
-  }
-  setTimeout(scheduleGlitch, 2000);
-
-}, 1500);
+toggle.addEventListener('click', () => {
+  toggle.getAttribute('aria-expanded') === 'true' ? closeDrawer() : openDrawer();
+});
+document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+drawerOvl.addEventListener('click', closeDrawer);
+drawerNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
 
 // ============================================================
 // ボタン Ripple エフェクト
 // ============================================================
 // position:relative / overflow:hidden は CSS 側で定義済み
-document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn => {
+document.querySelectorAll('.submit-btn, .gnav-rsvp-pill, .slider-btn').forEach(btn => {
   btn.addEventListener('click', function (e) {
     const rect   = this.getBoundingClientRect();
     const size   = Math.max(rect.width, rect.height);
@@ -324,7 +323,6 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn =>
 (function () {
   const hero  = document.getElementById('hero');
   const title = document.querySelector('.hero-title');
-  const badge = document.querySelector('.hero-float-badge');
   const sub   = document.querySelector('.hero-subtitle');
   const meta  = document.querySelector('.hero-meta-row');
   if (!hero || !title) return;
@@ -371,10 +369,6 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp, .slider-btn').forEach(btn =>
 
     // メタ行: スクロールのみ (ゆっくり)
     if (meta) meta.style.transform = `translateY(${-pct * 18}px)`;
-
-    // バッジ: タイトルと逆方向 + スクロールで早めに退場
-    if (badge) badge.style.transform =
-      `rotate(-3deg) translate(${-tx * 0.5}px, ${-ty * 0.3 - pct * 70}px)`;
 
     requestAnimationFrame(tick);
   }

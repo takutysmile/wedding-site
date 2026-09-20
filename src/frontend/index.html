@@ -6,7 +6,7 @@
   <title>TAKUTO &amp; MAYU | Wedding 2027.01.23</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Barlow+Condensed:wght@400;700&family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Barlow+Condensed:wght@400;600;700;900&family=Space+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
@@ -16,11 +16,13 @@
     <div class="os-bg-left"></div>
     <div class="os-bg-right"></div>
     <div class="os-content">
-      <p class="os-eyebrow">You are cordially invited</p>
-      <div class="os-welcome">WELCOME</div>
+      <span class="os-tag">✦ Wedding Invitation</span>
+      <div class="os-welcome">
+        <i class="os-welcome-icon" aria-hidden="true">💐</i>
+        <span class="os-welcome-text">TAKUTO <span class="os-welcome-amp">&amp;</span> MAYU</span>
+      </div>
       <div class="os-line"></div>
-      <p class="os-couple">TAKUTO <span class="os-amp">&amp;</span> MAYU</p>
-      <p class="os-date">January 23rd, 2027 · Tokyo</p>
+      <p class="os-date">2027 · January · 23rd · Tokyo</p>
     </div>
   </div>
 
@@ -31,23 +33,39 @@
   <!-- カスタムカーソル（PC のみ表示） -->
   <div class="cursor-dot" id="cursor-dot"></div>
 
+  <!-- ======== TOP TICKER ======== -->
+  <div class="cb-ticker" id="cb-ticker" aria-hidden="true">
+    <span class="cb-ticker-text">WEDDING ✦ TAKUTO &amp; MAYU ✦ 2027.01.23 ✦ TRUNK HOTEL CAT STREET ✦ SHIBUYA TOKYO ✦ WEDDING ✦ TAKUTO &amp; MAYU ✦ 2027.01.23 ✦ TRUNK HOTEL CAT STREET ✦ SHIBUYA TOKYO ✦</span>
+  </div>
+
   <!-- ======== GLOBAL NAV ======== -->
   <nav class="gnav" id="gnav">
     <a class="gnav-logo" href="#hero" aria-label="トップへ">
-      <span class="nav-logo-text">T<span class="nav-logo-amp">&amp;</span>M</span>
+      <i class="gnav-logo-icon" aria-hidden="true">💐</i>
+      <span class="nav-logo-text">TAKUTO <span class="nav-logo-amp">&amp;</span> MAYU</span>
     </a>
-    <button class="gnav-toggle" id="gnav-toggle" aria-label="メニュー開閉">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="gnav-list" id="gnav-list">
-      <li><a href="#greeting">Greeting</a></li>
-      <li><a href="#schedule">Schedule</a></li>
-      <li><a href="#venue">Venue</a></li>
-      <li><a href="#profile">Profile</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#rsvp" class="gnav-rsvp">RSVP</a></li>
-    </ul>
+    <div class="gnav-right">
+      <a class="gnav-rsvp-pill" href="#rsvp">RSVP</a>
+      <button class="gnav-toggle" id="gnav-toggle" aria-label="メニュー開閉" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
   </nav>
+
+  <!-- ======== DRAWER MENU ======== -->
+  <div class="drawer" id="drawer">
+    <div class="drawer-close" id="drawer-close" aria-label="メニューを閉じる">✕</div>
+    <p class="drawer-tag">Menu</p>
+    <nav class="drawer-nav" id="drawer-nav">
+      <a href="#greeting">Greeting</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#venue">Venue</a>
+      <a href="#profile">Profile</a>
+      <a href="#gallery">Gallery</a>
+      <a class="drawer-a-hot" href="#rsvp">RSVP ✦</a>
+    </nav>
+  </div>
+  <div class="drawer-ovl" id="drawer-ovl"></div>
 
   <!-- ======== HERO ======== -->
   <section class="hero" id="hero">
@@ -58,34 +76,31 @@
     <!-- ピンクオーバーレイ + ストライプ -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
-    <!-- フローティング Save the Date バッジ -->
-    <div class="hero-float-badge" aria-hidden="true">
-      <span class="hfb-tag">… Save the Date</span>
-      <p class="hfb-date">2027.01.23</p>
-    </div>
+    <p class="hero-credit">— Pre-wedding photo</p>
 
     <div class="hero-content">
+      <span class="hero-tag">✦ Wedding Invitation</span>
       <!-- BLOOM 3行タイトル -->
       <h1 class="hero-title" aria-label="TAKUTO AND MAYU WEDDING">
         <span class="hero-title-line">TAKUTO</span>
-        <span class="hero-title-line"><span class="hero-amp">&amp;</span> MAYU</span>
-        <span class="hero-title-line">WED.</span>
+        <span class="hero-title-line hero-title-amp">and</span>
+        <span class="hero-title-line">MAYU</span>
       </h1>
-      <p class="hero-subtitle">2027 &middot; January &middot; 23rd</p>
+      <p class="hero-subtitle">2027 &middot; January &middot; 23rd &middot; Sat</p>
 
       <!-- メタ行 -->
       <div class="hero-meta-row">
         <div class="hero-meta-cell">
-          <span class="hmc-label">Time</span>
+          <span class="hmc-label">Ceremony</span>
           <span class="hmc-value">10:00</span>
         </div>
         <div class="hero-meta-cell">
           <span class="hmc-label">Venue</span>
-          <span class="hmc-value">Trunk Hotel</span>
+          <span class="hmc-value">TRUNK(HOTEL)</span>
         </div>
         <div class="hero-meta-cell">
           <span class="hmc-label">RSVP</span>
-          <span class="hmc-value hmc-pink">12/23 〆</span>
+          <span class="hmc-value hmc-pink">12/15 〆</span>
         </div>
       </div>
     </div>
@@ -96,196 +111,219 @@
     </a>
   </section>
 
-  <!-- ======== MARQUEE TICKER ======== -->
-  <div class="marquee-band" aria-hidden="true">
-    <div class="marquee-inner">
-      <div class="marquee-group">
-        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
-        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
-        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
-      </div>
-      <div class="marquee-group" aria-hidden="true">
-        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
-        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
-        <span>WEDDING&nbsp;&nbsp;♡&nbsp;&nbsp;TAKUTO &amp; MAYU&nbsp;&nbsp;♡&nbsp;&nbsp;2027.01.23&nbsp;&nbsp;♡&nbsp;&nbsp;TRUNK CAT STREET&nbsp;&nbsp;♡&nbsp;&nbsp;SHIBUYA&nbsp;&nbsp;♡&nbsp;&nbsp;</span>
-      </div>
-    </div>
-  </div>
-
   <!-- ======== COUNTDOWN ======== -->
   <section class="countdown-wrap" id="countdown">
-    <p class="countdown-title">Days Until Our Wedding</p>
     <div class="countdown-board">
       <div class="cd-unit">
         <span class="cd-num" id="cd-days">--</span>
         <span class="cd-label">Days</span>
       </div>
-      <span class="cd-colon">:</span>
       <div class="cd-unit">
         <span class="cd-num" id="cd-hours">--</span>
         <span class="cd-label">Hours</span>
       </div>
-      <span class="cd-colon">:</span>
       <div class="cd-unit">
         <span class="cd-num" id="cd-mins">--</span>
         <span class="cd-label">Mins</span>
       </div>
-      <span class="cd-colon">:</span>
-      <div class="cd-unit">
+      <div class="cd-unit cd-unit--secs">
         <span class="cd-num" id="cd-secs">--</span>
         <span class="cd-label">Secs</span>
       </div>
     </div>
   </section>
 
+  <div class="div-block" aria-hidden="true">
+    <span class="div-block-text">GREETING ✦ ご挨拶 ✦ A LETTER FROM US ✦ GREETING ✦ ご挨拶 ✦ A LETTER FROM US ✦</span>
+  </div>
+
   <!-- ======== GREETING ======== -->
   <section class="sec greeting-sec" id="greeting" data-sec-num="01" data-bg-text="LOVE">
     <div class="sec-inner">
-      <p class="sec-en">Greeting</p>
-      <h2 class="sec-ja js-fade-item">ご挨拶</h2>
+      <h2 class="sec-title js-fade-item">GREETING</h2>
+      <div class="sec-rule js-fade-item"></div>
       <div class="greeting-body js-fade-item">
+        <p class="greeting-open">謹啓</p>
         <p>
-          このたび 私どもは 結婚式を挙げることとなりました<br>
-          日頃よりお世話になっている皆様に<br>
-          感謝の気持ちをお伝えしたく<br>
-          ささやかながら宴を催したいと思います<br><br>
-          ご多用中 誠に恐縮ではございますが<br>
-          ぜひご臨席賜りますよう お願い申し上げます
+          向寒の候<br>
+          皆様におかれましては益々ご清祥のこととお慶び申し上げます<br>
+          平素は格別のご厚情を賜り厚く御礼申し上げます
         </p>
-        <p class="greeting-sign">飯沼 拓人 &amp; 真由</p>
+        <p>
+          このたび私たちは結婚式を挙げることとなりました<br>
+          つきましては日頃お世話になっております皆様に<br>
+          ご挨拶を兼ねてささやかな小宴を催したく存じます
+        </p>
+        <p>
+          ご多用中誠に恐縮ではございますが<br>
+          何卒ご臨席賜りますよう謹んでご案内申し上げます
+        </p>
+        <p class="greeting-close">謹白</p>
+        <p class="greeting-sign">
+          <span class="greeting-sign-date">2026年11月吉日</span>
+          <span class="greeting-sign-names">飯沼拓人　生駒真由</span>
+        </p>
       </div>
     </div>
   </section>
+
+  <div class="div-block div-block--soft" aria-hidden="true">
+    <span class="div-block-text">SCHEDULE ✦ 当日の流れ ✦ CEREMONY ✦ RECEPTION ✦ SCHEDULE ✦ 当日の流れ ✦ CEREMONY ✦ RECEPTION ✦</span>
+  </div>
 
   <!-- ======== SCHEDULE ======== -->
   <section class="sec schedule-sec" id="schedule" data-sec-num="02" data-bg-text="TIME">
     <div class="sec-inner">
-      <p class="sec-en">Schedule</p>
-      <h2 class="sec-ja js-fade-item">当日の流れ</h2>
-      <ol class="timeline">
-        <li class="tl-item js-fade-item from-left">
-          <span class="tl-item-num">01</span>
-          <div class="tl-content">
-            <span class="tl-time">10:00</span>
-            <strong>挙式</strong>
-            <p>チャペルセレモニー</p>
-          </div>
-        </li>
-        <li class="tl-item js-fade-item from-left d1">
-          <span class="tl-item-num">02</span>
-          <div class="tl-content">
-            <span class="tl-time">11:30</span>
-            <strong>披露宴 受付開始</strong>
-            <p>ウェルカムドリンクをご用意しております</p>
-          </div>
-        </li>
-        <li class="tl-item js-fade-item from-left d2">
-          <span class="tl-item-num">03</span>
-          <div class="tl-content">
-            <span class="tl-time">12:00</span>
-            <strong>披露宴 開宴</strong>
-            <p>披露宴 / ご会食</p>
-          </div>
-        </li>
-        <li class="tl-item js-fade-item from-left d3">
-          <span class="tl-item-num">04</span>
-          <div class="tl-content">
-            <span class="tl-time">15:30</span>
-            <strong>お開き</strong>
-            <p>送迎バスをご用意しております。</p>
-          </div>
-        </li>
-      </ol>
+      <h2 class="sec-title js-fade-item">SCHEDULE</h2>
+      <div class="sec-rule js-fade-item"></div>
+
+      <div class="eventcard js-fade-item scale-in">
+        <div class="eventcard-top">
+          <div class="eventcard-date">2027年1月23日<span>（土）</span></div>
+          <div class="eventcard-date-en">Saturday &middot; January 23rd &middot; 2027</div>
+        </div>
+        <div class="eventcard-times">
+          <div class="eventcard-time"><span class="eventcard-time-k">挙式</span><span class="eventcard-time-v">10:00</span></div>
+          <div class="eventcard-time"><span class="eventcard-time-k">受付</span><span class="eventcard-time-v">10:20</span></div>
+          <div class="eventcard-time"><span class="eventcard-time-k">披露宴</span><span class="eventcard-time-v">10:45</span></div>
+        </div>
+        <div class="eventcard-place">
+          <p class="eventcard-place-k">Place</p>
+          <p class="eventcard-place-v">TRUNK(HOTEL) 1F MORI</p>
+        </div>
+        <div class="eventcard-note">
+          ※ なお当会場には駐車場のご用意がございません<br>
+          お車でのご来館はご遠慮いただきますようお願い申し上げます
+        </div>
+      </div>
+
+      <div class="rsvp-arrival js-fade-item">
+        <p class="rsvp-arrival-tag">挙式へのご列席について</p>
+        <p class="rsvp-arrival-text">
+          誠に恐れ入りますが当日挙式にもご列席賜りたく<br>
+          <b>午前9:45</b>までにお越しくださいますよう<br>
+          よろしくお願い申し上げます
+        </p>
+      </div>
     </div>
   </section>
+
+  <div class="div-block" aria-hidden="true">
+    <span class="div-block-text">VENUE ✦ TRUNK HOTEL ✦ CAT STREET ✦ 神宮前 ✦ SHIBUYA ✦ VENUE ✦ TRUNK HOTEL ✦ CAT STREET ✦ 神宮前 ✦</span>
+  </div>
 
   <!-- ======== VENUE ======== -->
   <section class="sec venue-sec" id="venue" data-sec-num="03" data-bg-text="HERE">
     <div class="sec-inner">
-      <p class="sec-en">Venue</p>
-      <h2 class="sec-ja js-fade-item">会場</h2>
-      <div class="venue-card js-fade-item scale-in">
-        <!-- 会場写真: src を実際の写真パスに変更してください -->
-        <!-- 例: <img class="venue-img" src="images/venue.jpg" alt="TRUNK HOTEL CAT STREET"> -->
-        <div class="venue-photo">
-          <img class="venue-img" src="https://picsum.photos/seed/trunk-hotel/800/600" alt="TRUNK HOTEL CAT STREET" loading="lazy">
+      <h2 class="sec-title js-fade-item">VENUE</h2>
+      <div class="sec-rule js-fade-item"></div>
+
+      <div class="venue-map js-fade-item scale-in">
+        <div class="venue-map-photo">
+          <img class="venue-map-img" src="img/access/img02.png" alt="TRUNK(HOTEL) CAT STREET 周辺アクセスマップ（原宿駅・渋谷駅・表参道・キャットストリート）" loading="lazy">
+          <span class="venue-map-pin" aria-hidden="true"></span>
         </div>
-        <div class="venue-detail">
-          <p class="venue-name">TRUNK(HOTEL) CAT STREET</p>
-          <p class="venue-addr">〒150-0001<br>東京都渋谷区神宮前5-31</p>
-          <p class="venue-tel">TEL: 03-5766-3210</p>
-          <a class="venue-map" href="https://goo.gl/CmNQT2" target="_blank" rel="noopener">Google マップで開く →</a>
+        <a class="venue-map-cta" href="https://www.google.com/maps/search/?api=1&query=TRUNK(HOTEL)+CAT+STREET+%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E7%A5%9E%E5%AE%AE%E5%89%8D5-31" target="_blank" rel="noopener">
+          <span aria-hidden="true">📍</span> Googleマップを開く <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="venue-detail js-fade-item">
+        <p class="venue-name">TRUNK(HOTEL)<br>CAT STREET　1F MORI</p>
+        <p class="venue-addr">〒150-0001　東京都渋谷区神宮前5-31<br>TEL 03-5766-3200</p>
+      </div>
+
+      <div class="venue-access">
+        <div class="venue-row js-fade-item">
+          <span class="venue-badge venue-badge--pk">渋谷駅</span>
+          <p class="venue-row-text">B1出口より徒歩5分<small>東京メトロ銀座・半蔵門・副都心線　JR各線　東急・京王井の頭線</small></p>
+        </div>
+        <div class="venue-row js-fade-item">
+          <span class="venue-badge">明治神宮前駅</span>
+          <p class="venue-row-text">7番出口より徒歩7分<small>東京メトロ千代田・副都心線　JR山手線〈原宿駅〉</small></p>
+        </div>
+        <div class="venue-row js-fade-item">
+          <span class="venue-badge venue-badge--pl">表参道駅</span>
+          <p class="venue-row-text">B2出口より徒歩12分<small>東京メトロ千代田・銀座・半蔵門線</small></p>
         </div>
       </div>
+
+      <a class="venue-btn js-fade-item" href="https://catstreet.trunk-hotel.com/access/" target="_blank" rel="noopener">📍 アクセスを確認する</a>
     </div>
   </section>
+
+  <div class="div-block div-block--soft" aria-hidden="true">
+    <span class="div-block-text">PROFILE ✦ GROOM ✦ BRIDE ✦ プロフィール ✦ PROFILE ✦ GROOM ✦ BRIDE ✦ プロフィール ✦</span>
+  </div>
 
   <!-- ======== PROFILE ======== -->
   <section class="sec profile-sec" id="profile" data-sec-num="04" data-bg-text="US">
     <div class="sec-inner sec-inner--wide">
-      <p class="sec-en js-stamp-item">Profile</p>
-      <h2 class="sec-ja js-fade-item">プロフィール</h2>
+      <h2 class="sec-title js-fade-item">PROFILE</h2>
+      <div class="sec-rule js-fade-item"></div>
 
       <div class="profile-grid">
 
         <div class="profile-card pp-groom js-fade-item from-left">
+          <p class="profile-role">Groom</p>
+          <p class="profile-no">No. 01</p>
           <div class="profile-photo">
             <span class="profile-photo-label">🤵</span>
           </div>
-          <div class="profile-info">
-            <p class="profile-role">Groom</p>
-            <p class="profile-number">No. 01</p>
-            <h3 class="profile-name">TAKUTO</h3>
-            <p class="profile-name-ja">飯沼 拓人</p>
-            <ul class="profile-qa">
-              <li class="qa-item"><span class="qa-q">出身地</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">血液型</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">仕事</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">趣味</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">好きな食べ物</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">彼女の好きなところ</span><span class="qa-a"><!-- 記入 --></span></li>
-            </ul>
-          </div>
+          <h3 class="profile-name">TAKUTO</h3>
+          <p class="profile-name-ja">飯沼 拓人</p>
+          <ul class="profile-qa">
+            <li class="qa-item"><span class="qa-q">出身地</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">血液型</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">仕事</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">趣味</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">好きな食べ物</span><span class="qa-a"><!-- 記入 --></span></li>
+          </ul>
         </div>
 
         <div class="profile-card pp-bride js-fade-item from-right">
+          <p class="profile-role">Bride</p>
+          <p class="profile-no">No. 02</p>
           <div class="profile-photo">
             <span class="profile-photo-label">👰</span>
           </div>
-          <div class="profile-info">
-            <p class="profile-role">Bride</p>
-            <p class="profile-number">No. 02</p>
-            <h3 class="profile-name">MAYU</h3>
-            <p class="profile-name-ja">飯沼 真由</p>
-            <ul class="profile-qa">
-              <li class="qa-item"><span class="qa-q">出身地</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">血液型</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">仕事</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">趣味</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">好きな食べ物</span><span class="qa-a"><!-- 記入 --></span></li>
-              <li class="qa-item"><span class="qa-q">彼の好きなところ</span><span class="qa-a"><!-- 記入 --></span></li>
-            </ul>
-          </div>
+          <h3 class="profile-name">MAYU</h3>
+          <p class="profile-name-ja">生駒 真由</p>
+          <ul class="profile-qa">
+            <li class="qa-item"><span class="qa-q">出身地</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">血液型</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">仕事</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">趣味</span><span class="qa-a"><!-- 記入 --></span></li>
+            <li class="qa-item"><span class="qa-q">好きな食べ物</span><span class="qa-a"><!-- 記入 --></span></li>
+          </ul>
         </div>
 
       </div>
     </div>
   </section>
 
+  <div class="div-block" aria-hidden="true">
+    <span class="div-block-text">GALLERY ✦ PHOTOS ✦ フォト ✦ MEMORIES ✦ GALLERY ✦ PHOTOS ✦ フォト ✦ MEMORIES ✦</span>
+  </div>
+
   <!-- ======== GALLERY ======== -->
   <section class="gallery-sec" id="gallery">
-    <p class="gallery-label sec-en js-stamp-item">Gallery</p>
+    <div class="gallery-head">
+      <h2 class="sec-title js-fade-item">GALLERY</h2>
+      <div class="sec-rule js-fade-item"></div>
+      <p class="gallery-hint js-fade-item">← Swipe to explore →</p>
+    </div>
 
     <div class="slider-wrap">
       <!-- 写真エリア -->
       <div class="slider-body">
         <div class="slider-track" id="slider-track">
-          <div class="slide"><div class="g-photo gp-1"></div></div>
-          <div class="slide"><div class="g-photo gp-2"></div></div>
-          <div class="slide"><div class="g-photo gp-3"></div></div>
-          <div class="slide"><div class="g-photo gp-4"></div></div>
-          <div class="slide"><div class="g-photo gp-5"></div></div>
-          <div class="slide"><div class="g-photo gp-6"></div></div>
+          <div class="slide"><div class="g-photo gp-1"><span class="g-photo-emoji">🌸</span><span class="g-photo-lbl">Photo 01</span></div></div>
+          <div class="slide"><div class="g-photo gp-2"><span class="g-photo-emoji">💐</span><span class="g-photo-lbl">Photo 02</span></div></div>
+          <div class="slide"><div class="g-photo gp-3"><span class="g-photo-emoji">💍</span><span class="g-photo-lbl">Photo 03</span></div></div>
+          <div class="slide"><div class="g-photo gp-4"><span class="g-photo-emoji">🥂</span><span class="g-photo-lbl">Photo 04</span></div></div>
+          <div class="slide"><div class="g-photo gp-5"><span class="g-photo-emoji">🎂</span><span class="g-photo-lbl">Photo 05</span></div></div>
+          <div class="slide"><div class="g-photo gp-6"><span class="g-photo-emoji">✨</span><span class="g-photo-lbl">Photo 06</span></div></div>
         </div>
         <!-- SP スワイプヒント -->
         <div class="swipe-hint" id="swipe-hint" aria-hidden="true">
@@ -310,23 +348,31 @@
     </div>
   </section>
 
+  <div class="div-block div-block--soft" aria-hidden="true">
+    <span class="div-block-text">RSVP ✦ 出欠のご回答 ✦ REPLY BY 12/15 ✦ RSVP ✦ 出欠のご回答 ✦ REPLY BY 12/15 ✦</span>
+  </div>
+
   <!-- ======== RSVP ======== -->
   <section class="rsvp-sec" id="rsvp">
     <div class="sec-inner">
-      <p class="sec-en">RSVP</p>
-      <h2 class="sec-ja js-fade-item">出欠のご回答</h2>
+      <h2 class="sec-title js-fade-item">RSVP</h2>
+      <div class="sec-rule js-fade-item"></div>
 
       <!-- 回答期限の注意書き（期限内のみ表示） -->
       <div class="rsvp-deadline-note js-fade-item" id="rsvp-deadline-note">
-        <span class="rsvp-deadline-chip">DEADLINE</span>
-        <span>お手数ですが、挙式1か月前の <strong>2026年12月23日（水）</strong> までにご回答いただけますと幸いです。</span>
+        <div>
+          <span class="rsvp-dl-lbl">Deadline</span>
+          <p class="rsvp-dl-date">2026.12.15</p>
+          <p class="rsvp-dl-jp">12月15日（火）までにご回答をお願いいたします</p>
+        </div>
+        <span class="rsvp-dl-star" aria-hidden="true">✦</span>
       </div>
 
-      <!-- 期限切れメッセージ（12/24以降に表示） -->
+      <!-- 期限切れメッセージ（12/16以降に表示） -->
       <div class="rsvp-closed" id="rsvp-closed">
         <div class="rsvp-closed-stamp">THANK YOU</div>
         <p class="rsvp-closed-msg">
-          大変恐れ入りますが、Web での受付期間（12月23日）が終了いたしました。<br>
+          大変恐れ入りますが、Web での受付期間（12月15日）が終了いたしました。<br>
           お手数をおかけしますが、ご出欠のご連絡を<br>
           <strong>TAKUTO または MAYU</strong> まで直接お知らせいただけますと大変助かります。<br>
           どうぞよろしくお願いいたします。
@@ -354,22 +400,12 @@
 
           <div class="field">
             <label>ご出席<span class="required-badge">必須</span></label>
-            <div class="radio-row">
-              <div class="radio-card">
-                <input type="radio" id="att-yes" name="attendance" value="attending">
-                <label for="att-yes">出席</label>
-              </div>
-              <div class="radio-card">
-                <input type="radio" id="att-no" name="attendance" value="not_attending">
-                <label for="att-no">欠席</label>
-              </div>
+            <input type="hidden" id="attendance" name="attendance" value="">
+            <div class="attend-row" role="radiogroup" aria-label="ご出席">
+              <button type="button" class="attend-btn" id="att-yes" role="radio" aria-checked="false">ご出席</button>
+              <button type="button" class="attend-btn" id="att-no" role="radio" aria-checked="false">ご欠席</button>
             </div>
             <div class="field-error" id="attendance-error"></div>
-          </div>
-
-          <div class="field">
-            <label for="dietary">食事制限・アレルギー<span class="optional-note">任意</span></label>
-            <input type="text" id="dietary" name="dietary_restrictions" placeholder="例：甲殻類アレルギー" maxlength="200">
           </div>
 
           <div class="field">
@@ -379,6 +415,12 @@
 
           <button type="submit" class="submit-btn" id="submit-btn">送信する</button>
         </form>
+
+        <div class="diet-note">
+          <p class="diet-note-tag">✦ Dietary Requirements</p>
+          <p class="diet-note-text">お食事に制限がある方はお手数ですが<br>以下URLサイトからご回答をお願いいたします</p>
+          <a class="diet-note-link" href="https://caneat.jp/45/event/2c537a6f" target="_blank" rel="noopener">caneat.jp — お食事制限フォーム →</a>
+        </div>
       </div>
 
       <!-- 送信成功アニメーション -->
@@ -394,9 +436,8 @@
 
   <!-- ======== FOOTER ======== -->
   <footer class="site-footer">
-    <p class="footer-logo">T<span class="footer-logo-amp">&amp;</span>M</p>
-    <p class="footer-names">TAKUTO &amp; MAYU</p>
-    <p class="footer-date">2027.01.23</p>
+    <p class="footer-logo"><i aria-hidden="true">💐</i>TAKUTO &amp; MAYU</p>
+    <p class="footer-date">2027 &middot; Jan &middot; 23 &middot; Trunk Hotel &middot; Shibuya</p>
     <nav class="footer-nav" aria-label="フッターナビゲーション">
       <a href="#greeting">Greeting</a>
       <a href="#schedule">Schedule</a>
@@ -406,7 +447,6 @@
       <a href="#rsvp">RSVP</a>
     </nav>
     <p class="footer-copy">&copy; 2027 TAKUTO &amp; MAYU Wedding.</p>
-    <p class="footer-credit">Built by takuto.iinuma with Claude</p>
   </footer>
 
   <!-- エラートースト -->
@@ -418,8 +458,8 @@
 
   <!-- SP フローティングRSVPボタン -->
   <a class="fab-rsvp" id="fab-rsvp" href="#rsvp" aria-label="出欠を回答する">
-    <span class="fab-heart">♡</span>
-    <span class="fab-label">出欠のご回答</span>
+    <span class="fab-heart">💌</span>
+    <span class="fab-label">出欠を回答</span>
   </a>
 
   <script src="js/config.js"></script>
