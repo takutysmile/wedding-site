@@ -283,16 +283,16 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp-pill, .slider-btn').forEach(b
   function stopAuto()  { clearInterval(autoTimer); }
   startAuto();
 
-  // ドラッグ操作
-  // 以前はタッチとマウスを両方処理していたが、実機（特にiOS Safari）では
-  // タッチ操作後に互換用の疑似マウスイベントが発火して二重に反応し、
-  // 状態が壊れて反応しなくなっていた。Pointer Events + setPointerCapture
-  // への統一も試したが、iOS Safari では逆にタッチ自体を拾わなくなる
-  // 問題が出たため、最終的に「タッチのみで処理し、マウスでのドラッグは
-  // 行わない」方針にしている（PC は ← → ボタン・ドット・キーボードで
-  // 操作できるため、ドラッグはタッチ専用でも支障がない）
-  let startX = 0, startY = 0, isDragging = false;
-  const onStart = (x, y) => { startX = x; startY = y; isDragging = true; track.classList.add('is-dragging'); stopAuto(); };
+  // ドラッグ操作（タッチのみ・最小構成）
+  // Pointer Events 化、touchmove内でのpreventDefault + touch-action の
+  // 組み合わせ、いずれもiOS Safari実機ではスワイプ自体を拾わなくなる
+  // 問題が出た。これ以上「賢く」しようとするとまた実機で壊れるリスクが
+  // あるため、最終的に touchstart/touchend の開始・終了位置だけを見る
+  // 最小構成にしている。preventDefault は一切呼ばない（ナナメに触れた
+  // 場合に多少ページが縦スクロールすることはあるが、確実にスワイプ自体は
+  // 検知できる方を優先している）
+  let startX = 0, isDragging = false;
+  const onStart = x => { startX = x; isDragging = true; track.classList.add('is-dragging'); stopAuto(); };
   const onEnd   = x => {
     if (!isDragging) return;
     isDragging = false;
@@ -302,15 +302,9 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp-pill, .slider-btn').forEach(b
   };
   const onCancel = () => { isDragging = false; track.classList.remove('is-dragging'); startAuto(); };
 
-  track.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
-  track.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    const dx = Math.abs(e.touches[0].clientX - startX);
-    const dy = Math.abs(e.touches[0].clientY - startY);
-    if (dx > dy && dx > 8) e.preventDefault(); // 横スワイプ中は縦スクロールを抑制
-  }, { passive: false });
+  track.addEventListener('touchstart',  e => onStart(e.touches[0].clientX), { passive: true });
   track.addEventListener('touchend',    e => onEnd(e.changedTouches[0].clientX), { passive: true });
-  track.addEventListener('touchcancel', onCancel);
+  track.addEventListener('touchcancel', onCancel, { passive: true });
 
   // キーボード
   document.addEventListener('keydown', e => {
