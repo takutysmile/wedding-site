@@ -114,6 +114,10 @@ function launchSuccess() {
   formWrap.style.display = 'none';
   complete.classList.add('show');
 
+  // フォームが消えてレイアウトが縮むと完了メッセージが画面外になることが
+  // あるため、表示位置までスクロールして追従させる
+  complete.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
   // 封筒アニメーション終了後にメッセージが自動表示（CSS 側で delay 1.0s）
 }
 

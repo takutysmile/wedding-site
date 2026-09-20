@@ -18,6 +18,7 @@
   --dusty:    #c97090;
   --mid:      #7a6060;
   --white:    #ffffff;
+  --bordeaux: #6d1f2e;
 
   --bebas:     'Bebas Neue', Impact, sans-serif;
   --cormorant: 'Cormorant Garamond', Georgia, serif;
@@ -27,7 +28,7 @@
   --jp-sans:   'Zen Kaku Gothic New', 'Hiragino Sans', 'Yu Gothic', sans-serif;
   --sans:      var(--jp-sans);
 
-  --nav-h:     52px;
+  --nav-h:     58px;
   /* 実測値は site.js が読み込み時にティッカー・ナビの実高さで上書きする */
   --ticker-h:  27px;
   --header-h:  79px;
@@ -56,36 +57,45 @@ body {
   justify-content: center;
   overflow: hidden;
   pointer-events: none; /* 裏のページと干渉しない */
-  animation: splashSlideUp 0.9s cubic-bezier(0.76, 0, 0.24, 1) 2.4s forwards;
+  /* 扉の奥行き感を出すための視点距離 */
+  perspective: 1400px;
+  /* 扉の回転アニメ（1.4s）が終わるまでは非表示にしない */
+  animation: splashSlideUp 1.4s cubic-bezier(0.42, 0, 1, 1) 2.4s forwards;
 }
 
-/* 観音開きの扉 — 黒（ink）の扉。中央の合わせ目にごく細いピンクの
-   ラインを入れて「扉」であることを強調する */
+/* 観音開きの扉 — 黒（ink）の扉。教会の扉のように、外側の辺を蝶番にして
+   奥へ回転しながら開く（スライドドアではなく開き戸の動き）。
+   遠近感のため回転角が進むほど見た目の変化は速くなるので、
+   その分イージングは「ゆっくり始まる」形にして、開き始めの動きが
+   きちんと目に見えるようにしている */
 .os-bg-left,
 .os-bg-right {
   position: fixed;
   top: 0; bottom: 0;
   width: 50%;
   background: var(--ink);
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
 }
 .os-bg-left {
   left: 0;
+  transform-origin: left center;
   border-right: 1px solid rgba(232,96,138,0.35);
-  animation: curtainLeft 0.85s cubic-bezier(0.76, 0, 0.24, 1) 2.4s forwards;
+  animation: doorOpenLeft 1.4s cubic-bezier(0.42, 0, 1, 1) 2.4s forwards;
 }
 .os-bg-right {
   right: 0;
+  transform-origin: right center;
   border-left: 1px solid rgba(232,96,138,0.35);
-  animation: curtainRight 0.85s cubic-bezier(0.76, 0, 0.24, 1) 2.4s forwards;
+  animation: doorOpenRight 1.4s cubic-bezier(0.42, 0, 1, 1) 2.4s forwards;
 }
 
-@keyframes curtainLeft  {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-100%); }
+@keyframes doorOpenLeft  {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(-95deg); }
 }
-@keyframes curtainRight {
-  from { transform: translateX(0); }
-  to   { transform: translateX(100%); }
+@keyframes doorOpenRight {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(95deg); }
 }
 @keyframes splashSlideUp {
   /* カーテンアニメ後にsplash自体も消える（pointer-eventsブロック解除） */
@@ -251,6 +261,7 @@ body {
   transition: transform 0.3s ease;
 }
 
+/* 下スクロール中はティッカーだけ隠す（ナビは常に表示） */
 .cb-ticker.is-hidden { transform: translateY(-100%); }
 
 /* ============================================================
@@ -267,10 +278,12 @@ body {
   height: var(--nav-h);
   background: var(--cream);
   border-bottom: var(--b);
-  transition: transform 0.3s ease;
+  transition: top 0.3s ease;
 }
 
-.gnav.is-hidden { transform: translateY(-100%); }
+/* ティッカーが隠れている間は、ナビがその分だけ自動で上に詰める
+   （ナビ自体は常に表示したまま） */
+.cb-ticker.is-hidden ~ .gnav { top: 0; }
 
 .gnav-logo {
   display: flex;
@@ -316,30 +329,31 @@ body {
 .gnav-rsvp-pill:hover { background: var(--hot); }
 
 /* Hamburger — 2ライン */
+/* タップ領域は44x44px程度を確保（タップしづらさ対策） */
 .gnav-toggle {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   background: var(--ink);
   border: none;
   cursor: pointer;
   padding: 0;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   align-items: center;
   justify-content: center;
 }
 
 .gnav-toggle span {
   display: block;
-  width: 14px;
-  height: 1.5px;
+  width: 18px;
+  height: 2px;
   background: var(--white);
   transition: all 0.25s;
 }
 
-.gnav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(2.75px) rotate(45deg); }
-.gnav-toggle[aria-expanded="true"] span:nth-child(2) { transform: translateY(-2.75px) rotate(-45deg); }
+.gnav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+.gnav-toggle[aria-expanded="true"] span:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
 
 /* ============================================================
    DRAWER MENU
@@ -659,31 +673,37 @@ body {
   padding-right: 40px;
 }
 
+/* セクション間の区切り。以前はマーキー帯だったが、区切り以上の意味は
+   ないのでシンプルな1本線+アイコンに簡略化 */
 .div-block {
-  height: 46px;
   display: flex;
   align-items: center;
-  overflow: hidden;
-  border-top: var(--b);
-  border-bottom: var(--b);
-  background: var(--pink);
+  justify-content: center;
+  padding: 22px 20px;
+  background: var(--cream);
+}
+.div-block::before,
+.div-block::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.15;
 }
 
-.div-block-text {
-  display: inline-block;
-  white-space: nowrap;
-  font-family: var(--barlow);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--white);
-  animation: tickerScroll 14s linear infinite;
-  padding-right: 60px;
+/* シックな単色のリボン（絵文字だとOSによって派手・子供っぽく見えるため
+   自前のミニマルなSVGに置き換えている） */
+.div-block-icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 14px;
+  margin: 0 14px;
+  color: var(--plum);
 }
-
-.div-block--soft { background: var(--blush); }
-.div-block--soft .div-block-text { color: var(--ink); }
+.div-block-icon path,
+.div-block-icon rect {
+  fill: currentColor;
+}
 
 @keyframes tickerScroll {
   from { transform: translateX(0); }
@@ -917,12 +937,30 @@ body {
   position: relative;
   font-family: var(--jp-title);
   font-weight: 700;
-  font-size: 1.35rem;
-  letter-spacing: 0.1em;
-  line-height: 1.4;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
 }
 
-.eventcard-date span { font-size: 0.9rem; letter-spacing: 0.14em; }
+/* 数字部分だけ大きく・Bebas Neueにして「年」「月」「日」とのメリハリを付ける。
+   Bebas Neueは和文フォントと同じfont-sizeでも見た目がかなり小さく出るため、
+   ここでは基準サイズの倍以上まで引き上げている */
+.eventcard-date-num {
+  font-family: var(--bebas);
+  font-size: 2.5rem;
+  letter-spacing: 0.02em;
+  margin: 0 1px;
+  line-height: 1;
+}
+
+/* 曜日部分は控えめに小さく・軽くする */
+.eventcard-date-week {
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+  margin-left: 2px;
+}
 
 .eventcard-date-en {
   position: relative;
@@ -971,11 +1009,10 @@ body {
 }
 
 .eventcard-place-k {
-  font-family: var(--mono);
-  font-size: 0.56rem;
-  letter-spacing: 0.22em;
+  font-family: var(--jp-title);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
   color: var(--plum);
-  text-transform: uppercase;
   font-weight: 700;
   margin-bottom: 5px;
 }
@@ -987,13 +1024,16 @@ body {
   letter-spacing: 0.03em;
 }
 
+/* 駐車場の注意書きは補足情報なので控えめに（挙式の集合時間の
+   注意書きとはっきり差をつける） */
 .eventcard-note {
-  background: var(--blush);
-  padding: 14px 16px;
+  background: var(--cream);
+  border-top: 1px solid #e0d2cc;
+  padding: 12px 16px;
   font-family: var(--jp-sans);
-  font-size: 0.72rem;
-  line-height: 1.95;
-  color: var(--ink);
+  font-size: 0.66rem;
+  line-height: 1.85;
+  color: var(--mid);
   letter-spacing: 0.02em;
 }
 
@@ -1335,6 +1375,10 @@ body {
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   will-change: transform;
   cursor: grab;
+  /* ブラウザに横スワイプはJS側で処理すると伝え、縦スクロールだけ
+     ネイティブに許可する。これがないと最初のスワイプがページの
+     縦スクロールと解釈されてしまい、1回目の操作が効かないことがある */
+  touch-action: pan-y;
 }
 
 .slider-track.is-dragging {
@@ -1802,32 +1846,43 @@ textarea {
 .diet-note-link:hover { background: var(--pink); color: var(--white); }
 
 /* 挙式へのご列席について */
+/* 大事な注意事項なので、他のノートより一段目立つカード表示にする */
+/* スケジュール内の一項目という位置づけなので、タイトルは他のラベル
+   （会場・Place など）と同じ「小さなラベル+本文」の構成にする。
+   タイトルと本文を同じ箱に入れない */
 .rsvp-arrival {
   position: relative;
   z-index: 1;
-  border-top: var(--b);
-  margin-top: 26px;
-  padding-top: 20px;
+  margin-top: 22px;
 }
 
+/* タイトルなので本文よりはっきり大きく */
 .rsvp-arrival-tag {
   font-family: var(--jp-title);
   font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.14em;
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
   color: var(--plum);
   margin-bottom: 10px;
 }
 
 .rsvp-arrival-text {
   font-family: var(--jp-sans);
-  font-size: 0.76rem;
+  font-size: 0.9rem;
   line-height: 2;
   color: var(--ink);
   letter-spacing: 0.03em;
+  padding-left: 12px;
+  border-left: 3px solid var(--bordeaux);
 }
 
-.rsvp-arrival-text b { color: var(--hot); font-weight: 700; }
+/* 時間だけは見落とされたくないのでボルドー・太字で目立たせる */
+.rsvp-arrival-text b {
+  color: var(--bordeaux);
+  font-weight: 700;
+  font-size: 1.2em;
+  letter-spacing: 0.03em;
+}
 
 /* Error toast */
 .error-toast {

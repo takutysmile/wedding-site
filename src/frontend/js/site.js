@@ -145,10 +145,10 @@ function onScroll() {
     parallaxEl.style.transform = `translateY(${y * 0.35}px)`;
   }
 
-  // ティッカー + ナビ: 下スクロール中は2つまとめて隠す
-  const hideNav = y > lastScrollY && y > 100;
-  if (cbTicker) cbTicker.classList.toggle('is-hidden', hideNav);
-  if (gnavEl)   gnavEl.classList.toggle('is-hidden', hideNav);
+  // ティッカーのみ下スクロール中に隠す（ナビは常に表示のまま。
+  // ナビは CSS 側で ticker が隠れた分だけ自動的に上へ詰める）
+  const hideTicker = y > lastScrollY && y > 100;
+  if (cbTicker) cbTicker.classList.toggle('is-hidden', hideTicker);
   lastScrollY = y;
 
   // 進捗バー
