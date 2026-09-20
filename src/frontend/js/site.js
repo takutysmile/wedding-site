@@ -283,11 +283,14 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp-pill, .slider-btn').forEach(b
   function stopAuto()  { clearInterval(autoTimer); }
   startAuto();
 
-  // ドラッグ操作（Pointer Events で touch/mouse/pen を一本化）
-  // touch と mouse を別々に処理すると、モバイルブラウザが互換性のために
-  // 発行する疑似マウスイベントと二重に反応してしまい、2回目以降の
-  // ドラッグで startX 等の状態がずれて反応しなくなることがあったため、
-  // Pointer Events に統一して1つの入力として確実に扱うようにしている
+  // ドラッグ操作
+  // 以前はタッチとマウスを両方処理していたが、実機（特にiOS Safari）では
+  // タッチ操作後に互換用の疑似マウスイベントが発火して二重に反応し、
+  // 状態が壊れて反応しなくなっていた。Pointer Events + setPointerCapture
+  // への統一も試したが、iOS Safari では逆にタッチ自体を拾わなくなる
+  // 問題が出たため、最終的に「タッチのみで処理し、マウスでのドラッグは
+  // 行わない」方針にしている（PC は ← → ボタン・ドット・キーボードで
+  // 操作できるため、ドラッグはタッチ専用でも支障がない）
   let startX = 0, startY = 0, isDragging = false;
   const onStart = (x, y) => { startX = x; startY = y; isDragging = true; track.classList.add('is-dragging'); stopAuto(); };
   const onEnd   = x => {
@@ -299,18 +302,15 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp-pill, .slider-btn').forEach(b
   };
   const onCancel = () => { isDragging = false; track.classList.remove('is-dragging'); startAuto(); };
 
-  track.addEventListener('pointerdown', e => {
-    track.setPointerCapture(e.pointerId);
-    onStart(e.clientX, e.clientY);
-  });
-  track.addEventListener('pointermove', e => {
+  track.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+  track.addEventListener('touchmove', e => {
     if (!isDragging) return;
-    const dx = Math.abs(e.clientX - startX);
-    const dy = Math.abs(e.clientY - startY);
+    const dx = Math.abs(e.touches[0].clientX - startX);
+    const dy = Math.abs(e.touches[0].clientY - startY);
     if (dx > dy && dx > 8) e.preventDefault(); // 横スワイプ中は縦スクロールを抑制
   }, { passive: false });
-  track.addEventListener('pointerup',     e => onEnd(e.clientX));
-  track.addEventListener('pointercancel', onCancel);
+  track.addEventListener('touchend',    e => onEnd(e.changedTouches[0].clientX), { passive: true });
+  track.addEventListener('touchcancel', onCancel);
 
   // キーボード
   document.addEventListener('keydown', e => {
