@@ -1879,8 +1879,9 @@ textarea {
 }
 
 /* 時間だけは見落とされたくないのでボルドー・太字で目立たせる */
+/* 挙式10:00の時刻表示と同じ色に揃える */
 .rsvp-arrival-text b {
-  color: var(--bordeaux);
+  color: var(--hot);
   font-weight: 700;
   font-size: 1.2em;
   letter-spacing: 0.03em;
