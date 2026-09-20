@@ -675,11 +675,13 @@ body {
 
 /* セクション間の区切り。以前はマーキー帯だったが、区切り以上の意味は
    ないのでシンプルな1本線+アイコンに簡略化 */
+/* 余白を大きく取ると区切り自体が「白いセクション」に見えてしまうため、
+   薄い一本の継ぎ目として見えるようコンパクトにする */
 .div-block {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 22px 20px;
+  padding: 10px 20px;
   background: var(--cream);
 }
 .div-block::before,
