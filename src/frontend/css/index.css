@@ -176,16 +176,17 @@ body {
   transform: rotateY(-90deg);
 }
 
+/* 途中に35%/70%のチェックポイントを挟んでいたが、cubic-bezierは
+   キーフレームの区間ごとに独立して再適用されるため、各区間の境目で
+   回転速度がいったんゼロ付近まで落ちてから再加速し、カクカクした
+   動きに見えていた。始点と終点だけにして、ひとつのイージングで
+   最後まで滑らかに開くようにする */
 @keyframes doorOpenLeft  {
   0%   { transform: rotateY(0deg); }
-  35%  { transform: rotateY(-26deg); }
-  70%  { transform: rotateY(-88deg); }
   100% { transform: rotateY(-138deg); }
 }
 @keyframes doorOpenRight {
   0%   { transform: rotateY(0deg); }
-  35%  { transform: rotateY(26deg); }
-  70%  { transform: rotateY(88deg); }
   100% { transform: rotateY(138deg); }
 }
 @keyframes splashSlideUp {
