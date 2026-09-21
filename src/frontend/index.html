@@ -20,17 +20,19 @@
     <div class="os-mask-bottom"></div>
     <div class="os-mask-left"></div>
     <div class="os-mask-right"></div>
-    <!-- 扉パネル本体。輪郭線・取っ手は各パネルの子要素として描き、
-         パネルと一緒に回転して開く（取っ手が扉に追従する／開いたあとに
-         線だけ残らないようにするため） -->
-    <div class="os-bg-left">
+    <!-- 扉パネル本体（黒い板＋木口の厚み） -->
+    <div class="os-bg-left"></div>
+    <div class="os-bg-right"></div>
+    <!-- 輪郭線・取っ手。扉パネルの子要素にはせず、同じ回転を独立にかけた
+         きょうだい要素にしている（SP実機での描画不具合を避けるため） -->
+    <div class="os-outline-left">
       <div class="os-edge os-edge-top"></div>
       <div class="os-edge os-edge-bottom"></div>
       <div class="os-edge os-edge-outer os-edge-l"></div>
       <div class="os-edge os-edge-seam os-edge-r"></div>
       <div class="os-handle os-edge-r"></div>
     </div>
-    <div class="os-bg-right">
+    <div class="os-outline-right">
       <div class="os-edge os-edge-top"></div>
       <div class="os-edge os-edge-bottom"></div>
       <div class="os-edge os-edge-outer os-edge-r"></div>

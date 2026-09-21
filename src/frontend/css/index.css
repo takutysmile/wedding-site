@@ -191,18 +191,40 @@ body {
   to   { pointer-events: none; visibility: hidden; }
 }
 
-/* 扉の輪郭線・取っ手 — それぞれの扉パネル（.os-bg-left/.os-bg-right）
-   の「子要素」として、単純なCSSの棒（div）で描く。パネルの子要素なので、
-   扉が開けば線も取っ手もそのまま扉に追従して奥へ回り込み、
-   backface-visibility:hidden により扉が裏返る瞬間に扉本体と同時に
-   スッと消える。
-   描画の開始タイミングは CSS の animation-delay ではなく、
-   site.js から .is-drawn クラスを付け外しして transition で発火させている
-   （SP実機で、複数の animation-delay 付きアニメーションが
-   transform-style:preserve-3d の親の中で足並みが揃わず、
-   最後にまとめてスナップする不具合が出たため。JS側で明示的に
-   クラスを切り替える方式は、その時点のスタイルが同期的に確定するので
-   同じ崩れが起きない） */
+/* 扉の輪郭線・取っ手 — .os-bg-left/.os-bg-right（黒い扉本体、
+   transform-style:preserve-3d で厚みの木口トリックを使っている）の
+   「子要素」には置かず、.os-outline-left/.os-outline-right という
+   別のきょうだい要素に入れている。
+   SP実機で、preserve-3d な親の中に入れた子要素のアニメーション／
+   transitionが毎フレーム描画されず、親の回転が実際に始まる瞬間に
+   まとめてスナップする不具合が出たため（transform-origin指定や
+   will-change、JSでのクラス切り替えなど複数のアプローチを試したが
+   解決しなかった）。線の要素自体は3D的な厚みを持たないので、
+   preserve-3d を必要としない別レイヤーとして扉と同じ回転
+   （doorOpenLeft/Right）を独立にかけることで、扉と見た目は
+   ぴったり同期しつつ、preserve-3d の入れ子から完全に切り離している */
+.os-outline-left,
+.os-outline-right {
+  position: fixed;
+  top: 50%;
+  width: calc(var(--door-w) + 2px);
+  height: var(--door-h);
+  margin-top: calc(var(--door-h) / -2);
+  backface-visibility: hidden;
+}
+.os-outline-left {
+  left: calc(50% - var(--door-w));
+  transform-origin: 0% 50%;
+  animation: doorOpenLeft 1.9s cubic-bezier(0.45, 0, 0.3, 1) 2.6s forwards;
+}
+.os-outline-right {
+  left: calc(50% - 2px);
+  transform-origin: 100% 50%;
+  animation: doorOpenRight 1.9s cubic-bezier(0.45, 0, 0.3, 1) 2.6s forwards;
+}
+
+/* 描画の開始タイミングは CSS の animation-delay ではなく、
+   site.js から .is-drawn クラスを付け外しして transition で発火させている */
 .os-edge {
   position: absolute;
   background: rgba(255,255,255,0.6);
@@ -222,8 +244,8 @@ body {
 }
 .os-edge-top    { top: 3%; }
 .os-edge-bottom { bottom: 3%; }
-.os-bg-left .os-edge-top,
-.os-bg-left .os-edge-bottom {
+.os-outline-left .os-edge-top,
+.os-outline-left .os-edge-bottom {
   transform-origin: 100% 50%;
 }
 
