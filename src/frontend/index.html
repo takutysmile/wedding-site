@@ -93,11 +93,10 @@
 
   <!-- ======== HERO ======== -->
   <section class="hero" id="hero">
-    <!-- 背景写真: url('...') を実際の写真パスに変更してください -->
-    <div class="hero-parallax" id="hero-parallax"
-      style="background-image:url('https://picsum.photos/seed/wedding2027/1920/1080')">
-    </div>
-    <!-- ピンクオーバーレイ + ストライプ -->
+    <!-- 背景写真: URLはCSS側(.hero-parallax / @media)で管理。
+         スマホ用(縦長クロップ)とPC用(横長クロップ)を出し分ける -->
+    <div class="hero-parallax" id="hero-parallax"></div>
+    <!-- 可読性スクリム -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
     <p class="hero-credit">— Pre-wedding photo</p>

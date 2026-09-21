@@ -628,10 +628,14 @@ body {
     linear-gradient(168deg, #fde8ea 0%, #f9cfd6 38%, #f0a8b8 66%, #d98098 100%);
 }
 
-/* 背景写真レイヤー（パララックス対応）。実写真が設定されるとフォールバックの上に重なる */
+/* 背景写真レイヤー（パララックス対応）。実写真が設定されるとフォールバックの上に重なる。
+   スマホは縦長クロップ、PCは横長クロップの写真を出し分ける（cover 1枚だと
+   どちらかの画面幅で不自然な拡大・トリミングになるため）。
+   実写真が決まったら下の2つのurl()を差し替えるだけでOK */
 .hero-parallax {
   position: absolute;
   inset: -80px 0;
+  background-image: url('https://picsum.photos/seed/wedding2027/900/1400');
   background-size: cover;
   background-position: center;
   will-change: transform;
@@ -2548,6 +2552,11 @@ textarea {
   .hero-content {
     padding-top: calc(var(--header-h) + 20px);
     padding-bottom: 108px;
+  }
+
+  /* PCは横長クロップの写真に切り替え */
+  .hero-parallax {
+    background-image: url('https://picsum.photos/seed/wedding2027/1920/1080');
   }
 
   .hero-credit { top: calc(var(--header-h) + 20px); }
