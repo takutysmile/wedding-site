@@ -69,7 +69,7 @@ form.addEventListener('submit', async (e) => {
     hasError = true;
   }
   if (hasError) {
-    showToast(`未入力の項目があります：${missingLabels.join('、')}`);
+    showToast(`未入力の項目があります：${missingLabels.join(' ')}`);
     return;
   }
 
@@ -91,13 +91,13 @@ form.addEventListener('submit', async (e) => {
       launchSuccess();
     } else {
       const data = await res.json().catch(() => ({}));
-      const msg  = data.error || '送信に失敗しました。もう一度お試しください。';
+      const msg  = data.error || '送信に失敗しました もう一度お試しください';
       showToast(msg);
       submitBtn.disabled    = false;
       submitBtn.textContent = '送信する';
     }
   } catch {
-    showToast('通信エラーが発生しました。インターネット接続をご確認ください。');
+    showToast('通信エラーが発生しました インターネット接続をご確認ください');
     submitBtn.disabled    = false;
     submitBtn.textContent = '送信する';
   }
