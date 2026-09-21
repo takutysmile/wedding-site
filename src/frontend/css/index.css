@@ -137,12 +137,14 @@ body {
 }
 .os-bg-left {
   left: calc(50% - var(--door-w));
-  transform-origin: left center;
+  /* キーワード（left/right/center）はiOS Safariで子要素のアニメーションが
+     補間されず最後にスナップする不具合が出たため、%指定に統一している */
+  transform-origin: 0% 50%;
   animation: doorOpenLeft 1.9s cubic-bezier(0.45, 0, 0.3, 1) 2.6s forwards;
 }
 .os-bg-right {
   left: calc(50% - 2px);
-  transform-origin: right center;
+  transform-origin: 100% 50%;
   animation: doorOpenRight 1.9s cubic-bezier(0.45, 0, 0.3, 1) 2.6s forwards;
 }
 
@@ -161,12 +163,12 @@ body {
 }
 .os-bg-left::after {
   right: -26px;
-  transform-origin: left center;
+  transform-origin: 0% 50%;
   transform: rotateY(90deg);
 }
 .os-bg-right::after {
   left: -26px;
-  transform-origin: right center;
+  transform-origin: 100% 50%;
   background: linear-gradient(270deg, rgba(0,0,0,0.9), rgba(0,0,0,0.15));
   transform: rotateY(-90deg);
 }
@@ -211,8 +213,10 @@ body {
   height: 1.4px;
   transform: scaleX(0);
   /* 継ぎ目（中央）側から蝶番（外側）側へ伸びるのが既定。
-     左パネルだけ継ぎ目が右側にあるので下で反転する */
-  transform-origin: left;
+     左パネルだけ継ぎ目が右側にあるので下で反転する。
+     キーワード指定はiOS Safariで子要素のアニメーションが補間されず
+     最後にスナップする不具合が出たため%指定にしている */
+  transform-origin: 0% 50%;
   animation-delay: 0.15s;
   animation-duration: 1.2s;
 }
@@ -220,7 +224,7 @@ body {
 .os-edge-bottom { bottom: 3%; }
 .os-bg-left .os-edge-top,
 .os-bg-left .os-edge-bottom {
-  transform-origin: right;
+  transform-origin: 100% 50%;
 }
 
 .os-edge-outer,
@@ -229,7 +233,7 @@ body {
   width: 1.4px;
   transform: scaleY(0);
   /* 縦方向は中央から上下へ同時に伸びるようにする */
-  transform-origin: center;
+  transform-origin: 50% 50%;
 }
 .os-edge-outer { animation-delay: 0.15s; animation-duration: 1.2s; }
 /* 中央の縦線（継ぎ目）は、TAKUTO & MAYU の文字が消え始める(1.95s)のと
@@ -247,7 +251,7 @@ body {
   /* 取っ手は元の真鍮色に戻す */
   background: #c9a15f;
   transform: scaleY(0);
-  transform-origin: center;
+  transform-origin: 50% 50%;
   /* TAKUTO & MAYU の文字（.os-content, 1.95s-2.25sでフェードアウト）が
      消えきってから取っ手が現れるようにする */
   animation: edgeGrow 0.3s ease 2.25s forwards;
