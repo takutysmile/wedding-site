@@ -461,12 +461,19 @@ body {
   height: var(--nav-h);
   background: var(--cream);
   border-bottom: var(--b);
-  transition: top 0.3s ease;
+  transition: top 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
 }
 
 /* ティッカーが隠れている間は、ナビがその分だけ自動で上に詰める
    （ナビ自体は常に表示したまま） */
 .cb-ticker.is-hidden ~ .gnav { top: 0; }
+
+/* 開いた直後はティッカーだけ流し、ナビはスクロールするまで非表示 */
+.gnav.is-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
 
 .gnav-logo {
   display: flex;
@@ -612,7 +619,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* ロゴを主役として上寄せに（以前はcenterで縦中央だった） */
+  justify-content: flex-start;
   overflow: hidden;
   /* 写真なし時のフォールバック — モックの淡いブラッシュグラデーション */
   background:
@@ -631,24 +639,18 @@ body {
   transition: opacity 0.4s ease;
 }
 
-/* 淡いスクリム + アニメストライプ（可読性確保、写真を暗くしすぎない） */
+/* 淡いスクリム（可読性確保、写真を暗くしすぎない）。斜めの白い網掛け
+   ストライプは廃止し、下方向へのグラデーションのみに */
 .hero-overlay {
   position: absolute;
   inset: 0;
   background-image:
-    repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(255,255,255,0.14) 8px, rgba(255,255,255,0.14) 16px),
     linear-gradient(180deg,
       rgba(255,255,255,0.10) 0%,
       rgba(255,255,255,0) 40%,
       rgba(255,245,248,0.42) 74%,
       rgba(255,250,248,0.80) 100%);
-  animation: stripeMove 5s linear infinite;
   z-index: 1;
-}
-
-@keyframes stripeMove {
-  from { background-position: 0 0, 0 0; }
-  to   { background-position: 56px 56px, 0 0; }
 }
 
 /* 写真クレジット + Wedding Invitation タグ */
@@ -664,33 +666,52 @@ body {
   color: rgba(42,31,26,0.45);
 }
 
-/* hero-content の最初の子として配置。ヒーロー内で確実にヘッダーの
-   下に収まる（画面サイズによって隠れてしまう問題への対応） */
-.hero-tag {
-  margin-bottom: 12px;
-  animation: fadeSlideUp 0.5s ease 0.15s both;
+/* ロゴ画像を主役にする。TAKUTO&MAYU・挙式情報は hero-info としてHero最下部へ */
+.hero-logo {
+  display: block;
+  width: min(104%, 720px);
+  height: auto;
+  margin: 0 auto;
+  filter: drop-shadow(0 10px 26px rgba(20,10,8,0.32));
+  opacity: 0;
+  animation: fadeSlideUp 0.6s ease 0.1s both, heroLogoFloat 4s ease-in-out 0.8s infinite;
 }
 
-/* Hero content */
+@keyframes heroLogoFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* Hero content — Hero全体の高さいっぱいに広げ、ロゴを上、補助情報を
+   margin-top:auto で最下部に押し下げる */
 .hero-content {
   position: relative;
   z-index: 4;
-  padding: calc(var(--header-h) + 60px) clamp(20px, 5vw, 80px) 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* 下部パディングはスクロールキュー(bottom:28px + 高さ約62px)と重ならない余白を確保 */
+  padding: calc(var(--header-h) + 4px) clamp(20px, 5vw, 80px) 108px;
   max-width: 880px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* BLOOM 3行タイトル — 1行ずつスライドイン */
+.hero-info {
+  margin-top: auto;
+}
+
+/* TAKUTO & MAYU — ロゴ画像の補助として小さく添えるだけの役割 */
 .hero-title {
   font-family: var(--bebas);
-  font-size: clamp(4rem, 17vw, 76px);
-  line-height: 0.88;
-  letter-spacing: 0.005em;
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  line-height: 1.2;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+  opacity: 0.85;
 }
 
 .hero-title-line {
@@ -742,13 +763,13 @@ body {
 
 .hero-subtitle {
   font-family: var(--barlow);
-  font-size: 0.8rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--plum);
-  margin-bottom: 28px;
-  opacity: 0;
+  margin-bottom: 16px;
+  opacity: 0.85;
   animation: fadeSlideUp 0.5s ease 0.9s forwards;
 }
 
@@ -772,8 +793,8 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 11px 13px;
-  gap: 3px;
+  padding: 8px 12px;
+  gap: 2px;
 }
 
 .hero-meta-cell + .hero-meta-cell {
@@ -790,7 +811,7 @@ body {
 
 .hmc-value {
   font-family: var(--bebas);
-  font-size: 1.1rem;
+  font-size: 0.92rem;
   color: var(--ink);
   letter-spacing: 0.03em;
   line-height: 1;
@@ -2523,14 +2544,10 @@ textarea {
   .rsvp-sec { padding: 72px 40px; }
   .gallery-sec { padding-top: 72px; }
 
-  /* ヒーロー: 縦高さを確保・タイトルを大きく */
+  /* ヒーロー: ロゴを主役にするため縦の余白は控えめに */
   .hero-content {
-    padding-top: calc(var(--header-h) + 100px);
-    padding-bottom: 60px;
-  }
-
-  .hero-title {
-    font-size: clamp(5rem, 9vw, 100px);
+    padding-top: calc(var(--header-h) + 20px);
+    padding-bottom: 108px;
   }
 
   .hero-credit { top: calc(var(--header-h) + 20px); }

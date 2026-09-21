@@ -192,6 +192,9 @@ function onScroll() {
   if (cbTicker) cbTicker.classList.toggle('is-hidden', hideTicker);
   lastScrollY = y;
 
+  // グロナビ: 開いた直後はティッカーだけ見せ、スクロールしたら現れる
+  if (gnavEl) gnavEl.classList.toggle('is-hidden', y <= 10);
+
   // 進捗バー
   if (progressBar) {
     progressBar.style.width = (docHeight > 0 ? (y / docHeight) * 100 : 0) + '%';

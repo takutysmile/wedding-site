@@ -63,7 +63,7 @@
   </div>
 
   <!-- ======== GLOBAL NAV ======== -->
-  <nav class="gnav" id="gnav">
+  <nav class="gnav is-hidden" id="gnav">
     <a class="gnav-logo" href="#hero" aria-label="トップへ">
       <i class="gnav-logo-icon" aria-hidden="true">💐</i>
       <span class="nav-logo-text">TAKUTO <span class="nav-logo-amp">&amp;</span> MAYU</span>
@@ -103,28 +103,33 @@
     <p class="hero-credit">— Pre-wedding photo</p>
 
     <div class="hero-content">
-      <span class="hero-tag">✦ Wedding Invitation</span>
-      <!-- BLOOM 3行タイトル -->
-      <h1 class="hero-title" aria-label="TAKUTO AND MAYU WEDDING">
-        <span class="hero-title-line">TAKUTO</span>
-        <span class="hero-title-line hero-title-amp">and</span>
-        <span class="hero-title-line">MAYU</span>
-      </h1>
-      <p class="hero-subtitle">2027 &middot; January &middot; 23rd &middot; Sat</p>
+      <!-- ロゴ画像を主役に。TAKUTO&MAYU・挙式情報は補助的に、Heroの最下部へ -->
+      <img class="hero-logo" src="img/wedding-bubble-logo.png" alt="WEDDING" width="900" height="300">
 
-      <!-- メタ行 -->
-      <div class="hero-meta-row">
-        <div class="hero-meta-cell">
-          <span class="hmc-label">Ceremony</span>
-          <span class="hmc-value">10:00</span>
-        </div>
-        <div class="hero-meta-cell">
-          <span class="hmc-label">Venue</span>
-          <span class="hmc-value">TRUNK(HOTEL)</span>
-        </div>
-        <div class="hero-meta-cell">
-          <span class="hmc-label">RSVP</span>
-          <span class="hmc-value hmc-pink">12/15 〆</span>
+      <!-- 補助情報一式。margin-top:auto でHero最下部に押し下げる -->
+      <div class="hero-info">
+        <!-- BLOOM 3行タイトル -->
+        <h1 class="hero-title" aria-label="TAKUTO AND MAYU WEDDING">
+          <span class="hero-title-line">TAKUTO</span>
+          <span class="hero-title-line hero-title-amp">and</span>
+          <span class="hero-title-line">MAYU</span>
+        </h1>
+        <p class="hero-subtitle">2027 &middot; January &middot; 23rd &middot; Sat</p>
+
+        <!-- メタ行 -->
+        <div class="hero-meta-row">
+          <div class="hero-meta-cell">
+            <span class="hmc-label">Ceremony</span>
+            <span class="hmc-value">10:00</span>
+          </div>
+          <div class="hero-meta-cell">
+            <span class="hmc-label">Venue</span>
+            <span class="hmc-value">TRUNK(HOTEL)</span>
+          </div>
+          <div class="hero-meta-cell">
+            <span class="hmc-label">RSVP</span>
+            <span class="hmc-value hmc-pink">12/15 〆</span>
+          </div>
         </div>
       </div>
     </div>
