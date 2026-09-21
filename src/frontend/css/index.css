@@ -646,10 +646,10 @@ body {
   inset: 0;
   background-image:
     linear-gradient(180deg,
-      rgba(255,255,255,0.10) 0%,
+      rgba(255,255,255,0.05) 0%,
       rgba(255,255,255,0) 40%,
-      rgba(255,245,248,0.42) 74%,
-      rgba(255,250,248,0.80) 100%);
+      rgba(255,245,248,0.22) 74%,
+      rgba(255,250,248,0.50) 100%);
   z-index: 1;
 }
 
@@ -704,13 +704,13 @@ body {
 /* TAKUTO & MAYU — ロゴ画像の補助として小さく添えるだけの役割 */
 .hero-title {
   font-family: var(--bebas);
-  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  font-size: clamp(1.1rem, 3.4vw, 1.4rem);
   line-height: 1.2;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   display: flex;
   flex-direction: column;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   opacity: 0.85;
 }
 
@@ -763,12 +763,12 @@ body {
 
 .hero-subtitle {
   font-family: var(--barlow);
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--plum);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   opacity: 0.85;
   animation: fadeSlideUp 0.5s ease 0.9s forwards;
 }
@@ -793,7 +793,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 8px 12px;
+  padding: 6px 10px;
   gap: 2px;
 }
 
@@ -811,7 +811,7 @@ body {
 
 .hmc-value {
   font-family: var(--bebas);
-  font-size: 0.92rem;
+  font-size: 0.8rem;
   color: var(--ink);
   letter-spacing: 0.03em;
   line-height: 1;
@@ -2552,9 +2552,26 @@ textarea {
 
   .hero-credit { top: calc(var(--header-h) + 20px); }
 
-  /* ヒーロー メタ行: 最大幅制限 */
+  /* PCはロゴ以外の補助情報をさらに縮小し、写真を目立たせる */
+  .hero-title {
+    font-size: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.54rem;
+    margin-bottom: 10px;
+  }
+
   .hero-meta-row {
-    max-width: 480px;
+    max-width: 360px;
+  }
+
+  .hero-meta-cell {
+    padding: 5px 8px;
+  }
+
+  .hmc-value {
+    font-size: 0.7rem;
   }
 
   /* プロフィール: カードを横並び2列 */
