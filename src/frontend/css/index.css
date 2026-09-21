@@ -57,50 +57,206 @@ body {
   justify-content: center;
   overflow: hidden;
   pointer-events: none; /* 裏のページと干渉しない */
-  /* 扉の奥行き感を出すための視点距離 */
-  perspective: 1400px;
-  /* 扉の回転アニメ（1.4s）が終わるまでは非表示にしない */
-  animation: splashSlideUp 1.4s cubic-bezier(0.42, 0, 1, 1) 2.4s forwards;
+  /* 扉の奥行き感を出すための視点距離。数値を小さくするほど
+     パースがきつくなり、回転がはっきり「開いている」と分かる見た目になる */
+  perspective: 650px;
+  /* 扉が2段階の回転を完全に終える（2.6s + 1.9s = 4.5s）→そのあと
+     額縁が飛び込むように消える（0.7s）→非表示、の順に揃える */
+  animation: splashSlideUp 0.7s linear 4.5s forwards;
 }
 
-/* 観音開きの扉 — 黒（ink）の扉。教会の扉のように、外側の辺を蝶番にして
-   奥へ回転しながら開く（スライドドアではなく開き戸の動き）。
-   遠近感のため回転角が進むほど見た目の変化は速くなるので、
-   その分イージングは「ゆっくり始まる」形にして、開き始めの動きが
-   きちんと目に見えるようにしている */
+:root {
+  /* 中央に浮かぶ「扉」1枚ぶんのサイズ（画面全体ではなく黒画面の中の一枚絵として） */
+  --door-w: clamp(110px, 32vw, 200px);
+  --door-h: clamp(320px, 72vh, 600px);
+}
+
+/* 扉のまわり（黒画面のうち扉の四角形の外側）を覆う額縁。
+   扉パネルはこの額縁の内側にぴったりはまるサイズで、開くとこの
+   四角い開口部からだけ実サイトが見える＝「扉に入るとサイトになる」。
+   扉パネルとの境目は2pxだけ内側へ重ねて、サブピクセルの丸め誤差で
+   隙間ができ奥のサイトが縦線状にチラつく（特に right:0 起点で幅を
+   計算する右マスクは左マスクと計算経路が違うため誤差が出やすい）
+   のを防いでいる */
+.os-mask-top,
+.os-mask-bottom,
+.os-mask-left,
+.os-mask-right {
+  position: fixed;
+  background: var(--ink);
+  /* 扉の回転（2段階）が完全に終わってから、扉を通り抜けて飛び込むように
+     外側へ流れながらフェードアウトする（回転の途中に重ねて始めない） */
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in;
+  animation-delay: 4.5s;
+  animation-fill-mode: forwards;
+}
+.os-mask-top {
+  top: 0; left: 0; right: 0;
+  height: calc(50% - (var(--door-h) / 2) + 2px);
+  animation-name: osMaskOutTop;
+}
+.os-mask-bottom {
+  bottom: 0; left: 0; right: 0;
+  height: calc(50% - (var(--door-h) / 2) + 2px);
+  animation-name: osMaskOutBottom;
+}
+.os-mask-left {
+  top: 0; bottom: 0; left: 0;
+  width: calc(50% - var(--door-w) + 2px);
+  animation-name: osMaskOutLeft;
+}
+.os-mask-right {
+  top: 0; bottom: 0; right: 0;
+  left: calc(50% + var(--door-w) - 2px);
+  animation-name: osMaskOutRight;
+}
+@keyframes osMaskOutTop    { to { opacity: 0; transform: translateY(-45%); } }
+@keyframes osMaskOutBottom { to { opacity: 0; transform: translateY(45%); } }
+@keyframes osMaskOutLeft   { to { opacity: 0; transform: translateX(-45%); } }
+@keyframes osMaskOutRight  { to { opacity: 0; transform: translateX(45%); } }
+
+/* 扉の輪郭線が描かれる → 描き終わったら開く、の2段構成。
+   1) .os-door-svg が黒画面の中に扉の形の線を描く
+   2) 描き終わったところで .os-bg-left/.os-bg-right（線と同じ位置・
+      同じ黒）が現れて、教会の扉のように外側の辺を蝶番にして
+      奥へ回転しながら開く */
 .os-bg-left,
 .os-bg-right {
   position: fixed;
-  top: 0; bottom: 0;
-  width: 50%;
+  top: 50%;
+  /* 中央の継ぎ目で1〜2pxオーバーラップさせ、サブピクセルの丸め誤差で
+     隙間ができて奥のサイトがチラつく（点線に見える）のを防ぐ */
+  width: calc(var(--door-w) + 2px);
+  height: var(--door-h);
+  margin-top: calc(var(--door-h) / -2);
   background: var(--ink);
-  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  box-shadow: 0 0 60px rgba(0,0,0,0.6);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 .os-bg-left {
-  left: 0;
+  left: calc(50% - var(--door-w));
   transform-origin: left center;
-  border-right: 1px solid rgba(232,96,138,0.35);
-  animation: doorOpenLeft 1.4s cubic-bezier(0.42, 0, 1, 1) 2.4s forwards;
+  animation: doorOpenLeft 1.9s cubic-bezier(0.45, 0, 0.3, 1) 2.6s forwards;
 }
 .os-bg-right {
-  right: 0;
+  left: calc(50% - 2px);
   transform-origin: right center;
-  border-left: 1px solid rgba(232,96,138,0.35);
-  animation: doorOpenRight 1.4s cubic-bezier(0.42, 0, 1, 1) 2.4s forwards;
+  animation: doorOpenRight 1.9s cubic-bezier(0.45, 0, 0.3, 1) 2.6s forwards;
+}
+
+/* 扉の「厚み（木口）」。開閉側の側面をL字に立てておくことで、
+   回転して奥へ開いたときにだけ側面が見え、"押し開く扉" だと
+   はっきりわかるようにする（平面のまま幅が縮むだけだと
+   自動ドア／スライドに見えてしまう） */
+.os-bg-left::after,
+.os-bg-right::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 26px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.9), rgba(0,0,0,0.15));
+  backface-visibility: hidden;
+}
+.os-bg-left::after {
+  right: -26px;
+  transform-origin: left center;
+  transform: rotateY(90deg);
+}
+.os-bg-right::after {
+  left: -26px;
+  transform-origin: right center;
+  background: linear-gradient(270deg, rgba(0,0,0,0.9), rgba(0,0,0,0.15));
+  transform: rotateY(-90deg);
 }
 
 @keyframes doorOpenLeft  {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(-95deg); }
+  0%   { transform: rotateY(0deg); }
+  35%  { transform: rotateY(-26deg); }
+  70%  { transform: rotateY(-88deg); }
+  100% { transform: rotateY(-138deg); }
 }
 @keyframes doorOpenRight {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(95deg); }
+  0%   { transform: rotateY(0deg); }
+  35%  { transform: rotateY(26deg); }
+  70%  { transform: rotateY(88deg); }
+  100% { transform: rotateY(138deg); }
 }
 @keyframes splashSlideUp {
-  /* カーテンアニメ後にsplash自体も消える（pointer-eventsブロック解除） */
+  /* 扉が開き切るまではsplash自体も消さない（pointer-eventsブロック解除） */
   from { pointer-events: none; }
   to   { pointer-events: none; visibility: hidden; }
+}
+
+/* 扉の輪郭線・取っ手 — それぞれの扉パネル（.os-bg-left/.os-bg-right）
+   の「子要素」として、単純なCSSの棒（div）で描く。SVGの
+   stroke-dasharray + vector-effect:non-scaling-stroke + 非均等スケール
+   （preserveAspectRatio:none）の組み合わせは、閉じていて完全に
+   見えないはずの状態でも角に小さな点が漏れて見えるレンダリング上の
+   崩れが起きたため、単純な scaleX/scaleY の伸長アニメーションに
+   置き換えて回避している。パネルの子要素なので、扉が開けば線も
+   取っ手もそのまま扉に追従して奥へ回り込み、backface-visibility:hidden
+   により扉が裏返る瞬間に扉本体と同時にスッと消える */
+.os-edge {
+  position: absolute;
+  background: rgba(255,255,255,0.6);
+  animation-name: edgeGrow;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+.os-edge-top,
+.os-edge-bottom {
+  left: 3%; right: 3%;
+  height: 1.4px;
+  transform: scaleX(0);
+  /* 継ぎ目（中央）側から蝶番（外側）側へ伸びるのが既定。
+     左パネルだけ継ぎ目が右側にあるので下で反転する */
+  transform-origin: left;
+  animation-delay: 0.15s;
+  animation-duration: 1.2s;
+}
+.os-edge-top    { top: 3%; }
+.os-edge-bottom { bottom: 3%; }
+.os-bg-left .os-edge-top,
+.os-bg-left .os-edge-bottom {
+  transform-origin: right;
+}
+
+.os-edge-outer,
+.os-edge-seam {
+  top: 3%; bottom: 3%;
+  width: 1.4px;
+  transform: scaleY(0);
+  /* 縦方向は中央から上下へ同時に伸びるようにする */
+  transform-origin: center;
+}
+.os-edge-outer { animation-delay: 0.15s; animation-duration: 1.2s; }
+/* 中央の縦線（継ぎ目）は、TAKUTO & MAYU の文字が消え始める(1.95s)のと
+   同じタイミングでアクションを開始する */
+.os-edge-seam  { animation-delay: 1.95s; animation-duration: 0.55s; }
+/* 蝶番側・継ぎ目側のどちらに来るかはパネルごとに異なる */
+.os-edge-l { left: 3%; }
+.os-edge-r { right: 3%; }
+
+.os-handle {
+  position: absolute;
+  top: 44%;
+  width: 2px;
+  height: 12%;
+  /* 取っ手は元の真鍮色に戻す */
+  background: #c9a15f;
+  transform: scaleY(0);
+  transform-origin: center;
+  /* TAKUTO & MAYU の文字（.os-content, 1.95s-2.25sでフェードアウト）が
+     消えきってから取っ手が現れるようにする */
+  animation: edgeGrow 0.3s ease 2.25s forwards;
+}
+.os-handle.os-edge-l { left: 12%; }
+.os-handle.os-edge-r { right: 12%; }
+
+@keyframes edgeGrow {
+  to { transform: scale(1); }
 }
 
 /* コンテンツ中央 */
@@ -112,8 +268,8 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  /* カーテンが開く 0.3s 前にフェードアウト */
-  animation: osContentOut 0.35s ease 2.05s both;
+  /* 扉が開き始める 0.3s 前にフェードアウト */
+  animation: osContentOut 0.3s ease 1.95s both;
 }
 
 @keyframes osContentOut {
@@ -1372,23 +1528,8 @@ body {
   overflow: hidden;
 }
 
-.slider-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform;
-  cursor: grab;
-  /* ブラウザに横スワイプはJS側で処理すると伝え、縦スクロールだけ
-     ネイティブに許可する。これがないと最初のスワイプがページの
-     縦スクロールと解釈されてしまい、1回目の操作が効かないことがある */
-  touch-action: pan-y;
-}
-
-.slider-track.is-dragging {
-  cursor: grabbing;
-  transition: none;
-}
-
-.slide { flex-shrink: 0; width: 100%; }
+.slider-body.swiper { cursor: grab; }
+.slider-body.swiper:active { cursor: grabbing; }
 
 .g-photo {
   width: 100%;
@@ -1402,7 +1543,7 @@ body {
   overflow: hidden;
 }
 
-.slide:hover .g-photo {
+.swiper-slide:hover .g-photo {
   transform: scale(1.04);
 }
 

@@ -220,100 +220,64 @@ document.querySelectorAll('.submit-btn, .gnav-rsvp-pill, .slider-btn').forEach(b
 });
 
 // ============================================================
-// Gallery Slider
+// Gallery Slider（Swiper.js）
 // ============================================================
+// スワイプ操作は自前のtouchstart/touchmove実装を3パターン試したが、
+// いずれも実機のiOS Safariで反応しなくなる問題が解決できなかった。
+// 実機のデバッグ環境がない状態で、実績のあるSwiper.js（世界的に
+// 広く使われ、iOS Safariの癖を含めて長年検証されているカルーセル
+// ライブラリ）に切り替え、車輪の再発明をやめている。
 (function () {
-  const track    = document.getElementById('slider-track');
+  const el       = document.getElementById('gallery-swiper');
   const prevBtn  = document.getElementById('slider-prev');
   const nextBtn  = document.getElementById('slider-next');
   const dotsWrap = document.getElementById('slider-dots');
   const curEl    = document.getElementById('slider-current');
   const totEl    = document.getElementById('slider-total');
-  if (!track) return;
+  if (!el || typeof Swiper === 'undefined') return;
 
-  const slides = track.querySelectorAll('.slide');
-  const total  = slides.length;
-  let current  = 0;
-  let autoTimer;
-
+  const total = el.querySelectorAll('.swiper-slide').length;
   totEl.textContent = pad(total);
 
-  slides.forEach((_, i) => {
+  // ドット生成
+  for (let i = 0; i < total; i++) {
     const dot = document.createElement('button');
     dot.className = 'slider-dot' + (i === 0 ? ' is-active' : '');
     dot.setAttribute('aria-label', `スライド ${i + 1}`);
-    dot.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); });
+    dot.addEventListener('click', () => swiper.slideToLoop(i));
     dotsWrap.appendChild(dot);
-  });
-
-  function goTo(n) {
-    // ((n % total) + total) % total → n が負になっても循環するインデックス計算
-    current = ((n % total) + total) % total;
-    track.style.transform = `translateX(-${current * 100}%)`;
-    curEl.textContent = pad(current + 1);
-    dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) =>
-      d.classList.toggle('is-active', i === current));
   }
 
-  const next = () => goTo(current + 1);
-  const prev = () => goTo(current - 1);
-
-  nextBtn.addEventListener('click', () => { stopAuto(); next(); startAuto(); });
-  prevBtn.addEventListener('click', () => { stopAuto(); prev(); startAuto(); });
-
-  // ---- SP スワイプヒント ----
   const hint = document.getElementById('swipe-hint');
+  const hideHint = () => hint && hint.classList.add('is-hidden');
   if (hint) {
-    // ギャラリーが見えたら表示 → 2.5秒後 or 最初のスワイプで消す
     const hintObserver = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
-        setTimeout(() => hint.classList.add('is-hidden'), 2500);
+        setTimeout(hideHint, 2500);
         hintObserver.disconnect();
       }
     }, { threshold: 0.5 });
-    hintObserver.observe(track);
-
-    const hideHint = () => hint.classList.add('is-hidden');
-    track.addEventListener('touchstart', hideHint, { once: true, passive: true });
-    nextBtn.addEventListener('click',     hideHint, { once: true });
-    prevBtn.addEventListener('click',     hideHint, { once: true });
+    hintObserver.observe(el);
   }
 
-  function startAuto() { autoTimer = setInterval(next, 4500); }
-  function stopAuto()  { clearInterval(autoTimer); }
-  startAuto();
-
-  // ドラッグ操作（タッチのみ・最小構成）
-  // Pointer Events 化、touchmove内でのpreventDefault + touch-action の
-  // 組み合わせ、いずれもiOS Safari実機ではスワイプ自体を拾わなくなる
-  // 問題が出た。これ以上「賢く」しようとするとまた実機で壊れるリスクが
-  // あるため、最終的に touchstart/touchend の開始・終了位置だけを見る
-  // 最小構成にしている。preventDefault は一切呼ばない（ナナメに触れた
-  // 場合に多少ページが縦スクロールすることはあるが、確実にスワイプ自体は
-  // 検知できる方を優先している）
-  let startX = 0, isDragging = false;
-  const onStart = x => { startX = x; isDragging = true; track.classList.add('is-dragging'); stopAuto(); };
-  const onEnd   = x => {
-    if (!isDragging) return;
-    isDragging = false;
-    track.classList.remove('is-dragging');
-    if (Math.abs(x - startX) > 40) { x < startX ? next() : prev(); }
-    startAuto();
-  };
-  const onCancel = () => { isDragging = false; track.classList.remove('is-dragging'); startAuto(); };
-
-  track.addEventListener('touchstart',  e => onStart(e.touches[0].clientX), { passive: true });
-  track.addEventListener('touchend',    e => onEnd(e.changedTouches[0].clientX), { passive: true });
-  track.addEventListener('touchcancel', onCancel, { passive: true });
-
-  // キーボード
-  document.addEventListener('keydown', e => {
-    const r = document.getElementById('gallery').getBoundingClientRect();
-    if (r.top < window.innerHeight && r.bottom > 0) {
-      if (e.key === 'ArrowLeft')  { stopAuto(); prev(); startAuto(); }
-      if (e.key === 'ArrowRight') { stopAuto(); next(); startAuto(); }
-    }
+  const swiper = new Swiper(el, {
+    loop: true,
+    speed: 500,
+    grabCursor: true,
+    keyboard: { enabled: true, onlyInViewport: true },
+    autoplay: { delay: 4500, disableOnInteraction: false },
+    on: {
+      slideChange(s) {
+        curEl.textContent = pad(s.realIndex + 1);
+        dotsWrap.querySelectorAll('.slider-dot').forEach((d, i) =>
+          d.classList.toggle('is-active', i === s.realIndex));
+      },
+      touchStart: hideHint,
+    },
   });
+
+  nextBtn.addEventListener('click', () => { swiper.slideNext(); hideHint(); });
+  prevBtn.addEventListener('click', () => { swiper.slidePrev(); hideHint(); });
 })();
 
 // ============================================================
