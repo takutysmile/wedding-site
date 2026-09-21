@@ -203,6 +203,12 @@ body {
 .os-edge {
   position: absolute;
   background: rgba(255,255,255,0.6);
+  /* iOS Safari: preserve-3d の親（.os-bg-left/right）自身のアニメーションが
+     まだ delay 中で始まっていない間、子要素のアニメーションが毎フレーム
+     描画されず、親のアニメーションが実際に動き出す瞬間にまとめて
+     スナップして見える不具合があった。will-change で子要素を独立した
+     合成レイヤーに昇格させ、親の状態と切り離して毎フレーム描画させる */
+  will-change: transform;
   animation-name: edgeGrow;
   animation-timing-function: ease;
   animation-fill-mode: forwards;
@@ -252,6 +258,7 @@ body {
   background: #c9a15f;
   transform: scaleY(0);
   transform-origin: 50% 50%;
+  will-change: transform;
   /* TAKUTO & MAYU の文字（.os-content, 1.95s-2.25sでフェードアウト）が
      消えきってから取っ手が現れるようにする */
   animation: edgeGrow 0.3s ease 2.25s forwards;
