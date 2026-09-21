@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" role="img" aria-label="TRUNK(HOTEL) CAT STREET 周辺アクセスマップ（原宿駅・渋谷駅・キャットストリート）">
+  <!-- 首都高速（装飾・薄め） -->
+  <line x1="935" y1="5" x2="845" y2="615" stroke="#2a1f1a" stroke-width="5" stroke-linecap="round" opacity="0.22"/>
+  <line x1="957" y1="5" x2="867" y2="615" stroke="#2a1f1a" stroke-width="5" stroke-linecap="round" opacity="0.22"/>
+
+  <!-- 明治通り -->
+  <line x1="15" y1="452" x2="800" y2="576" stroke="#2a1f1a" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- 表参道 -->
+  <polyline points="365,12 292,300 218,576" fill="none" stroke="#2a1f1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 青山通り -->
+  <polyline points="678,192 830,95 968,10" fill="none" stroke="#2a1f1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 渋谷方面への接続路 -->
+  <line x1="678" y1="192" x2="845" y2="558" stroke="#2a1f1a" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- キャットストリート（会場前の通り: ピンクで強調） -->
+  <polyline points="222,574 470,368 678,192" fill="none" stroke="#e8608a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 鉄道 -->
+  <line x1="180" y1="580" x2="820" y2="580" stroke="#2a1f1a" stroke-width="4"/>
+  <g stroke="#2a1f1a" stroke-width="4">
+    <line x1="210" y1="571" x2="210" y2="589"/>
+    <line x1="250" y1="571" x2="250" y2="589"/>
+    <line x1="290" y1="571" x2="290" y2="589"/>
+    <line x1="330" y1="571" x2="330" y2="589"/>
+    <line x1="370" y1="571" x2="370" y2="589"/>
+    <line x1="410" y1="571" x2="410" y2="589"/>
+    <line x1="450" y1="571" x2="450" y2="589"/>
+    <line x1="490" y1="571" x2="490" y2="589"/>
+    <line x1="530" y1="571" x2="530" y2="589"/>
+    <line x1="570" y1="571" x2="570" y2="589"/>
+    <line x1="610" y1="571" x2="610" y2="589"/>
+    <line x1="650" y1="571" x2="650" y2="589"/>
+    <line x1="690" y1="571" x2="690" y2="589"/>
+    <line x1="730" y1="571" x2="730" y2="589"/>
+    <line x1="770" y1="571" x2="770" y2="589"/>
+    <line x1="800" y1="571" x2="800" y2="589"/>
+  </g>
+
+  <!-- 駅ボックス -->
+  <rect x="8" y="560" width="172" height="40" fill="#fffdf8" stroke="#2a1f1a" stroke-width="4"/>
+  <text x="94" y="587" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" fill="#2a1f1a">HARAJUKU</text>
+
+  <rect x="820" y="560" width="172" height="40" fill="#fffdf8" stroke="#2a1f1a" stroke-width="4"/>
+  <text x="906" y="587" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="24" fill="#2a1f1a">SHIBUYA</text>
+
+  <!-- 通り名ラベル -->
+  <text transform="translate(200,300) rotate(-68)" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="19" fill="#2a1f1a">OMOTESANDO</text>
+  <text transform="translate(306,471) rotate(-40)" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="19" fill="#c2436b">CAT STREET</text>
+  <text transform="translate(407,544) rotate(9)" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="19" fill="#2a1f1a">MEIJI STREET</text>
+  <text transform="translate(823,81) rotate(-32)" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="18" fill="#2a1f1a">AOYAMA STREET</text>
+
+  <!-- 会場キャプション -->
+  <rect x="490" y="378" width="196" height="56" fill="#fffdf8" stroke="#e8608a" stroke-width="3"/>
+  <text x="588" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#2a1f1a">TRUNK(HOTEL)</text>
+  <text x="588" y="422" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="1" fill="#c2436b">CAT STREET</text>
+
+  <!-- 方位 -->
+  <g transform="translate(42,44)">
+    <line x1="0" y1="18" x2="0" y2="-18" stroke="#2a1f1a" stroke-width="4" stroke-linecap="round"/>
+    <polygon points="0,-24 -8,-10 8,-10" fill="#2a1f1a"/>
+    <text x="0" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="16" fill="#2a1f1a">N</text>
+  </g>
+</svg>

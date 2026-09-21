@@ -1275,15 +1275,15 @@ body {
 .venue-map-img {
   display: block;
   width: 100%;
-  aspect-ratio: 1736 / 1102;
+  aspect-ratio: 1000 / 620;
   object-fit: contain;
   background: #fff;
 }
 
-/* TRUNK(HOTEL) ロゴの実際の位置（画像に対する割合で指定） */
+/* 自作の案内図（venue-map.svg）内の会場マーカー位置（画像に対する割合で指定） */
 .venue-map-pin {
   position: absolute;
-  top: 54.5%; left: 53.5%;
+  top: 59.4%; left: 47%;
   width: 26px; height: 26px;
   background: var(--pink);
   border-radius: 50% 50% 50% 0;
