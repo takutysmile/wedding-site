@@ -192,39 +192,33 @@ body {
 }
 
 /* 扉の輪郭線・取っ手 — それぞれの扉パネル（.os-bg-left/.os-bg-right）
-   の「子要素」として、単純なCSSの棒（div）で描く。SVGの
-   stroke-dasharray + vector-effect:non-scaling-stroke + 非均等スケール
-   （preserveAspectRatio:none）の組み合わせは、閉じていて完全に
-   見えないはずの状態でも角に小さな点が漏れて見えるレンダリング上の
-   崩れが起きたため、単純な scaleX/scaleY の伸長アニメーションに
-   置き換えて回避している。パネルの子要素なので、扉が開けば線も
-   取っ手もそのまま扉に追従して奥へ回り込み、backface-visibility:hidden
-   により扉が裏返る瞬間に扉本体と同時にスッと消える */
+   の「子要素」として、単純なCSSの棒（div）で描く。パネルの子要素なので、
+   扉が開けば線も取っ手もそのまま扉に追従して奥へ回り込み、
+   backface-visibility:hidden により扉が裏返る瞬間に扉本体と同時に
+   スッと消える。
+   描画の開始タイミングは CSS の animation-delay ではなく、
+   site.js から .is-drawn クラスを付け外しして transition で発火させている
+   （SP実機で、複数の animation-delay 付きアニメーションが
+   transform-style:preserve-3d の親の中で足並みが揃わず、
+   最後にまとめてスナップする不具合が出たため。JS側で明示的に
+   クラスを切り替える方式は、その時点のスタイルが同期的に確定するので
+   同じ崩れが起きない） */
 .os-edge {
   position: absolute;
   background: rgba(255,255,255,0.6);
-  /* iOS Safari: preserve-3d の親（.os-bg-left/right）自身のアニメーションが
-     まだ delay 中で始まっていない間、子要素のアニメーションが毎フレーム
-     描画されず、親のアニメーションが実際に動き出す瞬間にまとめて
-     スナップして見える不具合があった。will-change で子要素を独立した
-     合成レイヤーに昇格させ、親の状態と切り離して毎フレーム描画させる */
   will-change: transform;
-  animation-name: edgeGrow;
-  animation-timing-function: ease;
-  animation-fill-mode: forwards;
+  transition: transform 1.2s ease;
 }
 .os-edge-top,
 .os-edge-bottom {
   left: 3%; right: 3%;
   height: 1.4px;
-  transform: scaleX(0);
+  /* scaleX(0)ぴったりだと行列が特異（分解不能）になり補間されず
+     最後にスナップすることがあるため、0.001にして非退化行列にしておく */
+  transform: scaleX(0.001);
   /* 継ぎ目（中央）側から蝶番（外側）側へ伸びるのが既定。
-     左パネルだけ継ぎ目が右側にあるので下で反転する。
-     キーワード指定はiOS Safariで子要素のアニメーションが補間されず
-     最後にスナップする不具合が出たため%指定にしている */
+     左パネルだけ継ぎ目が右側にあるので下で反転する */
   transform-origin: 0% 50%;
-  animation-delay: 0.15s;
-  animation-duration: 1.2s;
 }
 .os-edge-top    { top: 3%; }
 .os-edge-bottom { bottom: 3%; }
@@ -237,14 +231,11 @@ body {
 .os-edge-seam {
   top: 3%; bottom: 3%;
   width: 1.4px;
-  transform: scaleY(0);
+  transform: scaleY(0.001);
   /* 縦方向は中央から上下へ同時に伸びるようにする */
   transform-origin: 50% 50%;
 }
-.os-edge-outer { animation-delay: 0.15s; animation-duration: 1.2s; }
-/* 中央の縦線（継ぎ目）は、TAKUTO & MAYU の文字が消え始める(1.95s)のと
-   同じタイミングでアクションを開始する */
-.os-edge-seam  { animation-delay: 1.95s; animation-duration: 0.55s; }
+.os-edge-seam { transition-duration: 0.55s; }
 /* 蝶番側・継ぎ目側のどちらに来るかはパネルごとに異なる */
 .os-edge-l { left: 3%; }
 .os-edge-r { right: 3%; }
@@ -256,18 +247,17 @@ body {
   height: 12%;
   /* 取っ手は元の真鍮色に戻す */
   background: #c9a15f;
-  transform: scaleY(0);
+  transform: scaleY(0.001);
   transform-origin: 50% 50%;
   will-change: transform;
-  /* TAKUTO & MAYU の文字（.os-content, 1.95s-2.25sでフェードアウト）が
-     消えきってから取っ手が現れるようにする */
-  animation: edgeGrow 0.3s ease 2.25s forwards;
+  transition: transform 0.3s ease;
 }
 .os-handle.os-edge-l { left: 12%; }
 .os-handle.os-edge-r { right: 12%; }
 
-@keyframes edgeGrow {
-  to { transform: scale(1); }
+.os-edge.is-drawn,
+.os-handle.is-drawn {
+  transform: scale(1);
 }
 
 /* コンテンツ中央 */

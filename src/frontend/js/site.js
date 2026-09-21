@@ -36,6 +36,30 @@ setTimeout(() => {
 }, 900);
 
 // ============================================================
+// オープニング扉：輪郭線・取っ手の描画タイミングをJSでスケジュール
+// CSSのanimation-delayだけで並行に走らせると、SP実機（Android Chrome /
+// iOS Safari）で transform-style:preserve-3d の親（扉パネル）の中に
+// delay付きアニメーションが複数あるとき足並みが揃わず、線や取っ手が
+// 一番最後にまとめてスナップして見える不具合が出た。
+// クラスの付け外しでCSS transitionを明示的に発火させる方式なら、
+// その時点でスタイルが同期的に確定するので同じ崩れが起きない。
+// ============================================================
+(function () {
+  const splash = document.getElementById('opening-splash');
+  if (!splash) return;
+
+  function draw(selector, delayMs) {
+    setTimeout(() => {
+      splash.querySelectorAll(selector).forEach(el => el.classList.add('is-drawn'));
+    }, delayMs);
+  }
+
+  draw('.os-edge-top, .os-edge-bottom, .os-edge-outer', 150);
+  draw('.os-edge-seam', 1950);
+  draw('.os-handle', 2250);
+})();
+
+// ============================================================
 // ティッカー / ナビの実高さを測って --ticker-h・--header-h に反映
 // ティッカーとナビは別要素の固定配置なので、フォント読み込み等で
 // 高さが変わってもナビがティッカーの実高さぶんだけ正確に下にくるように
