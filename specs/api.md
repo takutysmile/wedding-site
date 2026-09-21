@@ -34,15 +34,17 @@ Content-Type: application/json
 ```json
 {
   "name": "山田 太郎",
+  "furigana": "やまだ たろう",
   "attendance": "attending",
   "dietary_restrictions": "甲殻類アレルギー",
-  "message": "おめでとうございます。楽しみにしています。"
+  "message": "おめでとうございます 楽しみにしています"
 }
 ```
 
 | フィールド | 型 | 必須 | 値 | 備考 |
 |---|---|---|---|---|
 | name | string | ◯ | 任意の文字列 | 1〜50文字 |
+| furigana | string | ◯ | ひらがな文字列 | 1〜50文字。フロントエンドでひらがなのみ許可のバリデーションを行うが、APIとしては文字種チェックはせず文字数のみ検証 |
 | attendance | string | ◯ | `"attending"` or `"not_attending"` | 出席/欠席 |
 | dietary_restrictions | string | ✕ | 任意の文字列 | 最大200文字。**フロントエンドのRSVPフォームからは送信されない**（食事制限は外部フォームcaneat.jpで別途回収）。既存データ・将来利用との互換性のためAPI/DBの受け口としては維持 |
 | message | string | ✕ | 任意の文字列 | 最大500文字 |
@@ -52,14 +54,14 @@ Content-Type: application/json
 **成功 200**
 ```json
 {
-  "message": "回答を受け付けました。"
+  "message": "回答を受け付けました"
 }
 ```
 
 **バリデーションエラー 400**
 ```json
 {
-  "error": "name は必須です。"
+  "error": "name は必須です"
 }
 ```
 
@@ -93,6 +95,7 @@ Authorization: Bearer <ADMIN_PASSWORD>
     {
       "id": "uuid-xxxx",
       "name": "山田 太郎",
+      "furigana": "やまだ たろう",
       "attendance": "attending",
       "dietary_restrictions": "甲殻類アレルギー",
       "message": "楽しみにしています。",

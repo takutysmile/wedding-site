@@ -50,10 +50,15 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearErrors();
 
-  const familyName = document.getElementById('family-name').value.trim();
-  const givenName   = document.getElementById('given-name').value.trim();
-  const attendance  = attendanceInput.value;
-  const message     = document.getElementById('message').value.trim();
+  const familyName     = document.getElementById('family-name').value.trim();
+  const givenName      = document.getElementById('given-name').value.trim();
+  const familyNameKana = document.getElementById('family-name-kana').value.trim();
+  const givenNameKana  = document.getElementById('given-name-kana').value.trim();
+  const attendance     = attendanceInput.value;
+  const message        = document.getElementById('message').value.trim();
+
+  // ひらがなのみ許可（伸ばし棒「ー」・繰り返し記号「ゝゞ」も許容）
+  const HIRAGANA_RE = /^[ぁ-ゖゝゞー]+$/;
 
   let hasError = false;
   const missingLabels = [];
@@ -61,6 +66,15 @@ form.addEventListener('submit', async (e) => {
   if (!familyName || !givenName) {
     setError('name-error', '姓・名を両方入力してください');
     missingLabels.push('お名前');
+    hasError = true;
+  }
+  if (!familyNameKana || !givenNameKana) {
+    setError('kana-error', 'ふりがなを両方入力してください');
+    missingLabels.push('ふりがな');
+    hasError = true;
+  } else if (!HIRAGANA_RE.test(familyNameKana) || !HIRAGANA_RE.test(givenNameKana)) {
+    setError('kana-error', 'ふりがなはひらがなで入力してください');
+    missingLabels.push('ふりがな');
     hasError = true;
   }
   if (!attendance) {
@@ -76,8 +90,9 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled    = true;
   submitBtn.textContent = '送信中...';
 
-  const name    = `${familyName} ${givenName}`; // 姓と名をスペースで結合して送信
-  const payload = { name, attendance };
+  const name     = `${familyName} ${givenName}`; // 姓と名をスペースで結合して送信
+  const furigana = `${familyNameKana} ${givenNameKana}`;
+  const payload  = { name, furigana, attendance };
   if (message) payload.message = message;
 
   try {

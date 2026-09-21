@@ -412,6 +412,21 @@
           </div>
 
           <div class="field">
+            <label>ふりがな<span class="required-badge">必須</span></label>
+            <div class="name-row">
+              <div class="name-col">
+                <input type="text" id="family-name-kana" name="family_name_kana" placeholder="やまだ" maxlength="24" autocomplete="off" aria-label="せい（ひらがな）">
+                <span class="name-sub">せい</span>
+              </div>
+              <div class="name-col">
+                <input type="text" id="given-name-kana" name="given_name_kana" placeholder="たろう" maxlength="24" autocomplete="off" aria-label="めい（ひらがな）">
+                <span class="name-sub">めい</span>
+              </div>
+            </div>
+            <div class="field-error" id="kana-error"></div>
+          </div>
+
+          <div class="field">
             <label>ご出席<span class="required-badge">必須</span></label>
             <input type="hidden" id="attendance" name="attendance" value="">
             <div class="attend-row" role="radiogroup" aria-label="ご出席">

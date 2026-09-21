@@ -32,18 +32,35 @@ test('POST /rsvp — rejects name over 50 chars', async () => {
   assert.match(JSON.parse(res.body).error, /50文字以内/);
 });
 
+test('POST /rsvp — rejects missing furigana', async () => {
+  const res = await handlePostRsvp(JSON.stringify({ name: '山田太郎', attendance: 'attending' }));
+  assert.equal(res.statusCode, 400);
+  assert.match(JSON.parse(res.body).error, /furigana は必須/);
+});
+
+test('POST /rsvp — rejects furigana over 50 chars', async () => {
+  const res = await handlePostRsvp(JSON.stringify({
+    name: '山田太郎',
+    furigana: 'あ'.repeat(51),
+    attendance: 'attending',
+  }));
+  assert.equal(res.statusCode, 400);
+  assert.match(JSON.parse(res.body).error, /50文字以内/);
+});
+
 test('POST /rsvp — rejects missing/invalid attendance', async () => {
-  const res = await handlePostRsvp(JSON.stringify({ name: '山田太郎' }));
+  const res = await handlePostRsvp(JSON.stringify({ name: '山田太郎', furigana: 'やまだたろう' }));
   assert.equal(res.statusCode, 400);
   assert.match(JSON.parse(res.body).error, /attendance/);
 
-  const res2 = await handlePostRsvp(JSON.stringify({ name: '山田太郎', attendance: 'maybe' }));
+  const res2 = await handlePostRsvp(JSON.stringify({ name: '山田太郎', furigana: 'やまだたろう', attendance: 'maybe' }));
   assert.equal(res2.statusCode, 400);
 });
 
 test('POST /rsvp — rejects message over 500 chars', async () => {
   const res = await handlePostRsvp(JSON.stringify({
     name: '山田太郎',
+    furigana: 'やまだたろう',
     attendance: 'attending',
     message: 'a'.repeat(501),
   }));
@@ -59,12 +76,14 @@ test('POST /rsvp — succeeds without dietary_restrictions (allergy field remove
   }, async () => {
     const res = await handlePostRsvp(JSON.stringify({
       name: '山田 太郎',
+      furigana: 'やまだ たろう',
       attendance: 'attending',
       message: 'おめでとう',
     }));
     assert.equal(res.statusCode, 200);
     assert.match(JSON.parse(res.body).message, /受け付けました/);
     assert.equal(putItem.name, '山田 太郎');
+    assert.equal(putItem.furigana, 'やまだ たろう');
     assert.equal(putItem.attendance, 'attending');
     assert.equal(putItem.message, 'おめでとう');
     assert.equal('dietary_restrictions' in putItem, false);
@@ -79,6 +98,7 @@ test('POST /rsvp — still accepts dietary_restrictions for backward compatibili
   }, async () => {
     const res = await handlePostRsvp(JSON.stringify({
       name: '山田 太郎',
+      furigana: 'やまだ たろう',
       attendance: 'not_attending',
       dietary_restrictions: '甲殻類アレルギー',
     }));
@@ -90,6 +110,7 @@ test('POST /rsvp — still accepts dietary_restrictions for backward compatibili
 test('POST /rsvp — rejects dietary_restrictions over 200 chars when present', async () => {
   const res = await handlePostRsvp(JSON.stringify({
     name: '山田太郎',
+    furigana: 'やまだたろう',
     attendance: 'attending',
     dietary_restrictions: 'a'.repeat(201),
   }));
@@ -99,7 +120,7 @@ test('POST /rsvp — rejects dietary_restrictions over 200 chars when present', 
 
 test('POST /rsvp — returns 500 on DynamoDB failure', async () => {
   await withMockSend(async () => { throw new Error('boom'); }, async () => {
-    const res = await handlePostRsvp(JSON.stringify({ name: '山田太郎', attendance: 'attending' }));
+    const res = await handlePostRsvp(JSON.stringify({ name: '山田太郎', furigana: 'やまだたろう', attendance: 'attending' }));
     assert.equal(res.statusCode, 500);
   });
 });

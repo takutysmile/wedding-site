@@ -111,9 +111,14 @@ function renderTable(items) {
 
     const date = formatDate(item.submitted_at);
 
+    const furigana = item.furigana
+      ? escHtml(item.furigana)
+      : '<span style="color:#ccc">—</span>';
+
     return `
       <tr>
         <td><strong>${escHtml(item.name)}</strong></td>
+        <td>${furigana}</td>
         <td>${attendanceBadge}</td>
         <td>${dietary}</td>
         <td style="max-width:200px;word-break:break-word;">${message}</td>
@@ -135,6 +140,7 @@ function renderTable(items) {
       <thead>
         <tr>
           <th>お名前</th>
+          <th>ふりがな</th>
           <th>出欠</th>
           <th>食事制限</th>
           <th>メッセージ</th>

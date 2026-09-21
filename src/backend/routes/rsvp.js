@@ -21,7 +21,7 @@ async function handlePostRsvp(rawBody) {
     return response(400, { error: 'リクエストボディが不正です' });
   }
 
-  const { name, attendance, dietary_restrictions, message } = body;
+  const { name, furigana, attendance, dietary_restrictions, message } = body;
 
   const trimmedName = typeof name === 'string' ? name.trim() : '';
   if (!trimmedName) {
@@ -29,6 +29,13 @@ async function handlePostRsvp(rawBody) {
   }
   if (trimmedName.length > 50) {
     return response(400, { error: 'name は50文字以内で入力してください' });
+  }
+  const trimmedFurigana = typeof furigana === 'string' ? furigana.trim() : '';
+  if (!trimmedFurigana) {
+    return response(400, { error: 'furigana は必須です' });
+  }
+  if (trimmedFurigana.length > 50) {
+    return response(400, { error: 'furigana は50文字以内で入力してください' });
   }
   if (!attendance || !['attending', 'not_attending'].includes(attendance)) {
     return response(400, { error: 'attendance は "attending" または "not_attending" を指定してください' });
@@ -53,6 +60,7 @@ async function handlePostRsvp(rawBody) {
   const item = {
     id: randomUUID(),
     name: trimmedName,
+    furigana: trimmedFurigana,
     attendance,
     submitted_at: new Date().toISOString(),
   };

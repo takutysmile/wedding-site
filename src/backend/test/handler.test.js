@@ -30,7 +30,7 @@ test('handler — POST /api/rsvp routes to RSVP handler', async () => {
     const res = await handler({
       requestContext: { http: { method: 'POST' } },
       rawPath: '/api/rsvp',
-      body: JSON.stringify({ name: '山田太郎', attendance: 'attending' }),
+      body: JSON.stringify({ name: '山田太郎', furigana: 'やまだたろう', attendance: 'attending' }),
     });
     assert.equal(res.statusCode, 200);
   });
@@ -38,7 +38,7 @@ test('handler — POST /api/rsvp routes to RSVP handler', async () => {
 
 test('handler — decodes base64-encoded body', async () => {
   await withMockSend(async () => ({}), async () => {
-    const raw = JSON.stringify({ name: '山田太郎', attendance: 'attending' });
+    const raw = JSON.stringify({ name: '山田太郎', furigana: 'やまだたろう', attendance: 'attending' });
     const res = await handler({
       requestContext: { http: { method: 'POST' } },
       rawPath: '/api/rsvp',

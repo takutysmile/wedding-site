@@ -24,6 +24,7 @@ DynamoDB を使用する。テーブルは1つのみ（MVP構成）。
 |---|---|---|---|
 | id | String | ◯ | UUID（主キー） |
 | name | String | ◯ | 回答者の氏名 |
+| furigana | String | ◯ | 回答者のふりがな（ひらがな） |
 | attendance | String | ◯ | `"attending"` or `"not_attending"` |
 | dietary_restrictions | String | ✕ | 食事制限・アレルギー情報。RSVPフォーム改訂後の新規回答には含まれない（外部フォームcaneat.jpに移行）。既存レコードとの互換性のため属性定義は維持 |
 | message | String | ✕ | メッセージ |
@@ -37,6 +38,7 @@ DynamoDB を使用する。テーブルは1つのみ（MVP構成）。
 {
   "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
   "name": "山田 太郎",
+  "furigana": "やまだ たろう",
   "attendance": "attending",
   "dietary_restrictions": "甲殻類アレルギー",
   "message": "おめでとうございます。楽しみにしています。",
