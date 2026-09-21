@@ -131,7 +131,10 @@ body {
   height: var(--door-h);
   margin-top: calc(var(--door-h) / -2);
   background: var(--ink);
-  box-shadow: 0 0 60px rgba(0,0,0,0.6);
+  /* box-shadowは付けない：右パネルはDOM順で左パネルより後に描画される
+     ため、右パネルの影が継ぎ目をまたいで左パネルの内側ににじみ、
+     左だけ継ぎ目付近がうっすら暗く見える非対称バグの原因になっていた。
+     黒背景に黒の影なのでほぼ見えず、なくても支障はない */
   backface-visibility: hidden;
   transform-style: preserve-3d;
 }
