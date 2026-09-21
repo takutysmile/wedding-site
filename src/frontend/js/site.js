@@ -38,7 +38,8 @@ checkRsvpDeadline();
   const el = document.getElementById('rsvp-arrival-text');
   if (!el) return;
   el.innerHTML =
-    '御多用中恐縮に存じますが当日親族紹介を行いますので<br>' +
+    '御多用中恐縮に存じますが<br>' +
+    '当日親族紹介を行いますので<br>' +
     '<b>午前9:15</b>までにお越しくださいますよう<br>' +
     'お願い申し上げます';
 })();
