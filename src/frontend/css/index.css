@@ -675,7 +675,9 @@ body {
   display: block;
   width: min(104%, 720px);
   height: auto;
-  margin: 0 auto;
+  /* margin:auto によるブロック中央寄せは、幅がコンテナを超える(104%)場合に
+     負のマージンを扱えず右側だけに溢れて左右非対称になる。
+     flexアイテムとしての中央寄せ(align-items)なら幅超過時も左右均等に溢れる */
   filter: drop-shadow(0 10px 26px rgba(20,10,8,0.32));
   opacity: 0;
   animation: fadeSlideUp 0.6s ease 0.1s both, heroLogoFloat 4s ease-in-out 0.8s infinite;
@@ -694,6 +696,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   /* 下部パディングはスクロールキュー(bottom:28px + 高さ約62px)と重ならない余白を確保 */
   padding: calc(var(--header-h) + 4px) clamp(20px, 5vw, 80px) 108px;
   max-width: 880px;
@@ -703,6 +706,7 @@ body {
 
 .hero-info {
   margin-top: auto;
+  align-self: stretch;
 }
 
 /* TAKUTO & MAYU — ロゴ画像の補助として小さく添えるだけの役割 */
