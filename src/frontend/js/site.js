@@ -98,6 +98,36 @@ if (document.fonts && document.fonts.ready) {
 }
 
 // ============================================================
+// ティッカーの無限ループ補正
+// CSSのtranslateX(-50%)は「1コピーぶんの幅 >= 画面幅」でないと、
+// ループの終わり際に文字が途切れて先頭にジャンプして見える
+// （PC・ワイド画面で顕著）。JSで1コピーの実測px幅を測り、画面幅を
+// 十分超えるまでコピーを複製した上で、ちょうど1コピーぶんのpx幅で
+// 移動させることでシームレスにループさせる
+// ============================================================
+function syncTickerLoop() {
+  const el = document.getElementById('cb-ticker-text');
+  if (!el) return;
+  const baseHTML = el.dataset.baseHtml || el.innerHTML.trim();
+  el.dataset.baseHtml = baseHTML;
+
+  el.style.animation = 'none';
+  el.innerHTML = baseHTML;
+  const baseWidth = el.getBoundingClientRect().width;
+  if (!baseWidth) return;
+
+  const copies = Math.max(2, Math.ceil((window.innerWidth * 2) / baseWidth) + 1);
+  el.innerHTML = (baseHTML + ' ').repeat(copies);
+  el.style.setProperty('--ticker-shift', `-${baseWidth}px`);
+  el.style.animation = '';
+}
+syncTickerLoop();
+window.addEventListener('resize', syncTickerLoop);
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(syncTickerLoop);
+}
+
+// ============================================================
 // カスタムカーソル
 // ============================================================
 const cursorDot = document.getElementById('cursor-dot');
