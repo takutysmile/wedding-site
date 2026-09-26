@@ -225,10 +225,17 @@ const progressBar = document.getElementById('scroll-progress');
 const fabRsvp     = document.getElementById('fab-rsvp');
 const heroSection = document.getElementById('hero');
 const rsvpSection = document.getElementById('rsvp');
-let lastScrollY   = 0;
+let lastScrollY    = 0;
+// SPのタッチ/慣性スクロールは1ジェスチャー内でも1px単位で前後にブレるため、
+// 「1px反転したら即切り替え」だとティッカーが小刻みに隠れて見える
+// （チラつきの原因）。同じ向きに一定距離まとまって動いた時だけ切り替える
+let tickerScrollAccum = 0;
+let tickerHidden      = false;
+const TICKER_HIDE_THRESHOLD = 8;
 
 function onScroll() {
   const y         = window.scrollY;
+  const dy        = y - lastScrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 
   // パララックス（PC のみ。SP は CSS アニメで代替）
@@ -238,8 +245,19 @@ function onScroll() {
 
   // ティッカーのみ下スクロール中に隠す（ナビは常に表示のまま。
   // ナビは CSS 側で ticker が隠れた分だけ自動的に上へ詰める）
-  const hideTicker = y > lastScrollY && y > 100;
-  if (cbTicker) cbTicker.classList.toggle('is-hidden', hideTicker);
+  if ((dy > 0 && tickerScrollAccum < 0) || (dy < 0 && tickerScrollAccum > 0)) {
+    tickerScrollAccum = 0; // 向きが変わったらリセット
+  }
+  tickerScrollAccum += dy;
+
+  if (y <= 100) {
+    tickerHidden = false;
+  } else if (tickerScrollAccum > TICKER_HIDE_THRESHOLD) {
+    tickerHidden = true;
+  } else if (tickerScrollAccum < -TICKER_HIDE_THRESHOLD) {
+    tickerHidden = false;
+  }
+  if (cbTicker) cbTicker.classList.toggle('is-hidden', tickerHidden);
   lastScrollY = y;
 
   // グロナビ: 開いた直後はティッカーだけ見せ、スクロールしたら現れる
