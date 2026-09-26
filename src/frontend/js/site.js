@@ -103,7 +103,15 @@ if (document.fonts && document.fonts.ready) {
 // ループの終わり際に文字が途切れて先頭にジャンプして見える
 // （PC・ワイド画面で顕著）。JSで1コピーの実測px幅を測り、画面幅を
 // 十分超えるまでコピーを複製した上で、ちょうど1コピーぶんのpx幅で
-// 移動させることでシームレスにループさせる
+// 移動させる。
+//
+// アニメーション自体はCSSの@keyframes+カスタムプロパティではなく
+// Web Animations APIで直接張る（一部ブラウザでカスタムプロパティを
+// キーフレームに使うとループの継ぎ目でチラつくことがあるため）。
+// また、モバイルはスクロール中のアドレスバー表示/非表示だけでも
+// resizeイベントが発火する。高さの変化までアニメーションを毎回
+// 作り直すとその瞬間だけ止まって見える＝チラつきの原因になるため、
+// 横幅が実際に変わった時だけ再構築するようにする
 // ============================================================
 function syncTickerLoop() {
   const el = document.getElementById('cb-ticker-text');
@@ -111,18 +119,30 @@ function syncTickerLoop() {
   const baseHTML = el.dataset.baseHtml || el.innerHTML.trim();
   el.dataset.baseHtml = baseHTML;
 
-  el.style.animation = 'none';
+  if (el._tickerAnim) el._tickerAnim.cancel();
   el.innerHTML = baseHTML;
   const baseWidth = el.getBoundingClientRect().width;
   if (!baseWidth) return;
 
   const copies = Math.max(2, Math.ceil((window.innerWidth * 2) / baseWidth) + 1);
   el.innerHTML = (baseHTML + ' ').repeat(copies);
-  el.style.setProperty('--ticker-shift', `-${baseWidth}px`);
-  el.style.animation = '';
+
+  el._tickerAnim = el.animate(
+    [
+      { transform: 'translateX(0)' },
+      { transform: `translateX(-${baseWidth}px)` },
+    ],
+    { duration: 16000, iterations: Infinity, easing: 'linear' }
+  );
 }
 syncTickerLoop();
-window.addEventListener('resize', syncTickerLoop);
+
+let lastTickerWidth = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (window.innerWidth === lastTickerWidth) return; // 高さだけの変化（モバイルのアドレスバー等）は無視
+  lastTickerWidth = window.innerWidth;
+  syncTickerLoop();
+});
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(syncTickerLoop);
 }

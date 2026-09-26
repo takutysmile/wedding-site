@@ -881,7 +881,8 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--ink);
-  animation: tickerScroll 16s linear infinite;
+  /* アニメーション自体はsite.jsがWeb Animations APIで直接張る
+     （理由はsite.js側のコメント参照） */
   padding-right: 40px;
 }
 
@@ -917,15 +918,6 @@ body {
 .div-block-icon path,
 .div-block-icon rect {
   fill: currentColor;
-}
-
-@keyframes tickerScroll {
-  from { transform: translateX(0); }
-  /* JS側で1コピーぶんの実測px幅を --ticker-shift に設定し、その分だけ
-     ちょうど1コピーぶん移動させてシームレスにループさせる（JS未実行時は
-     -50%にフォールバック。ただしHTML側は1コピーのみのため、その場合は
-     ループ前提が崩れる点に注意） */
-  to   { transform: translateX(var(--ticker-shift, -50%)); }
 }
 
 /* ============================================================
