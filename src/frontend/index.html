@@ -102,35 +102,42 @@
     <p class="hero-credit">— Pre-wedding photo</p>
 
     <div class="hero-content">
-      <!-- ロゴ画像を主役に。TAKUTO&MAYU・挙式情報は補助的に、Heroの最下部へ -->
-      <img class="hero-logo" src="img/wedding-bubble-logo.png" alt="WEDDING" width="900" height="300">
+      <div class="hero-left">
+        <!-- ロゴ画像を主役に。TAKUTO&MAYU・挙式情報は補助的に、Heroの最下部へ -->
+        <img class="hero-logo" src="img/wedding-bubble-logo.png" alt="WEDDING" width="900" height="300">
 
-      <!-- 補助情報一式。margin-top:auto でHero最下部に押し下げる -->
-      <div class="hero-info">
-        <!-- BLOOM 3行タイトル -->
-        <h1 class="hero-title" aria-label="TAKUTO AND MAYU WEDDING">
-          <span class="hero-title-line">TAKUTO</span>
-          <span class="hero-title-line hero-title-amp">and</span>
-          <span class="hero-title-line">MAYU</span>
-        </h1>
-        <p class="hero-subtitle">2027 &middot; January &middot; 23rd &middot; Sat</p>
+        <!-- 補助情報一式。margin-top:auto でHero最下部に押し下げる -->
+        <div class="hero-info">
+          <!-- BLOOM 3行タイトル -->
+          <h1 class="hero-title" aria-label="TAKUTO AND MAYU WEDDING">
+            <span class="hero-title-line">TAKUTO</span>
+            <span class="hero-title-line hero-title-amp">and</span>
+            <span class="hero-title-line">MAYU</span>
+          </h1>
+          <p class="hero-subtitle">2027 &middot; January &middot; 23rd &middot; Sat</p>
 
-        <!-- メタ行 -->
-        <div class="hero-meta-row">
-          <div class="hero-meta-cell">
-            <span class="hmc-label">Ceremony</span>
-            <span class="hmc-value">10:00</span>
-          </div>
-          <div class="hero-meta-cell">
-            <span class="hmc-label">Venue</span>
-            <span class="hmc-value">TRUNK(HOTEL)</span>
-          </div>
-          <div class="hero-meta-cell">
-            <span class="hmc-label">RSVP</span>
-            <span class="hmc-value hmc-pink">12/15 〆</span>
+          <!-- メタ行 -->
+          <div class="hero-meta-row">
+            <div class="hero-meta-cell">
+              <span class="hmc-label">Ceremony</span>
+              <span class="hmc-value">10:00</span>
+            </div>
+            <div class="hero-meta-cell">
+              <span class="hmc-label">Venue</span>
+              <span class="hmc-value">TRUNK(HOTEL)</span>
+            </div>
+            <div class="hero-meta-cell">
+              <span class="hmc-label">RSVP</span>
+              <span class="hmc-value hmc-pink">12/15 〆</span>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- PCのみ表示。背景のcoverクロップだと横長画面で写真が大きく
+           欠けてテキストと顔が重なってしまうため、PCでは全身が見える
+           写真をテキストと分けて右側に独立表示する（CSS側で出し分け） -->
+      <img class="hero-photo-full" src="img/hero-pc.jpg" alt="前撮り写真" width="2200" height="1467">
     </div>
 
     <a class="hero-scroll-cue" href="#countdown" aria-label="下にスクロール">
@@ -289,7 +296,7 @@
           <p class="profile-role">Groom</p>
           <p class="profile-no">No. 01</p>
           <div class="profile-photo">
-            <span class="profile-photo-label">🤵</span>
+            <img src="img/profile-groom.jpg" alt="拓人" loading="lazy">
           </div>
           <h3 class="profile-name">TAKUTO</h3>
           <p class="profile-name-ja">飯沼 拓人</p>
@@ -306,7 +313,7 @@
           <p class="profile-role">Bride</p>
           <p class="profile-no">No. 02</p>
           <div class="profile-photo">
-            <span class="profile-photo-label">👰</span>
+            <img src="img/profile-bride.jpg" alt="真由" loading="lazy">
           </div>
           <h3 class="profile-name">MAYU</h3>
           <p class="profile-name-ja">生駒 真由</p>
@@ -337,12 +344,13 @@
       <!-- 写真エリア（Swiper.js） -->
       <div class="slider-body swiper" id="gallery-swiper">
         <div class="swiper-wrapper">
-          <div class="swiper-slide"><div class="g-photo gp-1"><span class="g-photo-emoji">🌸</span><span class="g-photo-lbl">Photo 01</span></div></div>
-          <div class="swiper-slide"><div class="g-photo gp-2"><span class="g-photo-emoji">💐</span><span class="g-photo-lbl">Photo 02</span></div></div>
-          <div class="swiper-slide"><div class="g-photo gp-3"><span class="g-photo-emoji">💍</span><span class="g-photo-lbl">Photo 03</span></div></div>
-          <div class="swiper-slide"><div class="g-photo gp-4"><span class="g-photo-emoji">🥂</span><span class="g-photo-lbl">Photo 04</span></div></div>
-          <div class="swiper-slide"><div class="g-photo gp-5"><span class="g-photo-emoji">🎂</span><span class="g-photo-lbl">Photo 05</span></div></div>
-          <div class="swiper-slide"><div class="g-photo gp-6"><span class="g-photo-emoji">✨</span><span class="g-photo-lbl">Photo 06</span></div></div>
+          <div class="swiper-slide"><div class="g-photo gp-1"><img src="img/gallery/gallery-1.jpg" alt="前撮り写真 01" loading="lazy"></div></div>
+          <div class="swiper-slide"><div class="g-photo gp-2"><img src="img/gallery/gallery-2.jpg" alt="前撮り写真 02" loading="lazy"></div></div>
+          <div class="swiper-slide"><div class="g-photo gp-3"><img src="img/gallery/gallery-3.jpg" alt="前撮り写真 03" loading="lazy"></div></div>
+          <div class="swiper-slide"><div class="g-photo gp-4"><img src="img/gallery/gallery-4.jpg" alt="前撮り写真 04" loading="lazy"></div></div>
+          <div class="swiper-slide"><div class="g-photo gp-5"><img src="img/gallery/gallery-5.jpg" alt="前撮り写真 05" loading="lazy"></div></div>
+          <div class="swiper-slide"><div class="g-photo gp-6"><img src="img/gallery/gallery-6.jpg" alt="前撮り写真 06" loading="lazy"></div></div>
+          <div class="swiper-slide"><div class="g-photo gp-7"><img src="img/gallery/gallery-7.jpg" alt="前撮り写真 07" loading="lazy"></div></div>
         </div>
         <!-- SP スワイプヒント -->
         <div class="swipe-hint" id="swipe-hint" aria-hidden="true">
