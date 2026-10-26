@@ -617,6 +617,11 @@ body {
 .hero {
   position: relative;
   min-height: 100vh;
+  /* iOS Safariは100vhをアドレスバーが隠れた状態の高さで計算するため、
+     実際に見えている高さより大きくなり、cover指定の背景写真が余分に
+     拡大・クロップされて「アップになっている」ように見える。
+     100dvh（動的ビューポート高さ）に対応したブラウザではこちらを優先 */
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   /* ロゴを主役として上寄せに（以前はcenterで縦中央だった） */
@@ -715,12 +720,6 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-}
-
-/* PCでのみ表示する等身大の写真（詳細はHTML側のコメント参照）。
-   SPは背景のcover写真で表現するのでここは隠す */
-.hero-photo-full {
-  display: none;
 }
 
 /* TAKUTO & MAYU — ロゴ画像の補助として小さく添えるだけの役割 */
@@ -1496,16 +1495,18 @@ body {
 .profile-card.pp-bride .profile-no { color: var(--plum); }
 
 .profile-photo {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
+  /* 円形だと横長写真の左右が大きく切れてしまうため、
+     元の写真の比率に近い角丸の長方形にして、より大きく見せる */
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
   border: var(--b);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 10px auto;
   overflow: hidden;
-  aspect-ratio: 1;
 }
 
 .pp-groom .profile-photo { background: var(--blush); }
@@ -2559,57 +2560,29 @@ textarea {
   .rsvp-sec { padding: 72px 40px; }
   .gallery-sec { padding-top: 72px; }
 
-  /* ヒーロー（PC）: 縦写真1枚をそのままcoverで全画面に敷くと、
-     横長画面では大きく欠けてテキストと顔が重なってしまう。
-     PCだけ「左=ロゴ+テキスト／右=全身が見える写真」の2カラムに分け、
-     背景のcover写真はぼかして雰囲気づくりの役に徹させる */
+  /* ヒーロー（PC）: hero-pc.jpgは横長で、SP同様にcoverでそのまま
+     1枚の写真として全画面表示する（写真を別パネルに分けて
+     ずらす仕様は廃止）。写真の幅は画面幅とほぼ一致する比率のため、
+     背景位置をずらしても人物は常に中央付近に写る。そこでロゴ・
+     テキスト側を、人物にかからない左側の壁面（写真上は横0〜35%
+     あたりが人物の頭からドレス裾まで縦に空いている）に左寄せする */
   .hero-content {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(32px, 5vw, 72px);
-    max-width: 1180px;
     padding-top: calc(var(--header-h) + 20px);
     padding-bottom: 60px;
+    /* 写真の空き壁面は横0〜35%あたりなので、それより狭く収める。
+       固定pxだと狭いウィンドウ幅で人物にかかるため画面幅基準にする */
+    max-width: min(32vw, 460px);
+    margin: 0;
+    align-items: flex-start;
   }
 
   .hero-left {
     align-items: flex-start;
     text-align: left;
-    flex: 1;
-    min-width: 0;
   }
 
-  /* hero-pc.jpg は横長（3:2）。右パネルは高さ基準ではなく
-     幅基準で収め、テキスト側の余白を確保する */
-  .hero-photo-full {
-    display: block;
-    flex: 0 0 auto;
-    width: min(44vw, 620px);
-    height: auto;
-    max-height: 60vh;
-    object-fit: contain;
-    border: var(--b);
-    box-shadow: 0 24px 60px rgba(20,10,8,0.28);
-  }
-
-  /* 背景のcover写真は右側の写真と重複して見えないよう、
-     大きくぼかして雰囲気の演出だけに徹させる（拡大はぼかしで端が
-     透けるのを防ぐため）。ロゴ・テキストの可読性を優先し、
-     人物のシルエットが分かる程度に残らないようSPより強めにぼかす */
   .hero-parallax {
     background-image: url('../img/hero-pc.jpg');
-    filter: blur(60px) saturate(0.85) brightness(1.15);
-    transform: scale(1.3);
-  }
-
-  /* PCは背景写真が装飾に徹する分、スクリムもSPより強めにして
-     ロゴ・テキストの可読性を確保する */
-  .hero-overlay {
-    background-image:
-      linear-gradient(180deg,
-        rgba(255,250,248,0.55) 0%,
-        rgba(255,250,248,0.4) 100%);
   }
 
   .hero-credit { top: calc(var(--header-h) + 20px); }
@@ -2645,8 +2618,7 @@ textarea {
   }
 
   .profile-photo {
-    width: 120px;
-    height: 120px;
+    max-width: 280px;
   }
 
   /* ギャラリー: スライドの縦横比を調整 */
