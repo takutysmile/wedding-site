@@ -35,7 +35,23 @@ jobs:
 
       - name: S3にフロントエンドをアップロード
         run: |
-          aws s3 sync src/frontend/ s3://wedding-site-frontend-2026 --delete
+          # Cache-Controlを明示しないと、CloudFrontの配信自体はinvalidationで
+          # 最新化されてもブラウザ側（特にSafari）が古いCSS/画像を独自に
+          # キャッシュし続け、デプロイしても反映されたように見えない問題が起きる。
+          # no-cacheは「保存はするが毎回サーバーに再検証させる」指定で、
+          # 変更が無ければ304が返るため速度面の悪影響もない
+          aws s3 sync src/frontend/ s3://wedding-site-frontend-2026 --delete \
+            --cache-control "no-cache, must-revalidate"
+
+      - name: 既存オブジェクトのCache-Controlも更新
+        run: |
+          # aws s3 syncは中身が変わっていないファイルを再アップロードしないため、
+          # 上のCache-Control指定を追加しただけでは「以前から変わっていない
+          # ファイル」のヘッダーは直らない。バケットを自分自身にコピーして
+          # メタデータだけ一括更新する（内容は変わらないので安全・低コスト）
+          aws s3 cp s3://wedding-site-frontend-2026 s3://wedding-site-frontend-2026 \
+            --recursive --metadata-directive REPLACE \
+            --cache-control "no-cache, must-revalidate"
 
       - name: CloudFrontのキャッシュを削除
         run: |
