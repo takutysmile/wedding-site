@@ -1485,23 +1485,16 @@ body {
   margin-bottom: 2px;
 }
 
-.profile-no {
-  font-family: var(--bebas);
-  font-size: 0.88rem;
-  color: var(--pink);
-  letter-spacing: 0.06em;
-}
-
-.profile-card.pp-bride .profile-no { color: var(--plum); }
-
 .profile-photo {
   /* 円形だと横長写真の左右が大きく切れてしまうため、
-     元の写真の比率に近い角丸の長方形にして、より大きく見せる */
+     元の写真の比率に近い角丸の長方形にして、より大きく見せる。
+     太い枠線は写真だと野暮ったく見えるため、枠は外して
+     柔らかい影で浮かせる形にする */
   width: 100%;
-  max-width: 220px;
+  max-width: 260px;
   aspect-ratio: 4 / 3;
-  border-radius: 12px;
-  border: var(--b);
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(20,10,8,0.18);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1548,23 +1541,31 @@ body {
 
 .qa-item {
   display: flex;
-  flex-direction: column;
-  padding: 6px 0;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
   border-bottom: 1px dotted var(--pink-lt);
-  font-size: 0.65rem;
-  line-height: 1.5;
-  gap: 1px;
+  line-height: 1.4;
 }
 
 .qa-q {
+  flex: 0 0 auto;
+  width: 6.5em;
+  white-space: nowrap;
   font-family: var(--jp-sans);
   font-weight: 700;
-  font-size: 0.66rem;
-  letter-spacing: 0.06em;
+  font-size: 0.74rem;
+  letter-spacing: 0.04em;
   color: var(--plum);
 }
 
-.qa-a { font-family: var(--jp-sans); color: var(--ink); }
+.qa-a {
+  flex: 1;
+  font-family: var(--jp-sans);
+  font-size: 0.82rem;
+  color: var(--ink);
+}
 
 /* ============================================================
    GALLERY + SLIDER
@@ -2618,7 +2619,7 @@ textarea {
   }
 
   .profile-photo {
-    max-width: 280px;
+    max-width: 340px;
   }
 
   /* ギャラリー: スライドの縦横比を調整 */
