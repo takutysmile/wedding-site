@@ -662,18 +662,6 @@ body {
   z-index: 1;
 }
 
-/* 写真クレジット + Wedding Invitation タグ */
-.hero-credit {
-  position: absolute;
-  top: calc(var(--header-h) + 12px);
-  left: 16px;
-  z-index: 5;
-  font-family: var(--mono);
-  font-size: 0.44rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(42,31,26,0.45);
-}
 
 /* ロゴ画像を主役にする。TAKUTO&MAYU・挙式情報は hero-info としてHero最下部へ */
 .hero-logo {
@@ -1296,8 +1284,10 @@ body {
 /* 自作の案内図（venue-map.svg）内の会場マーカー位置（画像に対する割合で指定） */
 .venue-map-pin {
   position: absolute;
-  /* 道路線・会場キャプション枠のどちらとも重ならない空きスペースに配置 */
-  top: 48.4%; left: 44%;
+  /* 道路線・会場キャプション枠のどちらとも重ならない空きスペースに配置。
+     キャットストリート沿いの、原宿寄りではなく渋谷寄りの実際の位置に
+     合わせている */
+  top: 54.7%; left: 48.6%;
   width: 26px; height: 26px;
   background: var(--pink);
   border-radius: 50% 50% 50% 0;
@@ -2585,8 +2575,6 @@ textarea {
   .hero-parallax {
     background-image: url('../img/hero-pc.jpg');
   }
-
-  .hero-credit { top: calc(var(--header-h) + 20px); }
 
   /* PCはロゴ以外の補助情報をさらに縮小し、写真を目立たせる */
   .hero-title {

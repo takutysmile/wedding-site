@@ -6,20 +6,20 @@
   <!-- 明治通り -->
   <polyline points="70,267 370,415 680,484" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- 表参道（原宿交差点を経て線路の先まで） -->
-  <polyline points="370,0 400,50 290,298 145,570" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- 青山通り（本線） -->
-  <polyline points="410,0 500,93 630,192 630,242" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 表参道＝青山通りは交差する別々の道ではなく、神宮橋交差点から
+       青山通りまでをつなぐ同じ1本の道（区間によって呼び名が変わるだけ）
+       なので、1本のpolylineとして描く。原宿側＝表参道、青山学院大学側＝
+       青山通りとラベルを分けて付ける -->
+  <polyline points="145,570 290,298 500,93 630,192 630,242" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- 青山通りから渋谷方面への分岐 -->
   <polyline points="630,242 770,347 900,415" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- 青山通りからキャットストリート裏手・渋谷高校方面への分岐 -->
   <polyline points="630,242 580,341 560,434 555,515" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 
   <!-- キャットストリート（会場前の通り: ピンクで強調）。
-       明治通り・渋谷高校方面の道と合流するところまで伸ばし、
-       何もない場所で行き止まりに見えないようにする -->
-  <polyline points="290,298 500,422 575,472" fill="none" stroke="#e8608a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+       表参道/明治通りの交点から、渋谷高校付近の合流点まで、
+       折れ曲がりのないシンプルな1本の通り道として結ぶ -->
+  <line x1="290" y1="298" x2="580" y2="480" stroke="#e8608a" stroke-width="9" stroke-linecap="round"/>
 
   <!-- 鉄道 -->
   <line x1="150" y1="515" x2="800" y2="515" stroke="#2a1f1a" stroke-width="4"/>
@@ -55,8 +55,8 @@
        進行方向に対して垂直にオフセットして線から離す。さらに保険として
        白い縁取り(ハロー)を敷き、多少線と近接しても文字を判読できるようにする -->
   <g font-family="Arial, sans-serif" paint-order="stroke" stroke="#fffdf8" stroke-width="5" stroke-linejoin="round">
-    <text transform="translate(280,170) rotate(-70)" text-anchor="middle" font-weight="600" font-size="18" fill="#2a1f1a">OMOTESANDO</text>
-    <text transform="translate(343,299) rotate(31)" text-anchor="middle" font-weight="600" font-size="18" fill="#c2436b">CAT STREET</text>
+    <text transform="translate(177,413) rotate(-62)" text-anchor="middle" font-weight="600" font-size="18" fill="#2a1f1a">OMOTESANDO</text>
+    <text transform="translate(300,330) rotate(32)" text-anchor="middle" font-weight="600" font-size="18" fill="#c2436b">CAT STREET</text>
     <text transform="translate(495,467) rotate(13)" text-anchor="middle" font-weight="600" font-size="17" fill="#2a1f1a">MEIJI STREET</text>
     <text transform="translate(596,106) rotate(41)" text-anchor="middle" font-weight="600" font-size="17" fill="#2a1f1a">AOYAMA STREET</text>
     <text transform="translate(862,275) rotate(78)" text-anchor="middle" font-weight="600" font-size="13" fill="#2a1f1a" opacity="0.6">SHUTO EXPWY</text>
@@ -85,11 +85,13 @@
     <text x="584" y="448">High School</text>
   </g>
 
-  <!-- 会場キャプション。現在地ピン（CSS側 .venue-map-pin、道路にも
-       このキャプションにも被らない位置に調整済み）と十分な余白を取る -->
-  <rect x="405" y="222" width="190" height="54" fill="#fffdf8" stroke="#e8608a" stroke-width="3"/>
-  <text x="500" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#2a1f1a">TRUNK(HOTEL)</text>
-  <text x="500" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="1" fill="#c2436b">CAT STREET</text>
+  <!-- 会場キャプション。キャットストリート沿いのだいたいの実際の位置
+       （原宿寄りではなく渋谷寄り）に合わせて配置。現在地ピン
+       （CSS側 .venue-map-pin）とは道路にもキャプションにも
+       被らないよう十分な余白を取る -->
+  <rect x="391" y="255" width="190" height="54" fill="#fffdf8" stroke="#e8608a" stroke-width="3"/>
+  <text x="486" y="278" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#2a1f1a">TRUNK(HOTEL)</text>
+  <text x="486" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="1" fill="#c2436b">CAT STREET</text>
 
   <!-- 方位 -->
   <g transform="translate(42,44)">
