@@ -54,7 +54,7 @@
        進行方向に対して垂直にオフセットして線から離す。さらに保険として
        白い縁取り(ハロー)を敷き、多少線と近接しても文字を判読できるようにする -->
   <g font-family="Arial, sans-serif" paint-order="stroke" stroke="#fffdf8" stroke-width="5" stroke-linejoin="round">
-    <text transform="translate(177,413) rotate(-62)" text-anchor="middle" font-weight="600" font-size="18" fill="#2a1f1a">OMOTESANDO</text>
+    <text transform="translate(154,435) rotate(-62)" text-anchor="middle" font-weight="600" font-size="18" fill="#2a1f1a">OMOTESANDO</text>
     <text transform="translate(300,330) rotate(32)" text-anchor="middle" font-weight="600" font-size="18" fill="#c2436b">CAT STREET</text>
     <text transform="translate(495,467) rotate(13)" text-anchor="middle" font-weight="600" font-size="17" fill="#2a1f1a">MEIJI STREET</text>
     <text transform="translate(596,106) rotate(41)" text-anchor="middle" font-weight="600" font-size="17" fill="#2a1f1a">AOYAMA STREET</text>
