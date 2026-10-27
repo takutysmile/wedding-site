@@ -16,8 +16,10 @@
   <!-- 青山通りからキャットストリート裏手・渋谷高校方面への分岐 -->
   <polyline points="630,242 580,341 560,434 555,515" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- キャットストリート（会場前の通り: ピンクで強調） -->
-  <polyline points="290,298 500,422" fill="none" stroke="#e8608a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- キャットストリート（会場前の通り: ピンクで強調）。
+       明治通り・渋谷高校方面の道と合流するところまで伸ばし、
+       何もない場所で行き止まりに見えないようにする -->
+  <polyline points="290,298 500,422 575,472" fill="none" stroke="#e8608a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 
   <!-- 鉄道 -->
   <line x1="150" y1="515" x2="800" y2="515" stroke="#2a1f1a" stroke-width="4"/>
@@ -83,10 +85,11 @@
     <text x="584" y="448">High School</text>
   </g>
 
-  <!-- 会場キャプション -->
-  <rect x="402" y="288" width="196" height="56" fill="#fffdf8" stroke="#e8608a" stroke-width="3"/>
-  <text x="500" y="312" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#2a1f1a">TRUNK(HOTEL)</text>
-  <text x="500" y="332" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="1" fill="#c2436b">CAT STREET</text>
+  <!-- 会場キャプション。現在地ピン（CSS側 .venue-map-pin、道路にも
+       このキャプションにも被らない位置に調整済み）と十分な余白を取る -->
+  <rect x="405" y="222" width="190" height="54" fill="#fffdf8" stroke="#e8608a" stroke-width="3"/>
+  <text x="500" y="245" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#2a1f1a">TRUNK(HOTEL)</text>
+  <text x="500" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="1" fill="#c2436b">CAT STREET</text>
 
   <!-- 方位 -->
   <g transform="translate(42,44)">

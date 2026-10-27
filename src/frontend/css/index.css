@@ -1296,7 +1296,8 @@ body {
 /* 自作の案内図（venue-map.svg）内の会場マーカー位置（画像に対する割合で指定） */
 .venue-map-pin {
   position: absolute;
-  top: 59.4%; left: 47%;
+  /* 道路線・会場キャプション枠のどちらとも重ならない空きスペースに配置 */
+  top: 48.4%; left: 44%;
   width: 26px; height: 26px;
   background: var(--pink);
   border-radius: 50% 50% 50% 0;
