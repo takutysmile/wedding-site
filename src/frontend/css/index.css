@@ -1486,39 +1486,23 @@ body {
 }
 
 .profile-photo {
-  /* 円形だと横長写真の左右が大きく切れてしまうため、
-     元の写真の比率に近い角丸の長方形にして、より大きく見せる。
-     太い枠線は写真だと野暮ったいので、新郎新婦それぞれのアクセント
-     カラーの細いリング＋柔らかい影で、カード上部のバーと呼応させる
-     洗練された見せ方にする */
-  width: 100%;
-  max-width: 260px;
+  /* 円形だと横長写真の左右が大きく切れてしまうため、元の写真の
+     比率に近い長方形にする。枠線・リングはどちらも写真に乗せると
+     野暮ったく見えてしまうため、今どきのプロフィールカードでよく
+     見る「カード幅いっぱいのフルブリード写真＋枠なし」にする。
+     .profile-cardの左右paddingぶんだけ負のマージンで外側まで広げ、
+     カード自体のoverflow:hiddenで角だけ綺麗に丸める */
+  width: calc(100% + 28px);
+  margin: 0 -14px 14px;
   aspect-ratio: 4 / 3;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px auto;
-  overflow: hidden;
-}
-
-.pp-groom .profile-photo {
-  background: var(--blush);
-  box-shadow:
-    0 0 0 1.5px var(--pink),
-    0 16px 32px -10px rgba(20,10,8,0.3);
-}
-.pp-bride .profile-photo {
-  background: var(--blush-d);
-  box-shadow:
-    0 0 0 1.5px var(--plum),
-    0 16px 32px -10px rgba(20,10,8,0.3);
+  display: block;
 }
 
 .profile-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .profile-name {
@@ -2631,10 +2615,6 @@ textarea {
     gap: 20px;
     max-width: 640px;
     margin: 0 auto;
-  }
-
-  .profile-photo {
-    max-width: 340px;
   }
 
   /* ギャラリー: スライドの縦横比を調整 */
