@@ -662,6 +662,18 @@ body {
   z-index: 1;
 }
 
+/* 雑誌のサブタイトルのような一言 */
+.hero-credit {
+  position: absolute;
+  top: calc(var(--header-h) + 12px);
+  left: 16px;
+  z-index: 5;
+  font-family: var(--mono);
+  font-size: 0.44rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(42,31,26,0.45);
+}
 
 /* ロゴ画像を主役にする。TAKUTO&MAYU・挙式情報は hero-info としてHero最下部へ */
 .hero-logo {
@@ -1288,7 +1300,9 @@ body {
      キャットストリート沿いの、原宿寄りではなく渋谷寄りの実際の位置に
      合わせている */
   top: 54.7%; left: 48.6%;
-  width: 26px; height: 26px;
+  /* 固定pxサイズだと、画面幅が狭いほど地図に対する相対サイズが
+     大きくなり枠と重なって見えるため、幅に応じて少し縮む指定にする */
+  width: clamp(18px, 6vw, 26px); height: clamp(18px, 6vw, 26px);
   background: var(--pink);
   border-radius: 50% 50% 50% 0;
   transform: translate(-50%, -65%) rotate(-45deg);
@@ -2575,6 +2589,8 @@ textarea {
   .hero-parallax {
     background-image: url('../img/hero-pc.jpg');
   }
+
+  .hero-credit { top: calc(var(--header-h) + 20px); }
 
   /* PCはロゴ以外の補助情報をさらに縮小し、写真を目立たせる */
   .hero-title {

@@ -6,11 +6,10 @@
   <!-- 明治通り -->
   <polyline points="70,267 370,415 680,484" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- 表参道＝青山通りは交差する別々の道ではなく、神宮橋交差点から
-       青山通りまでをつなぐ同じ1本の道（区間によって呼び名が変わるだけ）
-       なので、1本のpolylineとして描く。原宿側＝表参道、青山学院大学側＝
-       青山通りとラベルを分けて付ける -->
-  <polyline points="145,570 290,298 500,93 630,192 630,242" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 表参道（原宿交差点から青山通りとの交点まで） -->
+  <polyline points="145,570 290,298 390,118" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 青山通り（表参道と交差した後も、どちらも途中で切れずにそれぞれ伸びる） -->
+  <polyline points="290,0 390,118 500,93 630,192 630,242" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- 青山通りから渋谷方面への分岐 -->
   <polyline points="630,242 770,347 900,415" fill="none" stroke="#2a1f1a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- 青山通りからキャットストリート裏手・渋谷高校方面への分岐 -->
@@ -89,9 +88,9 @@
        （原宿寄りではなく渋谷寄り）に合わせて配置。現在地ピン
        （CSS側 .venue-map-pin）とは道路にもキャプションにも
        被らないよう十分な余白を取る -->
-  <rect x="391" y="255" width="190" height="54" fill="#fffdf8" stroke="#e8608a" stroke-width="3"/>
-  <text x="486" y="278" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#2a1f1a">TRUNK(HOTEL)</text>
-  <text x="486" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="1" fill="#c2436b">CAT STREET</text>
+  <rect x="391" y="195" width="190" height="54" fill="#fffdf8" stroke="#e8608a" stroke-width="3"/>
+  <text x="486" y="218" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="20" fill="#2a1f1a">TRUNK(HOTEL)</text>
+  <text x="486" y="238" text-anchor="middle" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="1" fill="#c2436b">CAT STREET</text>
 
   <!-- 方位 -->
   <g transform="translate(42,44)">
